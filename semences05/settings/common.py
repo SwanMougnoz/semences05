@@ -58,11 +58,21 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'semences05.urls'
 
+STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
+
+STATICFILES_DIRS = [
+    os.path.join(PROJECT_DIR, 'frontend/sass/stylesheets')
+]
+
 STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'djangobower.finders.BowerFinder'
 ]
 
-BOWER_COMPONENTS_ROOT = APP_DIR
+BOWER_COMPONENTS_ROOT = os.path.join(PROJECT_DIR, 'frontend')
 
 BOWER_INSTALLED_APPS = (
     'bootstrap-sass',
@@ -137,4 +147,4 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-STATIC_URL = '/static/'
+

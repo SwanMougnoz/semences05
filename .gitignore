@@ -2,4 +2,7 @@
 var/
 venv/
 semences05.egg-info/
-semences05/bower_components/
+frontend/bower_components/
+frontend/sass/.sass-cache/
+frontend/sass/stylesheets/
+static/
