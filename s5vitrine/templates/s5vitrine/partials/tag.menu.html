@@ -1,0 +1,7 @@
+<ul>
+    {% for menuitem in menuitems %}
+        <li>
+            <a class="{% if menuitem.identifier == menu_active %}active{% endif %}" href="{{ menuitem.lien }}">{{ menuitem.label }}</a>
+        </li>
+    {% endfor %}
+</ul>
