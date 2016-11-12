@@ -3,3 +3,30 @@
 @import "bootstrap-custom";
 @import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap";
 @import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap-compass";
+
+.login-topbar {
+  background-color: #a9d479 ;
+  color: #fff;
+  height: 30px;
+}
+
+header {
+  background-color: #ccf79c;
+  height: 200px;
+  h1 {
+    margin: 0;
+    height: 200px;
+    line-height: 185px;
+  }
+}
+
+nav {
+  &.vitrine-nav {
+    background-color: gray;
+    height: 50px;
+  }
+}
+
+.vitrine-abstract {
+  text-align: center;
+}

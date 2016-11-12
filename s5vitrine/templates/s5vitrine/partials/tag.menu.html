@@ -1,7 +1,11 @@
-<ul>
-    {% for menuitem in menuitems %}
-        <li>
-            <a class="{% if menuitem.identifier == menu_active %}active{% endif %}" href="{{ menuitem.lien }}">{{ menuitem.label }}</a>
-        </li>
-    {% endfor %}
-</ul>
+<nav class="navbar navbar-default">
+    <div class="container">
+        <ul class="nav navbar-nav">
+            {% for menuitem in menuitems %}
+                <li class="{% if menuitem.identifier == menu_active %}active{% endif %}">
+                    <a href="{{ menuitem.lien }}">{{ menuitem.label }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</nav>
