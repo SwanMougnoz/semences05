@@ -34,7 +34,8 @@ PREREQ_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles'
+    'django.contrib.staticfiles',
+    'djangobower'
 ]
 
 PROJECT_APPS = [
@@ -56,6 +57,16 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'semences05.urls'
+
+STATICFILES_FINDERS = [
+    'djangobower.finders.BowerFinder'
+]
+
+BOWER_COMPONENTS_ROOT = APP_DIR
+
+BOWER_INSTALLED_APPS = (
+    'bootstrap-sass',
+)
 
 TEMPLATES = [
     {
