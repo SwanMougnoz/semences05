@@ -14,6 +14,8 @@ import os
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 APP_DIR = os.path.join(PROJECT_DIR, 'semences05')
+VITRINE_DIR = os.path.join(PROJECT_DIR, 's5vitrine')
+APPADHERANT_DIR = os.path.join(PROJECT_DIR, 's5appadherant')
 
 
 # Quick-start development settings - unsuitable for production
@@ -58,8 +60,10 @@ ROOT_URLCONF = 'semences05.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(APP_DIR, 'templates')]
-        ,
+        'DIRS': [
+            os.path.join(VITRINE_DIR, 'templates'),
+            os.path.join(APPADHERANT_DIR, 'templates')
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
