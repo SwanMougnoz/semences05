@@ -14,6 +14,8 @@ import os
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 APP_DIR = os.path.join(PROJECT_DIR, 'semences05')
+VITRINE_DIR = os.path.join(PROJECT_DIR, 's5vitrine')
+APPADHERANT_DIR = os.path.join(PROJECT_DIR, 's5appadherant')
 
 
 # Quick-start development settings - unsuitable for production
@@ -26,15 +28,23 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = [
+PREREQ_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'djangobower'
+]
+
+PROJECT_APPS = [
+    's5appadherant',
+    's5vitrine',
     'semences05'
 ]
+
+INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -48,11 +58,33 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'semences05.urls'
 
+STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
+
+STATICFILES_DIRS = [
+    os.path.join(PROJECT_DIR, 'frontend/sass/stylesheets')
+]
+
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'djangobower.finders.BowerFinder'
+]
+
+BOWER_COMPONENTS_ROOT = os.path.join(PROJECT_DIR, 'frontend')
+
+BOWER_INSTALLED_APPS = (
+    'bootstrap-sass',
+)
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(APP_DIR, 'templates')]
-        ,
+        'DIRS': [
+            os.path.join(VITRINE_DIR, 'templates'),
+            os.path.join(APPADHERANT_DIR, 'templates')
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -115,4 +147,4 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-STATIC_URL = '/static/'
+

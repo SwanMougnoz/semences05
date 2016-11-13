@@ -1,0 +1,39 @@
+@import "compass/reset";
+@import "bootstrap-variables";
+@import "bootstrap-custom";
+@import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap-compass";
+
+.login-topbar {
+  background-color: #a9d479 ;
+  color: #fff;
+}
+
+header {
+  background-color: #ccf79c;
+  height: 200px;
+  h1 {
+    margin: 0;
+    height: 200px;
+    line-height: 185px;
+  }
+}
+
+nav {
+  &.vitrine-nav {
+    background-color: gray;
+    height: 50px;
+  }
+}
+
+.vitrine-abstract {
+  text-align: center;
+}
+
+.bloc-lien {
+  border: 1px solid #000;
+  height: 150px;
+  text-align: center;
+  line-height: 150px;
+  margin-top: 10px;
+}

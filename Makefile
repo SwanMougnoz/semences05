@@ -17,11 +17,12 @@ server:
 
 db:
 	./dev makemigrations
-	./dev makemigrations semences05
+	./dev makemigrations s5vitrine
+	./dev makemigrations s5appadherant
 	./dev migrate
 
 tests:
-	./dev test -p '*_test.py'
+	./dev test
 
 cleanenv: clean env
 
