@@ -22,7 +22,7 @@ db:
 	./dev migrate
 
 tests:
-	./dev test -p '*_test.py'
+	./dev test
 
 cleanenv: clean env
 

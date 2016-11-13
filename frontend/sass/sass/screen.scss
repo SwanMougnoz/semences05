@@ -7,7 +7,6 @@
 .login-topbar {
   background-color: #a9d479 ;
   color: #fff;
-  height: 30px;
 }
 
 header {
@@ -29,4 +28,12 @@ nav {
 
 .vitrine-abstract {
   text-align: center;
+}
+
+.bloc-lien {
+  border: 1px solid #000;
+  height: 150px;
+  text-align: center;
+  line-height: 150px;
+  margin-top: 10px;
 }
