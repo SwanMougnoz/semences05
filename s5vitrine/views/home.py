@@ -2,6 +2,9 @@ from django.views.generic import TemplateView
 
 
 class HomeView(TemplateView):
+    """
+    Page d'accueil
+    """
 
     template_name = 's5vitrine/home.html'
 
