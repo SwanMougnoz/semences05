@@ -10,5 +10,6 @@ class HomeView(TemplateView):
 
     def get(self, request, *args, **kwargs):
         return self.render_to_response({
-            'menu_active': 'home'
+            'menu_active': 'home',
+            'titre_page': 'Accueil - Reseau semences Hautes-Alpes'
         })
