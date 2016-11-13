@@ -1,5 +1,5 @@
 from django.db import models
-from s5vitrine.models import Menuitem
+from s5vitrine.models import Lien
 
 
 class PageContenu(models.Model):
@@ -7,7 +7,7 @@ class PageContenu(models.Model):
     titre = models.CharField(max_length=255)
     contenu = models.TextField()
     lien_menu = models.OneToOneField(
-        Menuitem,
+        Lien,
         on_delete=models.CASCADE,
         null=True
     )

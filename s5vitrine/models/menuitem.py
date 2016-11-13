@@ -1,4 +1,5 @@
 from django.db import models
+from s5vitrine.models import Lien
 
 
 class Menuitem(models.Model):
@@ -8,5 +9,8 @@ class Menuitem(models.Model):
     label = models.CharField(max_length=255)
     identifier = models.CharField(max_length=255)
     position = models.IntegerField()
-    lien = models.URLField()
+    lien = models.ForeignKey(
+        Lien,
+        on_delete=models.CASCADE
+    )
 
