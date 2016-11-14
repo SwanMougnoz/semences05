@@ -8,11 +8,11 @@ register = template.Library()
 def menu(menu_active):
     """
     Tag permettant de generer le menu principal de la partie vitrine
-    :type menu_active: str
-    :param menu_active: Si match avec l'identifier d'un Menuitem, alors celui-ci est differencie par la
+    :type menu_active: Menuitem
+    :param menu_active: Si match avec un autre Menuitem, alors celui-ci est differencie par la
     classe "active"
     """
-    menuitems = Menuitem.objects.all().order_by('position',)
+    menuitems = Menuitem.objects.filter(active=1).order_by('position',)
     return {
         'menuitems': menuitems,
         'menu_active': menu_active
