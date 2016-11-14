@@ -9,6 +9,7 @@ class Menuitem(models.Model):
     label = models.CharField(max_length=255)
     identifier = models.CharField(max_length=255)
     position = models.IntegerField()
+    active = models.BooleanField(default=False)
     lien = models.ForeignKey(
         Lien,
         on_delete=models.CASCADE

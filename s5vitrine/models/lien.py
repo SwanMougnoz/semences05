@@ -9,7 +9,10 @@ class Lien(models.Model):
     @property
     def url(self):
         try:
-            url = reverse(self.viewname, args=self.params.split(' '))
+            args = []
+            if self.params is not None:
+                args = self.params.split(' ')
+            url = reverse(self.viewname, args=args)
         except NoReverseMatch:
             url = None
         return url
