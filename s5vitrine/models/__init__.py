@@ -1,3 +1,2 @@
-from lien import Lien
 from menuitem import Menuitem
-from page_contenu import PageContenu
+from page import PageContenu, PageGenerique

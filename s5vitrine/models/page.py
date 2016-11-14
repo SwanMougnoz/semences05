@@ -2,7 +2,21 @@ from django.core.urlresolvers import reverse, NoReverseMatch
 from django.db import models
 
 
-class Lien(models.Model):
+class PageContenu(models.Model):
+    titre_page = models.CharField(max_length=255)
+    titre = models.CharField(max_length=255)
+    contenu = models.TextField()
+
+    @property
+    def url(self):
+        try:
+            url = reverse('s5vitrine.content_view', args=[self.id])
+        except NoReverseMatch:
+            url = None
+        return url
+
+
+class PageGenerique(models.Model):
     viewname = models.CharField(max_length=255)
     params = models.CharField(max_length=255, null=True)
 
@@ -16,6 +30,3 @@ class Lien(models.Model):
         except NoReverseMatch:
             url = None
         return url
-
-    class Meta:
-        unique_together = ('viewname', 'params')

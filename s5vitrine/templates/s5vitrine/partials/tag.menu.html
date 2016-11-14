@@ -3,8 +3,8 @@
         <ul class="nav navbar-nav">
             {% for menuitem in menuitems %}
                 {% if menuitem.active %}
-                    <li class="{% if menuitem.identifier == menu_active %}active{% endif %}">
-                        <a href="{{ menuitem.lien.url }}">{{ menuitem.label }}</a>
+                    <li class="{% if menuitem == menu_active %}active{% endif %}">
+                        <a href="{{ menuitem.page.url }}">{{ menuitem.label }}</a>
                     </li>
                 {% endif %}
             {% endfor %}
