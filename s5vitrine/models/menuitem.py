@@ -1,4 +1,5 @@
 from django.db import models
+from django.apps import apps
 
 
 class Menuitem(models.Model):
@@ -29,3 +30,14 @@ class Menuitem(models.Model):
         else:
             return None
 
+    @page.setter
+    def page(self, value):
+        if isinstance(value, apps.get_model(app_label='s5vitrine', model_name='PageGenerique')):
+            self._page_generique = value
+            self._page_contenu = None
+        elif isinstance(value, apps.get_model(app_label='s5vitrine', model_name='PageContenu')):
+            self._page_contenu = value
+            self._page_generique = None
+        else:
+            msg = "Menuitem.page reference soit une PageContenu soit une PageGenerique. %s obtenu" % value.__class__
+            raise ValueError(msg)
