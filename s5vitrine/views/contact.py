@@ -1,5 +1,5 @@
+from django.shortcuts import redirect
 from django.views.generic import TemplateView
-from django.http import HttpResponseRedirect
 from django.core.mail import send_mail
 from s5vitrine.forms import ContactForm
 from s5vitrine.models import Menuitem
@@ -33,4 +33,14 @@ class ContactView(TemplateView):
             # todo : activer en production
             # send_mail(objet, message, expediteur, destinataires)
 
+            return redirect("s5vitrine.contact_envoye_view")
+
         return self.get(request, form=form)
+
+
+class ContactEnvoyeView(TemplateView):
+
+    template_name = 's5vitrine/contact_envoye.html'
+
+    def get(self, request, *args, **kwargs):
+        return self.render_to_response({})
