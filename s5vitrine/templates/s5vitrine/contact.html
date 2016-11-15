@@ -1,0 +1,9 @@
+{% extends 's5vitrine/base.html' %}
+
+{% block content %}
+    <form action="{% url 's5vitrine.contact_view' %}" method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Envoyer"/>
+    </form>
+{% endblock %}
