@@ -7,7 +7,7 @@ class MenuitemTest(TestCase):
     fixtures = ['base']
 
     def test_page_propertie(self):
-        menuitem = Menuitem.objects.get(pk='content1')
+        menuitem = Menuitem.objects.get(pk='contenu1')
 
         # Le menuitem reference une page de contenu
         self.assertIsInstance(menuitem.page, PageContenu)
@@ -20,5 +20,5 @@ class MenuitemTest(TestCase):
         menuitem.page = page
         menuitem.save()
 
-        menuitem_loaded = Menuitem.objects.get(pk='content1')
+        menuitem_loaded = Menuitem.objects.get(pk='contenu1')
         self.assertIsInstance(menuitem_loaded.page, PageGenerique)

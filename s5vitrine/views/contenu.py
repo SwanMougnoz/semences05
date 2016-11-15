@@ -4,19 +4,19 @@ from django.views.generic import TemplateView
 from s5vitrine.models import PageContenu
 
 
-class ContentView(TemplateView):
+class ContenuView(TemplateView):
 
-    template_name = "s5vitrine/content.html"
+    template_name = "s5vitrine/contenu.html"
 
     def get(self, request, *args, **kwargs):
-        content_id = kwargs.get('content_id', None)
+        contenu_id = kwargs.get('contenu_id', None)
         try:
-            contenu = PageContenu.objects.get(pk=content_id)
+            contenu = PageContenu.objects.get(pk=contenu_id)
         except ObjectDoesNotExist:
             return HttpResponseNotFound("<h1>La page demandee n'existe pas</h1>")
 
         return self.render_to_response({
             'contenu': contenu,
             'titre_page': contenu.titre_page,
-            'menu_active': contenu.menuitem
+            'menu_actif': contenu.menuitem
         })

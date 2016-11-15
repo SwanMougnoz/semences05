@@ -6,10 +6,10 @@ class Menuitem(models.Model):
     """
     Elements du menu principal
     """
-    identifier = models.CharField(max_length=255, primary_key=True)
-    label = models.CharField(max_length=255)
+    identifiant = models.CharField(max_length=255, primary_key=True)
+    libelle = models.CharField(max_length=255)
     position = models.IntegerField()
-    active = models.BooleanField(default=False)
+    actif = models.BooleanField(default=False)
     _page_contenu = models.OneToOneField(
         's5vitrine.PageContenu',
         on_delete=models.CASCADE,

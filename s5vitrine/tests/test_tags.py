@@ -9,7 +9,7 @@ class MenuTest(TestCase):
     fixtures = ['base']
 
     def test_render(self):
-        template = Template('{% load tags %}{% menu menu_active %}')
+        template = Template('{% load tags %}{% menu menu_actif %}')
         context = Context({})
         html = template.render(context)
 
@@ -29,10 +29,10 @@ class MenuTest(TestCase):
         self.assertHTMLEqual(expected_html, html)
 
     def test_render_with_active_menuitem(self):
-        menuitem = Menuitem.objects.get(pk='home')
+        menuitem = Menuitem.objects.get(pk='accueil')
 
-        template = Template('{% load tags %}{% menu menu_active %}')
-        context = Context({'menu_active': menuitem})
+        template = Template('{% load tags %}{% menu menu_actif %}')
+        context = Context({'menu_actif': menuitem})
         html = template.render(context)
 
         expected_html = """

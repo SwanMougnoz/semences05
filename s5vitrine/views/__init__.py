@@ -1,2 +1,2 @@
-from home import HomeView
-from content import ContentView
+from accueil import AccueilView
+from contenu import ContenuView
