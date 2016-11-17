@@ -24,6 +24,7 @@ class PageGenerique(models.Model):
     def url(self):
         try:
             args = []
+
             if self.params is not None:
                 args = self.params.split(' ')
             url = reverse(self.viewname, args=args)

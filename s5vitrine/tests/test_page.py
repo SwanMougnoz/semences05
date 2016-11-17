@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.core.urlresolvers import resolve
-from s5vitrine.models import  PageGenerique, PageContenu
+from s5vitrine.models import PageGenerique, PageContenu
 
 
 class PageGeneriqueTest(TestCase):
