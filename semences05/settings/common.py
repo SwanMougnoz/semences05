@@ -64,7 +64,8 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
 
 STATICFILES_DIRS = [
-    os.path.join(PROJECT_DIR, 'frontend/sass/stylesheets')
+    os.path.join(PROJECT_DIR, 'frontend/sass/stylesheets'),
+    os.path.join(VITRINE_DIR, 'static/'),
 ]
 
 STATICFILES_FINDERS = [
