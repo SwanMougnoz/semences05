@@ -9,15 +9,19 @@ class LoginView(TemplateView):
     template_name = "s5appadherant/login.html"
 
     def get(self, request, *args, **kwargs):
-        form = kwargs.get('form', LoginForm())
-        message = kwargs.get('message', None)
-        on_error = True if message is not None else False
 
-        return self.render_to_response({
-            'form': form,
-            'on_error': on_error,
-            'message': message
-        })
+        if request.user.is_authenticated:
+            return redirect("s5vitrine.contact_envoye_view")
+        else:
+            form = kwargs.get('form', LoginForm())
+            message = kwargs.get('message', None)
+            on_error = True if message is not None else False
+
+            return self.render_to_response({
+                'form': form,
+                'on_error': on_error,
+                'message': message
+            })
 
     def post(self, request):
         form = LoginForm(request.POST)
