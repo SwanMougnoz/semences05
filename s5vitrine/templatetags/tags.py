@@ -24,7 +24,7 @@ def login_toggler(request):
     username = None
     authenticated = False
 
-    if request.user.is_authenticated:
+    if request.user.is_authenticated():
         username = request.user.username
         authenticated = True
 

@@ -1,6 +1,6 @@
 from django.shortcuts import redirect
-from django.views.generic import TemplateView
-from django.contrib.auth import authenticate, login
+from django.views.generic import TemplateView, RedirectView
+from django.contrib.auth import authenticate, login, logout
 from s5appadherant.forms import LoginForm
 
 
@@ -10,7 +10,7 @@ class LoginView(TemplateView):
 
     def get(self, request, *args, **kwargs):
 
-        if request.user.is_authenticated:
+        if request.user.is_authenticated():
             return redirect("s5vitrine.contact_envoye_view")
         else:
             form = kwargs.get('form', LoginForm())
@@ -38,3 +38,11 @@ class LoginView(TemplateView):
                 return self.get(request, form=form, message=message)
 
         return self.get(request, form=form)
+
+
+class LogoutView(RedirectView):
+    url = '/'
+
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        return super(LogoutView, self).get(request, *args, **kwargs)
