@@ -130,6 +130,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGIN_URL = 's5appadherant.login_view'
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
