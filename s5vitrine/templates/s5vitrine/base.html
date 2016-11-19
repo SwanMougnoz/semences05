@@ -13,7 +13,7 @@
 <body>
     <div class="login-topbar">
         <div class="container">
-            <a href="{% url 's5appadherant.login_view' %}" class="btn btn-xs btn-primary pull-right">Connexion</a>
+            {% login_toggler request %}
         </div>
     </div>
     <header>
