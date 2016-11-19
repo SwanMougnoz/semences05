@@ -13,8 +13,11 @@
 <body>
 <div class="container">
     <div class="row">
-        <div class="login-form-container">
+        <div class="login-form-container {% if on_error %}on-error{% endif %}">
             <h2 class="text-center">Connexion</h2>
+            {% if on_error %}
+                <div class="alert alert-danger">{{ message }}</div>
+            {% endif %}
             <form action="{% url 's5appadherant.login_view' %}" method="POST" role="form">
                 {% csrf_token %}
                 {{ form|bootstrap }}

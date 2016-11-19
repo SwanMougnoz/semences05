@@ -11,19 +11,21 @@ class LoginView(TemplateView):
     def get(self, request, *args, **kwargs):
         form = kwargs.get('form', LoginForm())
         message = kwargs.get('message', None)
+        on_error = True if message is not None else False
 
         return self.render_to_response({
             'form': form,
+            'on_error': on_error,
             'message': message
         })
 
     def post(self, request):
         form = LoginForm(request.POST)
         if form.is_valid():
-            email = form.cleaned_data['email']
+            username = form.cleaned_data['username']
             password = form.cleaned_data['password']
 
-            user = authenticate(username=email, password=password)
+            user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
                 return redirect("s5vitrine.contact_envoye_view")
