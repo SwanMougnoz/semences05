@@ -19,8 +19,8 @@ def menu(menu_actif):
     }
 
 
-@register.inclusion_tag('s5vitrine/partials/tag.login_toggler.html')
-def login_toggler(request):
+@register.inclusion_tag('s5vitrine/partials/tag.auth_widget.html')
+def auth_widget(request):
     username = None
     authenticated = False
 
