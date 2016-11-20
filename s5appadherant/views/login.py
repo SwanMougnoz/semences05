@@ -12,7 +12,7 @@ class LoginView(TemplateView):
     def get(self, request, *args, **kwargs):
 
         if request.user.is_authenticated():
-            return redirect("s5vitrine.contact_envoye_view")
+            return redirect("s5appadherant.accueil_view")
         else:
             form = kwargs.get('form', LoginForm())
             return self.render_to_response({
@@ -30,7 +30,7 @@ class LoginView(TemplateView):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect("s5vitrine.contact_envoye_view")
+                return redirect("s5appadherant.accueil_view")
 
         return self.render_to_response({
             'form': form,
