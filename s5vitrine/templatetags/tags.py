@@ -17,3 +17,19 @@ def menu(menu_actif):
         'menuitems': menuitems,
         'menu_actif': menu_actif
     }
+
+
+@register.inclusion_tag('s5vitrine/partials/tag.auth_widget.html')
+def auth_widget(request):
+    username = None
+    authenticated = False
+
+    if request.user.is_authenticated():
+        username = request.user.username
+        authenticated = True
+
+    return {
+        'username': username,
+        'authenticated': authenticated
+    }
+

@@ -1,0 +1,33 @@
+{% load static %}
+{% load bootstrap %}
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static 'screen.css' %}">
+    <title>Connexion</title>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="login-form-container {% if on_error %}on-error{% endif %}">
+            <h2 class="text-center">Connexion</h2>
+            {% if on_error %}
+                <div class="alert alert-danger">{{ message }}</div>
+            {% endif %}
+            <form action="{% url 's5appadherant.login_view' %}" method="POST" role="form">
+                {% csrf_token %}
+                {{ form|bootstrap }}
+                <div class="form-group">
+                    <a href="{% url 's5vitrine.accueil_view' %}">Retour à l'accueil</a>
+                    <button type="submit" class="btn btn-primary pull-right">Envoyer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
