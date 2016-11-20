@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.shortcuts import redirect
 from django.views.generic import TemplateView, RedirectView
 from django.contrib.auth import authenticate, login, logout
@@ -15,7 +16,8 @@ class LoginView(TemplateView):
         else:
             form = kwargs.get('form', LoginForm())
             return self.render_to_response({
-                'form': form
+                'form': form,
+                'titre_page': 'Connexion - Espace adhérant'
             })
 
     def post(self, request):
@@ -33,7 +35,8 @@ class LoginView(TemplateView):
         return self.render_to_response({
             'form': form,
             'on_error': True,
-            'message': "L'email ou le mot de passe est incorrect"
+            'message': "L'email ou le mot de passe est incorrect",
+            'titre_page': 'Connexion - Espace adhérant'
         })
 
 
