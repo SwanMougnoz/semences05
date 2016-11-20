@@ -14,16 +14,12 @@ class LoginView(TemplateView):
             return redirect("s5vitrine.contact_envoye_view")
         else:
             form = kwargs.get('form', LoginForm())
-            message = kwargs.get('message', None)
-            on_error = True if message is not None else False
-
             return self.render_to_response({
-                'form': form,
-                'on_error': on_error,
-                'message': message
+                'form': form
             })
 
     def post(self, request):
+
         form = LoginForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data['username']
@@ -33,11 +29,12 @@ class LoginView(TemplateView):
             if user is not None:
                 login(request, user)
                 return redirect("s5vitrine.contact_envoye_view")
-            else:
-                message = "L'email ou le mot de passe est incorrect"
-                return self.get(request, form=form, message=message)
 
-        return self.get(request, form=form)
+        return self.render_to_response({
+            'form': form,
+            'on_error': True,
+            'message': "L'email ou le mot de passe est incorrect"
+        })
 
 
 class LogoutView(RedirectView):
