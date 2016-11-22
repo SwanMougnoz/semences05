@@ -1,6 +1,7 @@
 from django.conf.urls import url
 from s5appadherant import views
 
+app_name = 's5appadherant'
 urlpatterns = [
     url(r'^$', views.AccueilView.as_view(), name='s5appadherant.accueil_view'),
     url(r'^login/$', views.LoginView.as_view(), name='s5appadherant.login_view'),

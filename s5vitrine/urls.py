@@ -1,6 +1,7 @@
 from django.conf.urls import url
 from s5vitrine import views
 
+app_name = 's5vitrine'
 urlpatterns = [
     url(r'^$', views.AccueilView.as_view(), name='s5vitrine.accueil_view'),
     url(r'^contact/$', views.ContactView.as_view(), name='s5vitrine.contact_view'),

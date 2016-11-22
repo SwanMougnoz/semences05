@@ -28,8 +28,11 @@ def auth_widget(request):
         username = request.user.username
         authenticated = True
 
+    app_name = request.resolver_match.app_name
+
     return {
         'username': username,
-        'authenticated': authenticated
+        'authenticated': authenticated,
+        'app_name': app_name
     }
 
