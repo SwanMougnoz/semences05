@@ -9,11 +9,11 @@
         {% if on_error %}
             <div class="alert alert-danger">{{ message }}</div>
         {% endif %}
-        <form action="{% url 's5appadherant.login_view' %}" method="POST" role="form">
+        <form action="{% url 's5appadherant:login_view' %}" method="POST" role="form">
             {% csrf_token %}
             {{ form|bootstrap }}
             <div class="form-group">
-                <a href="{% url 's5vitrine.accueil_view' %}">Retour à l'accueil</a>
+                <a href="{% url 's5vitrine:accueil_view' %}">Retour à l'accueil</a>
                 <button type="submit" class="btn btn-primary pull-right">Envoyer</button>
             </div>
         </form>

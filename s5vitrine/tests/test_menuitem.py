@@ -14,7 +14,7 @@ class MenuitemTest(TestCase):
 
         # On change le type de page reference
         page = PageGenerique()
-        page.viewname = 's5vitrine.some_view'
+        page.viewname = 's5vitrine:some_view'
         page.save()
 
         menuitem.page = page

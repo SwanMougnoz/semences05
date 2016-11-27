@@ -33,7 +33,7 @@ class ContactView(TemplateView):
             # todo : activer en production
             # send_mail(objet, message, expediteur, destinataires)
 
-            return redirect("s5vitrine.contact_envoye_view")
+            return redirect("s5vitrine:contact_envoye_view")
 
         return self.get(request, form=form)
 
