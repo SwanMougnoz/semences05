@@ -77,6 +77,7 @@ BOWER_COMPONENTS_ROOT = os.path.join(PROJECT_DIR, 'frontend')
 
 BOWER_INSTALLED_APPS = (
     'bootstrap-sass',
+    'leaflet'
 )
 
 TEMPLATES = [
