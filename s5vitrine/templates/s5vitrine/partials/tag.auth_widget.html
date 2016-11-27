@@ -1,9 +1,13 @@
 <div class="login-toggler pull-right">
     {% if authenticated %}
         <span >Vous êtes connecté(e) en tant que <strong>{{ username }}</strong></span>
-        <a href="/" class="btn btn-xs btn-primary">Espace adhérant</a>
-        <a href="{% url 's5appadherant.logout_view' %}" class="btn btn-xs btn-danger">Déconnexion</a>
+        {% if app_name == 's5vitrine' %}
+            <a href="{% url 's5appadherant:accueil_view' %}" class="btn btn-xs btn-primary">Espace adhérant</a>
+        {% else %}
+            <a href="{% url 's5vitrine:accueil_view' %}" class="btn btn-xs btn-primary">Retour au site</a>
+        {% endif %}
+        <a href="{% url 's5appadherant:logout_view' %}" class="btn btn-xs btn-danger">Déconnexion</a>
     {% else %}
-        <a href="{% url 's5appadherant.login_view' %}" class="btn btn-xs btn-primary">Connexion</a>
+        <a href="{% url 's5appadherant:login_view' %}" class="btn btn-xs btn-primary">Connexion</a>
     {% endif %}
 </div>

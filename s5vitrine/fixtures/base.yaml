@@ -2,11 +2,11 @@
   pk: accueil
   fields: {libelle: Accueil, position: 1, actif: true, _page_contenu: null, _page_generique: 1}
 - model: s5vitrine.menuitem
-  pk: contenu1
-  fields: {libelle: Contenu, position: 2, actif: true, _page_contenu: 1, _page_generique: null}
-- model: s5vitrine.menuitem
   pk: contact
   fields: {libelle: Contact, position: 3, actif: true, _page_contenu: null, _page_generique: 2}
+- model: s5vitrine.menuitem
+  pk: contenu1
+  fields: {libelle: Contenu, position: 2, actif: true, _page_contenu: 1, _page_generique: null}
 - model: s5vitrine.pagecontenu
   pk: 1
   fields: {titre_page: Page de contenu, titre: ' Une page de contenu', contenu: ' Lorem
@@ -29,8 +29,7 @@
       Aenean at eleifend dolor. Mauris vel tempor felis.'}
 - model: s5vitrine.pagegenerique
   pk: 1
-  fields: {viewname: s5vitrine.accueil_view, params: null}
+  fields: {viewname: 's5vitrine:accueil_view', params: null}
 - model: s5vitrine.pagegenerique
   pk: 2
-  fields: {viewname: s5vitrine.contact_view, params: null}
-
+  fields: {viewname: 's5vitrine:contact_view', params: null}

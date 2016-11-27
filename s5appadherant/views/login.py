@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.shortcuts import redirect
 from django.views.generic import TemplateView, RedirectView
 from django.contrib.auth import authenticate, login, logout
@@ -11,11 +12,12 @@ class LoginView(TemplateView):
     def get(self, request, *args, **kwargs):
 
         if request.user.is_authenticated():
-            return redirect("s5vitrine.contact_envoye_view")
+            return redirect("s5appadherant:accueil_view")
         else:
             form = kwargs.get('form', LoginForm())
             return self.render_to_response({
-                'form': form
+                'form': form,
+                'titre_page': 'Connexion - Espace adhérant'
             })
 
     def post(self, request):
@@ -28,12 +30,13 @@ class LoginView(TemplateView):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect("s5vitrine.contact_envoye_view")
+                return redirect("s5appadherant:accueil_view")
 
         return self.render_to_response({
             'form': form,
             'on_error': True,
-            'message': "L'email ou le mot de passe est incorrect"
+            'message': "L'email ou le mot de passe est incorrect",
+            'titre_page': 'Connexion - Espace adhérant'
         })
 
 
