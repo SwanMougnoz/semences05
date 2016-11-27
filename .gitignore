@@ -1,8 +1,8 @@
 .idea/
-var/
-venv/
-semences05.egg-info/
-frontend/bower_components/
-frontend/sass/.sass-cache/
-frontend/sass/stylesheets/
-static/
+/var/
+/venv/
+/semences05.egg-info/
+/frontend/bower_components/
+/frontend/sass/.sass-cache/
+/frontend/sass/stylesheets/
+/static/
