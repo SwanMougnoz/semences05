@@ -1,6 +1,5 @@
 {% extends 's5vitrine/base.html' %}
 
-{% load static %}
 {% block content %}
     <div class="row">
         {% for variete in varietes %}
@@ -17,5 +16,46 @@
                 </div>
             </div>
         {% endfor %}
+    </div>
+    <div class="row">
+        <nav>
+            <ul class="pagination">
+                {% if varietes.has_previous %}
+                    <li>
+                        <a href="?page={{ varietes.previous_page_number }}">
+                            <span>Précédent</span>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="disabled">
+                        <span>Précédent</span>
+                    </li>
+                {% endif %}
+                {% for page_number in varietes.paginator.page_range %}
+                    {% if  page_number == varietes.number %}
+                        <li class="active">
+                            <span>{{ page_number }}<span class="sr-only">(current)</span></span>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="?page={{ page_number }}">
+                                <span>{{ page_number }}</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                {% if varietes.has_next %}
+                    <li>
+                        <a href="?page={{ varietes.next_page_number }}">
+                            <span>Suivant</span>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="disabled">
+                        <span>Suivant</span>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
     </div>
 {% endblock %}
