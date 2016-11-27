@@ -1,5 +1,17 @@
 {% extends 's5vitrine/base.html' %}
 
+{% load static %}
+{% block stylesheet %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'leaflet/dist/leaflet.css' %}">
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'jquery/dist/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'leaflet/dist/leaflet.js' %}"></script>
+{% endblock %}
+
 {% block content %}
     <p class="vitrine-abstract">{% lorem %}</p>
     <div class="row">
