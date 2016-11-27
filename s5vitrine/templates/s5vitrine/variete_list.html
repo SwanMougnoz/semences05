@@ -1,0 +1,13 @@
+{% extends 's5vitrine/base.html' %}
+
+{% block content %}
+    <div class="row">
+        {% for variete in varietes %}
+            <div class="col-xs-6 col-md-3">
+                <a href="#" class="thumbnail">
+                    <img src="{{ variete.photo }}" alt="{{ variete.nom }}">
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
