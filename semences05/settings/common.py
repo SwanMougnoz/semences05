@@ -59,9 +59,9 @@ MIDDLEWARE_CLASSES = [
 
 ROOT_URLCONF = 'semences05.urls'
 
-STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
+STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(PROJECT_DIR, 'frontend/sass/stylesheets')
@@ -79,6 +79,9 @@ BOWER_INSTALLED_APPS = (
     'bootstrap-sass',
     'leaflet'
 )
+
+MEDIA_ROOT = os.path.join(PROJECT_DIR, 'var/media')
+MEDIA_URL = '/media/'
 
 TEMPLATES = [
     {

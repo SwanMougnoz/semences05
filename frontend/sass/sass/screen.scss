@@ -67,3 +67,10 @@ nav {
   line-height: 150px;
   margin-top: 10px;
 }
+
+div.thumbnail {
+  overflow: hidden;
+  img {
+    max-height: 165px;
+  }
+}

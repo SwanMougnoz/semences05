@@ -1,4 +1,6 @@
+# -*- coding: utf-8 -*-
 from django import template
+from django.core.paginator import Page
 from s5vitrine.models import Menuitem
 
 register = template.Library()
@@ -36,3 +38,13 @@ def auth_widget(request):
         'app_name': app_name
     }
 
+
+@register.inclusion_tag('s5vitrine/partials/tag.pagination.html')
+def pagination(current_page):
+    if not isinstance(current_page, Page):
+        message = "Pagination: le paramètre current_page doit être une instance de Page, %s obtenu"
+        raise ValueError(message % current_page.__class__)
+
+    return {
+        'current_page': current_page
+    }

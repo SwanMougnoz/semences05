@@ -7,6 +7,9 @@
 - model: s5vitrine.menuitem
   pk: contenu1
   fields: {libelle: Contenu, position: 2, actif: true, _page_contenu: 1, _page_generique: null}
+- model: s5vitrine.menuitem
+  pk: variete_list
+  fields: {libelle: 'Liste des variétés', position: 4, actif: true, _page_contenu: null, _page_generique: 3}
 - model: s5vitrine.pagecontenu
   pk: 1
   fields: {titre_page: Page de contenu, titre: ' Une page de contenu', contenu: ' Lorem
@@ -33,3 +36,6 @@
 - model: s5vitrine.pagegenerique
   pk: 2
   fields: {viewname: 's5vitrine:contact_view', params: null}
+- model: s5vitrine.pagegenerique
+  pk: 3
+  fields: {viewname: 's5vitrine:variete_list_view', params: null}

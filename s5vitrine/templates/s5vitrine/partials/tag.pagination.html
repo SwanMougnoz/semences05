@@ -1,0 +1,37 @@
+<ul class="pagination">
+    {% if current_page.has_previous %}
+        <li>
+            <a href="?page={{ current_page.previous_page_number }}">
+                <span>Précédent</span>
+            </a>
+        </li>
+    {% else %}
+        <li class="disabled">
+            <span>Précédent</span>
+        </li>
+    {% endif %}
+    {% for page_number in current_page.paginator.page_range %}
+        {% if  page_number == current_page.number %}
+            <li class="active">
+                <span>{{ page_number }}<span class="sr-only">(current)</span></span>
+            </li>
+        {% else %}
+            <li>
+                <a href="?page={{ page_number }}">
+                    <span>{{ page_number }}</span>
+                </a>
+            </li>
+        {% endif %}
+    {% endfor %}
+    {% if current_page.has_next %}
+        <li>
+            <a href="?page={{ current_page.next_page_number }}">
+                <span>Suivant</span>
+            </a>
+        </li>
+    {% else %}
+        <li class="disabled">
+            <span>Suivant</span>
+        </li>
+    {% endif %}
+</ul>

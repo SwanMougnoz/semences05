@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.models import User, AnonymousUser
+from django.core.paginator import Paginator
 from django.test import TestCase, RequestFactory
 from django.core.urlresolvers import reverse, resolve
 from django.template import Context
 from django.template import Template
 from s5vitrine.models import Menuitem
+from s5appadherant.models import Variete
 
 
 class MenuTest(TestCase):
@@ -28,6 +30,9 @@ class MenuTest(TestCase):
                         </li>
                         <li class="">
                             <a href="/contact/">Contact</a>
+                        </li>
+                        <li class="">
+                            <a href="/varietes/">Liste des variétés</a>
                         </li>
                     </ul>
                 </div>
@@ -53,6 +58,9 @@ class MenuTest(TestCase):
                         </li>
                         <li class="">
                             <a href="/contact/">Contact</a>
+                        </li>
+                        <li class="">
+                            <a href="/varietes/">Liste des variétés</a>
                         </li>
                     </ul>
                 </div>
@@ -115,3 +123,64 @@ class AuthWidgetTest(TestCase):
         adherant_url = reverse('s5appadherant:accueil_view')
         adherant_link = u'<a href="%s" class="btn btn-xs btn-primary">Espace adhérant</a>' % adherant_url
         self.assertInHTML(adherant_link, html)
+
+
+class PaginationTest(TestCase):
+
+    # 3 Variétés
+    fixtures = ['varietes']
+
+    def setUp(self):
+        self.varietes = Variete.objects.all()
+
+    def render_tag(self, page_length, page_number, queryset):
+        paginator = Paginator(queryset, page_length)
+        template = Template('{% load tags %}{% pagination page %}')
+        page = paginator.page(page_number)
+        context = Context({'page': page})
+        return template.render(context)
+
+    def test_require_page_object(self):
+        # Le tag demande un objet de classe Page en paramètre,
+        # ici on lui fourni un DataSet
+        template = Template('{% load tags %}{% pagination not_a_page %}')
+        context = Context({'not_a_page': self.varietes})
+
+        with self.assertRaises(ValueError):
+            template.render(context)
+
+    def test_previous_page(self):
+        # Test avec la première page, l'element doit être désactivé
+        html = self.render_tag(page_length=2, page_number=1, queryset=self.varietes)
+        no_previous_link = u'<li class="disabled"><span>Précédent</span></li>'
+        self.assertInHTML(no_previous_link, html)
+
+        # Test avec une autre page, l'élement doit contenir le bon lien
+        html = self.render_tag(page_length=2, page_number=2, queryset=self.varietes)
+        has_previous_link = u'<li><a href="?page=1"><span>Précédent</span></a></li>'
+        self.assertInHTML(has_previous_link, html)
+
+    def test_next_page(self):
+        # Test avec la dernière page, l'element doit être désactivé
+        html = self.render_tag(page_length=2, page_number=2, queryset=self.varietes)
+        no_next_link = u'<li class="disabled"><span>Suivant</span></li>'
+        self.assertInHTML(no_next_link, html)
+
+        # Test avec une autre page, l'élement doit contenir le bon lien
+        html = self.render_tag(page_length=2, page_number=1, queryset=self.varietes)
+        has_next_link = u'<li><a href="?page=2"><span>Suivant</span></a></li>'
+        self.assertInHTML(has_next_link, html)
+
+    def test_page_numbers(self):
+        html = self.render_tag(page_length=1, page_number=1, queryset=self.varietes)
+
+        # L'élément vers page courante ne doit pas contenir de lien et avoir la classe 'active'
+        current_element = u'<li class="active"><span>1<span class="sr-only">(current)</span></span></li>'
+        self.assertInHTML(current_element, html)
+
+        # Il doit y avoir au moins un lien vers toutes les autres page
+        page2 = u'<li><a href="?page=2"><span>2</span></a></li>'
+        page3 = u'<li><a href="?page=3"><span>3</span></a></li>'
+        self.assertInHTML(page2, html)
+        self.assertInHTML(page3, html)
+
