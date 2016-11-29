@@ -42,7 +42,8 @@ def auth_widget(request):
 @register.inclusion_tag('s5vitrine/partials/tag.pagination.html')
 def pagination(current_page):
     if not isinstance(current_page, Page):
-        raise ValueError("Pagination: le paramètre current_page doit être une instance de Page, %s obtenu" % current_page.__class__)
+        message = "Pagination: le paramètre current_page doit être une instance de Page, %s obtenu"
+        raise ValueError(message % current_page.__class__)
 
     return {
         'current_page': current_page
