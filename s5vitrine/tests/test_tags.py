@@ -31,6 +31,9 @@ class MenuTest(TestCase):
                         <li class="">
                             <a href="/contact/">Contact</a>
                         </li>
+                        <li class="">
+                            <a href="/varietes/">Liste des variétés</a>
+                        </li>
                     </ul>
                 </div>
             </nav>"""
@@ -55,6 +58,9 @@ class MenuTest(TestCase):
                         </li>
                         <li class="">
                             <a href="/contact/">Contact</a>
+                        </li>
+                        <li class="">
+                            <a href="/varietes/">Liste des variétés</a>
                         </li>
                     </ul>
                 </div>

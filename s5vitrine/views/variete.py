@@ -14,7 +14,7 @@ class VarieteListView(TemplateView):
         menuitem = Menuitem.objects.get(pk='variete_list')
 
         varietes_list = Variete.objects.all()
-        paginator = Paginator(varietes_list, 3)
+        paginator = Paginator(varietes_list, 12)
         page = request.GET.get('page')
         try:
             varietes = paginator.page(page)
