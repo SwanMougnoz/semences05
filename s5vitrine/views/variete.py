@@ -34,7 +34,7 @@ class VarieteListView(TemplateView):
 
 class VarieteDetailView(TemplateView):
 
-    template_name = 's5vitrine/variete_detil.html'
+    template_name = 's5vitrine/variete_detail.html'
 
     def get(self, request, *args, **kwargs):
 
@@ -49,5 +49,5 @@ class VarieteDetailView(TemplateView):
         return self.render_to_response({
             'variete': variete,
             'menu_actif': menuitem,
-            'titre_page': 'Fiche variété : %s' % variete.nom
+            'titre_page': u'Fiche variété : %s' % variete.nom
         })
