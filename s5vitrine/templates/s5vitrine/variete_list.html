@@ -11,7 +11,7 @@
                         <h3>{{ variete.nom }}</h3>
                         <p>{{ variete.description|truncatechars:120 }}</p>
                         <p>
-                            <a href="#" class="btn btn-sm btn-primary pull-right" role="button">Fiche variété</a>
+                            <a href="{% url 's5vitrine:variete_detail_view' variete_id=variete.id %}" class="btn btn-sm btn-primary pull-right" role="button">Fiche variété</a>
                         </p>
                     </div>
                 </div>

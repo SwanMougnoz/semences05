@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import HttpResponseNotFound
 from django.views.generic import TemplateView
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from s5appadherant.models import Variete
@@ -27,4 +29,25 @@ class VarieteListView(TemplateView):
             'varietes': varietes,
             'menu_actif': menuitem,
             'titre_page': 'Toutes les variétés'
+        })
+
+
+class VarieteDetailView(TemplateView):
+
+    template_name = 's5vitrine/variete_detail.html'
+
+    def get(self, request, *args, **kwargs):
+
+        menuitem = Menuitem.objects.get(pk='variete_list')
+
+        variete_id = kwargs.get('variete_id', None)
+        try:
+            variete = Variete.objects.get(pk=variete_id)
+        except ObjectDoesNotExist:
+            return HttpResponseNotFound("<h1>La page demandee n'existe pas</h1>")
+
+        return self.render_to_response({
+            'variete': variete,
+            'menu_actif': menuitem,
+            'titre_page': u'Fiche variété : %s' % variete.nom
         })
