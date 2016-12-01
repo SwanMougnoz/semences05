@@ -1,3 +1,22 @@
 {% extends 's5vitrine/base.html' %}
 
-{% block content %}{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-4">
+            <img class="img-responsive" src="{{ variete.photo.url }}" alt="{{ variete.nom }}">
+        </div>
+        <div class="col-md-8 detail-variete">
+            <h2>{{ variete.nom }}</h2>
+            <p><strong>Description :</strong></p>
+            <p>{{ variete.description }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <a class="pull-right" href="{% url 's5vitrine:variete_list_view' %}">
+                <i class="fa fa-angle-left"></i>
+                Retour à la liste
+            </a>
+        </div>
+    </div>
+{% endblock %}
