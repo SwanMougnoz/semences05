@@ -37,7 +37,8 @@ PREREQ_APPS = [
     'django.contrib.staticfiles',
     'djangobower',
     'bootstrapform',
-    'ckeditor'
+    'ckeditor',
+    'ckeditor_uploader'
 ]
 
 PROJECT_APPS = [
@@ -84,6 +85,9 @@ BOWER_INSTALLED_APPS = (
 
 MEDIA_ROOT = os.path.join(PROJECT_DIR, 'var/media')
 MEDIA_URL = '/media/'
+
+CKEDITOR_UPLOAD_PATH = 'ckeditor_uploads/'
+CKEDITOR_IMAGE_BACKEND = 'pillow'
 
 TEMPLATES = [
     {

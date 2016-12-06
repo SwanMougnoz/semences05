@@ -1,12 +1,12 @@
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from django import forms
 from django.contrib import admin
-from ckeditor.widgets import CKEditorWidget
 from s5vitrine.models import page, menuitem
 from s5appadherant.models import variete
 
 
 class PageContenuAdminForm(forms.ModelForm):
-    contenu = forms.CharField(widget=CKEditorWidget())
+    contenu = forms.CharField(widget=CKEditorUploadingWidget())
 
     class Meta:
         model = page.PageContenu
