@@ -2,5 +2,7 @@
 
 {% block content %}
     <h2>{{ contenu.titre }}</h2>
-    {{ contenu.contenu }}
+    {% autoescape off %}
+        {{ contenu.contenu }}
+    {% endautoescape %}
 {% endblock %}
