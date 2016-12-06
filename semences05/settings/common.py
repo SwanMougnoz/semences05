@@ -36,7 +36,8 @@ PREREQ_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'djangobower',
-    'bootstrapform'
+    'bootstrapform',
+    'ckeditor'
 ]
 
 PROJECT_APPS = [
