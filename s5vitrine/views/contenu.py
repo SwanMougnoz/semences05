@@ -17,6 +17,6 @@ class ContenuView(TemplateView):
 
         return self.render_to_response({
             'contenu': contenu,
-            'titre_page': contenu.titre_page,
+            'titre_page': contenu.titre,
             'menu_actif': contenu.menuitem
         })

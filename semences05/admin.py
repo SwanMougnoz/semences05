@@ -10,7 +10,7 @@ class PageContenuAdminForm(forms.ModelForm):
 
     class Meta:
         model = page.PageContenu
-        fields = ('titre_page', 'titre', 'contenu')
+        fields = ('titre', 'contenu')
 
 
 class PageContenuAdmin(admin.ModelAdmin):
