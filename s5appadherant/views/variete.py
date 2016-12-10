@@ -27,3 +27,22 @@ class VarietelistView(TemplateView):
             'titre_page': 'Toutes les variétés',
             'menu_actif': 'variete'
         })
+
+
+class VarieteDetailView(TemplateView):
+
+    template_name = 's5appadherant/variete_detail.html'
+
+    def get(self, request, *args, **kwargs):
+
+        variete_id = kwargs.get('variete_id', None)
+        try:
+            variete = Variete.objects.get(pk=variete_id)
+        except ObjectDoesNotExist:
+            return HttpResponseNotFound("<h1>La page demandee n'existe pas</h1>")
+
+        return self.render_to_response({
+            'variete': variete,
+            'menu_actif': 'variete',
+            'titre_page': u'Fiche variété : %s' % variete.nom
+        })

@@ -16,7 +16,7 @@
                             <p>{{ variete.description|truncatechars:200 }}</p>
                         </div>
                         <div class="col-md-2">
-                            <a class="btn btn-primary pull-right" href="#">Fiche variété</a>
+                            <a class="btn btn-primary pull-right" href="{% url 's5appadherant:variete_detail_view' variete_id=variete.id %}">Fiche variété</a>
                         </div>
                     </div>
                 </li>
