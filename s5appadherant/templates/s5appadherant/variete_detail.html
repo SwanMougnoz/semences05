@@ -10,6 +10,10 @@
             <h3>{{ variete.nom }}</h3>
             <p><strong>Description :</strong></p>
             <p>{{ variete.description }}</p>
+            <a class="btn btn-primary pull-right" href="{% url 's5appadherant:variete_edit_view' pk=variete.id %}">
+                <i class="fa fa-pencil"></i>
+                &nbsp;Modifier cette variété
+            </a>
         </div>
     </div>
 {% endblock %}
