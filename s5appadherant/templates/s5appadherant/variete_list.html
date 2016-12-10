@@ -1,5 +1,29 @@
 {% extends 's5appadherant/layout_adherant.html' %}
 
+{% load tags %}
 {% block content_adherant %}
-
+    <div class="row">
+        <h2>Liste des variétés</h2>
+        <ul class="list-group variete-list">
+            {% for variete in varietes %}
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <img src="{{ variete.photo.url }}" alt="{{ variete.nom }}">
+                        </div>
+                        <div class="col-md-8">
+                            <p><strong>{{ variete.nom }}</strong></p>
+                            <p>{{ variete.description|truncatechars:200 }}</p>
+                        </div>
+                        <div class="col-md-2">
+                            <a class="btn btn-primary pull-right" href="#">Fiche variété</a>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="row text-center">
+        {% pagination varietes %}
+    </div>
 {% endblock %}
