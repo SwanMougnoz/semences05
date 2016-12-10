@@ -87,3 +87,12 @@ footer {
   margin-top: 15px;
   padding-top: 15px;
 }
+
+.menu-adherant {
+  a:hover {
+    background-color: green;
+    &.active {
+      background-color: lighten(green, 10%);
+    }
+  }
+}

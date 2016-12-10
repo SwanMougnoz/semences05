@@ -1,8 +1,11 @@
 {% extends 's5appadherant/base.html' %}
 
+{% load tags_adherant %}
 {% block content %}
     <div class="row">
-        <div class="col-md-2">Menu</div>
+        <div class="col-md-2">
+            {% menu_adherant request.user menu_actif %}
+        </div>
         <div class="col-md-10">
             <div class="breadcrumbs">Breadcrumbs</div>
             <div class="content-adherant">
