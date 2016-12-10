@@ -12,7 +12,7 @@
   fields: {libelle: 'Liste des variétés', position: 4, actif: true, _page_contenu: null, _page_generique: 3}
 - model: s5vitrine.pagecontenu
   pk: 1
-  fields: {titre_page: Page de contenu, titre: ' Une page de contenu', contenu: ' Lorem
+  fields: {titre: Page de contenu, contenu: ' Lorem
       ipsum dolor sit amet, consectetur adipiscing elit. Praesent vitae metus suscipit,
       posuere lectus vel, condimentum tortor. Nam at viverra dolor. Aenean vel leo
       non mauris ornare ultrices. Fusce mauris nisl, aliquam sed urna non, ultrices
