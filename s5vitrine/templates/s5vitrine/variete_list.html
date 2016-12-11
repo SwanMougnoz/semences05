@@ -1,12 +1,17 @@
 {% extends 's5vitrine/base.html' %}
 
 {% load tags %}
+{% load static %}
 {% block content %}
     <div class="row">
         {% for variete in varietes %}
             <div class="col-xs-6 col-md-3">
                 <div class="thumbnail">
-                    <img src="{{ variete.photo.url }}" alt="{{ variete.nom }}">
+                    {% if variete.photo %}
+                        <img src="{{ variete.photo.url }}" alt="{{ variete.nom }}">
+                    {% else %}
+                        <img class="img-responsive" src="{% static 's5appadherant/images/no_image.png' %}" alt="Pas d'image disponible">
+                    {% endif %}
                     <div class="caption">
                         <h3>{{ variete.nom }}</h3>
                         <p>{{ variete.description|truncatechars:120 }}</p>

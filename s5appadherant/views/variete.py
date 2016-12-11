@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseNotFound
@@ -10,7 +11,7 @@ from s5appadherant.models import Variete
 from s5appadherant.forms import VarieteForm
 
 
-class VarietelistView(TemplateView):
+class VarieteListView(LoginRequiredMixin, TemplateView):
 
     template_name = 's5appadherant/variete_list.html'
 
@@ -33,7 +34,7 @@ class VarietelistView(TemplateView):
         })
 
 
-class VarieteDetailView(TemplateView):
+class VarieteDetailView(LoginRequiredMixin, TemplateView):
 
     template_name = 's5appadherant/variete_detail.html'
 
@@ -52,7 +53,7 @@ class VarieteDetailView(TemplateView):
         })
 
 
-class VarieteAddView(CreateView):
+class VarieteAddView(LoginRequiredMixin, CreateView):
     template_name = 's5appadherant/variete_edit.html'
     form_class = VarieteForm
     model = Variete
@@ -60,11 +61,27 @@ class VarieteAddView(CreateView):
     def get_success_url(self):
         return reverse('s5appadherant:variete_list_view')
 
+    def get_context_data(self, **kwargs):
+        context = super(VarieteAddView, self).get_context_data(**kwargs)
+        context.update({
+            'menu_actif': 'variete',
+            'titre_page': u"Ajout d'une variété"
+        })
+        return context
 
-class VarieteEditView(UpdateView):
+
+class VarieteEditView(LoginRequiredMixin, UpdateView):
     template_name = 's5appadherant/variete_edit.html'
     form_class = VarieteForm
     model = Variete
 
     def get_success_url(self):
         return reverse('s5appadherant:variete_list_view')
+
+    def get_context_data(self, **kwargs):
+        context = super(VarieteEditView, self).get_context_data(**kwargs)
+        context.update({
+            'menu_actif': 'variete',
+            'titre_page': u"Édition d'une variété"
+        })
+        return context

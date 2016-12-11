@@ -28,7 +28,6 @@ class LoginViewTest(TestCase):
         })
         self.assertEqual(response.status_code, 302)
         self.assertTrue(self.isLoggedInAs(self.user))
-        # todo : changer l'url pour la vrai quand celle-ci aura ete developpe
         self.assertEqual(reverse('s5appadherant:accueil_view'), response.url)
 
     def test_post_login_failed(self):

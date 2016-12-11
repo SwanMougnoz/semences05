@@ -14,4 +14,4 @@ def get_variete_upload_path(instance, filename):
 class Variete(models.Model):
     nom = models.CharField(max_length=255)
     description = models.TextField(null=True)
-    photo = models.ImageField(upload_to=get_variete_upload_path, null=True)
+    photo = models.ImageField(upload_to=get_variete_upload_path, null=True, blank=True)

@@ -13,7 +13,11 @@
     </div>
     <div class="row">
         <div class="col-md-7">
-            <form action="{% url 's5appadherant:variete_new_view' %}"
+            {% if variete %}
+                <form action="{% url 's5appadherant:variete_edit_view' pk=variete.id %}"
+            {% else %}
+                <form action="{% url 's5appadherant:variete_new_view' %}"
+            {% endif %}
                   method="POST"
                   role="form"
                   enctype="multipart/form-data">

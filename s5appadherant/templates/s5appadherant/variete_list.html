@@ -1,6 +1,7 @@
 {% extends 's5appadherant/layout_adherant.html' %}
 
 {% load tags %}
+{% load static %}
 {% block content_adherant %}
     <div class="row">
         <div class="col-md-10">
@@ -21,7 +22,11 @@
                     <li class="list-group-item">
                         <div class="row">
                             <div class="col-md-2">
-                                <img src="{{ variete.photo.url }}" alt="{{ variete.nom }}">
+                                {% if variete.photo %}
+                                    <img src="{{ variete.photo.url }}" alt="{{ variete.nom }}">
+                                {% else %}
+                                    <img src="{% static 's5appadherant/images/no_image.png' %}" alt="">
+                                {% endif %}
                             </div>
                             <div class="col-md-8">
                                 <p><strong>{{ variete.nom }}</strong></p>

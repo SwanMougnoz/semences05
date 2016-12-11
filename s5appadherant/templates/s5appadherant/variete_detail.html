@@ -1,10 +1,15 @@
 {% extends 's5appadherant/layout_adherant.html' %}
 
+{% load static %}
 {% block content_adherant %}
      <div class="row">
         <h2>Détail d'une variété</h2>
         <div class="col-md-4">
-            <img class="img-responsive" src="{{ variete.photo.url }}" alt="{{ variete.nom }}">
+            {% if variete.photo %}
+                <img class="img-responsive" src="{{ variete.photo.url }}" alt="{{ variete.nom }}">
+            {% else %}
+                <img class="img-responsive" src="{% static 's5appadherant/images/no_image.png' %}" alt="Pas d'image disponible">
+            {% endif %}
         </div>
         <div class="col-md-8 variete-detail">
             <h3>{{ variete.nom }}</h3>

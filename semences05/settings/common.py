@@ -61,34 +61,6 @@ MIDDLEWARE_CLASSES = [
 
 ROOT_URLCONF = 'semences05.urls'
 
-
-STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
-STATIC_URL = '/static/'
-
-STATICFILES_DIRS = [
-    os.path.join(PROJECT_DIR, 'frontend/sass/stylesheets')
-]
-
-STATICFILES_FINDERS = [
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'djangobower.finders.BowerFinder'
-]
-
-BOWER_COMPONENTS_ROOT = os.path.join(PROJECT_DIR, 'frontend')
-
-BOWER_INSTALLED_APPS = (
-    'bootstrap-sass',
-    'leaflet',
-    'font-awesome'
-)
-
-MEDIA_ROOT = os.path.join(PROJECT_DIR, 'var/media')
-MEDIA_URL = '/media/'
-
-CKEDITOR_UPLOAD_PATH = 'ckeditor_uploads/'
-CKEDITOR_IMAGE_BACKEND = 'pillow'
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -159,5 +131,33 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
+
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(PROJECT_DIR, 'frontend/sass/stylesheets'),
+    # os.path.join(APPADHERANT_DIR, 'static')
+]
+
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'djangobower.finders.BowerFinder'
+]
+
+BOWER_COMPONENTS_ROOT = os.path.join(PROJECT_DIR, 'frontend')
+
+BOWER_INSTALLED_APPS = (
+    'bootstrap-sass',
+    'leaflet',
+    'font-awesome'
+)
+
+MEDIA_ROOT = os.path.join(PROJECT_DIR, 'var/media')
+MEDIA_URL = '/media/'
+
+CKEDITOR_UPLOAD_PATH = 'ckeditor_uploads/'
+CKEDITOR_IMAGE_BACKEND = 'pillow'
 
 
