@@ -1,8 +1,9 @@
-{% extends 's5vitrine/base.html' %}
+{% extends 's5appadherant/layout_adherant.html' %}
 
 {% load static %}
-{% block content %}
-    <div class="row">
+{% block content_adherant %}
+     <div class="row">
+        <h2>Détail d'une variété</h2>
         <div class="col-md-4">
             {% if variete.photo %}
                 <img class="img-responsive" src="{{ variete.photo.url }}" alt="{{ variete.nom }}">
@@ -11,16 +12,12 @@
             {% endif %}
         </div>
         <div class="col-md-8 variete-detail">
-            <h2>{{ variete.nom }}</h2>
+            <h3>{{ variete.nom }}</h3>
             <p><strong>Description :</strong></p>
             <p>{{ variete.description }}</p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <a class="pull-right" href="{% url 's5vitrine:variete_list_view' %}">
-                <i class="fa fa-angle-left"></i>
-                Retour à la liste
+            <a class="btn btn-primary pull-right" href="{% url 's5appadherant:variete_edit_view' pk=variete.id %}">
+                <i class="fa fa-pencil"></i>
+                &nbsp;Modifier cette variété
             </a>
         </div>
     </div>

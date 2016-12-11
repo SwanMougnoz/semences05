@@ -1,0 +1,36 @@
+{% extends 's5appadherant/layout_adherant.html' %}
+
+{% load bootstrap %}
+{% block content_adherant %}
+    <div class="row">
+        <div class="col-md-12">
+            {% if variete %}
+                <h2>Édition d'une variété  : <i>{{ variete.nom }}</i></h2>
+            {% else %}
+                <h2>Ajout d'une nouvelle variété</h2>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-7">
+            {% if variete %}
+                <form action="{% url 's5appadherant:variete_edit_view' pk=variete.id %}"
+            {% else %}
+                <form action="{% url 's5appadherant:variete_new_view' %}"
+            {% endif %}
+                  method="POST"
+                  role="form"
+                  enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form|bootstrap }}
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary pull-right">
+                        <i class="fa fa-check"></i>
+                        &nbsp;Envoyer
+                    </button>
+                    <a class="pull-right" href="{% url 's5appadherant:variete_list_view' %}">Retour à la liste</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

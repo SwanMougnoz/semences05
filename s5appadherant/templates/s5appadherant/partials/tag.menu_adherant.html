@@ -3,4 +3,7 @@
         <i class="fa fa-home"></i>
         {{ username }}
     </a>
+    <a href="{% url 's5appadherant:variete_list_view' %}" class="list-group-item {% if menu_actif == 'variete' %}active{% endif %}">
+        Variétés
+    </a>
 </div>
