@@ -38,7 +38,8 @@ PREREQ_APPS = [
     'djangobower',
     'bootstrapform',
     'ckeditor',
-    'ckeditor_uploader'
+    'ckeditor_uploader',
+    'django_bootstrap_breadcrumbs'
 ]
 
 PROJECT_APPS = [

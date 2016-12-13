@@ -1,5 +1,18 @@
 {% extends 's5appadherant/layout_adherant.html' %}
 
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+    {% breadcrumb 'Accueil' 's5appadherant:accueil_view' %}
+    {% breadcrumb 'Liste des variétés' 's5appadherant:variete_list_view' %}
+    {% if variete %}
+        {% breadcrumb variete.nom 's5appadherant:variete_detail_view' variete_id=variete.id %}
+        {% breadcrumb "Édition" None %}
+    {% else %}
+        {% breadcrumb "Ajout d'une variété" None %}
+    {% endif %}
+    {{ block.super }}
+{% endblock %}
+
 {% load bootstrap %}
 {% block content_adherant %}
     <div class="row">
