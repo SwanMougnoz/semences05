@@ -1,5 +1,12 @@
 {% extends 's5appadherant/layout_adherant.html' %}
 
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+    {% breadcrumb 'Accueil' 's5appadherant:accueil_view' %}
+    {% breadcrumb 'Liste des variétés' None %}
+    {{ block.super }}
+{% endblock %}
+
 {% load tags %}
 {% load static %}
 {% block content_adherant %}

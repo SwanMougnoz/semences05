@@ -1,5 +1,13 @@
 {% extends 's5appadherant/layout_adherant.html' %}
 
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+    {% breadcrumb 'Accueil' 's5appadherant:accueil_view' %}
+    {% breadcrumb 'Liste des variétés' 's5appadherant:variete_list_view' %}
+    {% breadcrumb variete.nom None %}
+    {{ block.super }}
+{% endblock %}
+
 {% load static %}
 {% block content_adherant %}
      <div class="row">
