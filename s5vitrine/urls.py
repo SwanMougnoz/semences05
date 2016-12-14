@@ -1,12 +1,12 @@
 from django.conf.urls import url
-from s5vitrine import views
+from s5vitrine.views import accueil, contact, contenu, variete
 
 app_name = 's5vitrine'
 urlpatterns = [
-    url(r'^$', views.AccueilView.as_view(), name='accueil_view'),
-    url(r'^contact/$', views.ContactView.as_view(), name='contact_view'),
-    url(r'^contact/envoye/$', views.ContactEnvoyeView.as_view(), name='contact_envoye_view'),
-    url(r'^contenus/(?P<contenu_id>[0-9]+)/$', views.ContenuView.as_view(), name='contenu_view'),
-    url(r'^varietes/$', views.VarieteListView.as_view(), name='variete_list_view'),
-    url(r'^varietes/(?P<variete_id>[0-9]+)/$', views.VarieteDetailView.as_view(), name='variete_detail_view')
+    url(r'^$', accueil.AccueilView.as_view(), name='accueil_view'),
+    url(r'^contact/$', contact.ContactView.as_view(), name='contact_view'),
+    url(r'^contact/envoye/$', contact.ContactEnvoyeView.as_view(), name='contact_envoye_view'),
+    url(r'^contenus/(?P<contenu_id>[0-9]+)/$', contenu.ContenuView.as_view(), name='contenu_view'),
+    url(r'^varietes/$', variete.VarieteListView.as_view(), name='variete_list_view'),
+    url(r'^varietes/(?P<variete_id>[0-9]+)/$', variete.VarieteDetailView.as_view(), name='variete_detail_view')
 ]

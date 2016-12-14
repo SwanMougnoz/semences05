@@ -2,7 +2,7 @@
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.core.paginator import Page
-from s5vitrine.models import Menuitem
+from s5vitrine.models.menuitem import Menuitem
 
 
 class VarieteListTest(TestCase):

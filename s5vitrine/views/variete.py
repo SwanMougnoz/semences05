@@ -4,7 +4,7 @@ from django.http import HttpResponseNotFound
 from django.views.generic import TemplateView
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from s5appadherant.models.variete import Variete
-from s5vitrine.models import Menuitem
+from s5vitrine.models.menuitem import Menuitem
 
 
 class VarieteListView(TemplateView):

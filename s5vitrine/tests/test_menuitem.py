@@ -1,5 +1,6 @@
 from django.test import TestCase
-from s5vitrine.models import Menuitem, PageGenerique, PageContenu
+from s5vitrine.models.menuitem import Menuitem
+from s5vitrine.models.page import PageGenerique, PageContenu
 
 
 class MenuitemTest(TestCase):

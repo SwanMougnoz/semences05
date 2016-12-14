@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.test import TestCase
-from s5vitrine.forms import ContactForm
-from s5vitrine.models import Menuitem
+from s5vitrine.forms.contact import ContactForm
+from s5vitrine.models.menuitem import Menuitem
 
 
 class ContactTest(TestCase):

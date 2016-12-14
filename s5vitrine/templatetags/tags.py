@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import template
 from django.core.paginator import Page
-from s5vitrine.models import Menuitem
+from s5vitrine.models.menuitem import Menuitem
 
 register = template.Library()
 

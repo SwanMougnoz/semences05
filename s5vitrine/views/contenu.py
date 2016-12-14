@@ -1,7 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseNotFound
 from django.views.generic import TemplateView
-from s5vitrine.models import PageContenu
+from s5vitrine.models.page import PageContenu
 
 
 class ContenuView(TemplateView):

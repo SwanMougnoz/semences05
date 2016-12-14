@@ -1,5 +1,5 @@
 from django.views.generic import TemplateView
-from s5vitrine.models import Menuitem
+from s5vitrine.models.menuitem import Menuitem
 
 
 class AccueilView(TemplateView):
