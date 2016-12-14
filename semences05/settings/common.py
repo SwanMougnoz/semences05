@@ -113,7 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LOGIN_URL = 's5appadherant.login'
+LOGIN_URL = 's5appadherant:login'
 
 
 # Internationalization

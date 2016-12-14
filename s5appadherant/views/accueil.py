@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
 
 
-class AccueilView(TemplateView):
+class AccueilView(LoginRequiredMixin, TemplateView):
 
     template_name = 's5appadherant/accueil.html'
 

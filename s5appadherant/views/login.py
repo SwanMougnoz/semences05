@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.views.generic import TemplateView, RedirectView
 from django.contrib.auth import authenticate, login, logout
@@ -40,7 +41,7 @@ class LoginView(TemplateView):
         })
 
 
-class LogoutView(RedirectView):
+class LogoutView(LoginRequiredMixin, RedirectView):
     url = '/'
 
     def get(self, request, *args, **kwargs):
