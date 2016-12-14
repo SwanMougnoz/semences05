@@ -9,7 +9,7 @@ class PageContenu(models.Model):
     @property
     def url(self):
         try:
-            url = reverse('s5vitrine:contenu_view', args=[self.id])
+            url = reverse('s5vitrine:contenu', args=[self.id])
         except NoReverseMatch:
             url = None
         return url

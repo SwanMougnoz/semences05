@@ -17,7 +17,7 @@ class VarieteListViewTest(TestCase):
         self.user = User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')
 
     def test_get(self):
-        request = self.factory.get(reverse('s5appadherant:variete_list_view'))
+        request = self.factory.get(reverse('s5appadherant:variete_list'))
         request.user = self.user
         response = VarieteListView.as_view()(request)
 
@@ -29,7 +29,7 @@ class VarieteListViewTest(TestCase):
         self.assertEqual(1, response.context_data['varietes'].number)
 
     def test_get_login_required(self):
-        request = self.factory.get(reverse('s5appadherant:variete_list_view'))
+        request = self.factory.get(reverse('s5appadherant:variete_list'))
         request.user = AnonymousUser()
         response = VarieteListView.as_view()(request)
 
@@ -46,10 +46,10 @@ class VarieteDetailTest(TestCase):
         self.user = User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')
 
     def get(self, user, params):
-        url = reverse('s5appadherant:variete_detail_view', kwargs=params)
+        url = reverse('s5appadherant:variete_detail', kwargs=params)
         request = self.factory.get(url)
         request.user = user
-        request.resolver_match = resolve(reverse('s5appadherant:variete_detail_view', kwargs=params))
+        request.resolver_match = resolve(reverse('s5appadherant:variete_detail', kwargs=params))
         return VarieteDetailView.as_view()(request, **params)
 
     def test_get(self):
@@ -83,7 +83,7 @@ class VarieteAddTest(TestCase):
         self.user = User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')
 
     def test_get(self):
-        request = self.factory.get(reverse('s5appadherant:variete_new_view'))
+        request = self.factory.get(reverse('s5appadherant:variete_new'))
         request.user = self.user
         response = VarieteAddView.as_view()(request)
 
@@ -93,7 +93,7 @@ class VarieteAddTest(TestCase):
     def test_post(self):
         count = Variete.objects.count()
 
-        request = self.factory.post(reverse('s5appadherant:variete_new_view'), data={
+        request = self.factory.post(reverse('s5appadherant:variete_new'), data={
             'nom': 'Nouvelle variete',
             'description': 'Bla bla bla'
         })
@@ -118,7 +118,7 @@ class VarieteEditTest(TestCase):
 
     def test_get(self):
         params = {'pk': 6}
-        request = self.factory.get(reverse('s5appadherant:variete_edit_view', kwargs=params))
+        request = self.factory.get(reverse('s5appadherant:variete_edit', kwargs=params))
         request.user = self.user
         response = VarieteEditView.as_view()(request, **params)
 
@@ -129,7 +129,7 @@ class VarieteEditTest(TestCase):
         count = Variete.objects.count()
 
         params = {'pk': 6}
-        request = self.factory.post(reverse('s5appadherant:variete_edit_view', kwargs=params), data={
+        request = self.factory.post(reverse('s5appadherant:variete_edit', kwargs=params), data={
             'nom': 'Nouveau nom',
             'description': 'Nouvelle description'
         })

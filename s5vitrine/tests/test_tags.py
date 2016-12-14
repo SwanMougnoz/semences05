@@ -90,37 +90,37 @@ class AuthWidgetTest(TestCase):
 
     def test_render_connected(self):
         # La template doit contenir un lien deconnexion
-        request = self.get_request(reverse('s5vitrine:accueil_view'), self.user)
+        request = self.get_request(reverse('s5vitrine:accueil'), self.user)
         html = self.render_tag(request)
 
-        logout_url = reverse('s5appadherant:logout_view')
+        logout_url = reverse('s5appadherant:logout')
         logout_link = u'<a href="%s" class="btn btn-xs btn-danger">Déconnexion</a>' % logout_url
         self.assertInHTML(logout_link, html)
 
     def test_render_not_connected(self):
         # La template doit contenir un lien connexion
-        request = self.get_request(reverse('s5vitrine:accueil_view'), AnonymousUser())
+        request = self.get_request(reverse('s5vitrine:accueil'), AnonymousUser())
         html = self.render_tag(request)
 
-        login_url = reverse('s5appadherant:login_view')
+        login_url = reverse('s5appadherant:login')
         login_link = u'<a href="%s" class="btn btn-xs btn-primary">Connexion</a>' % login_url
         self.assertInHTML(login_link, html)
 
     def test_render_from_appadherant(self):
         # La template doit contenir un lien vers le site vitrine
-        request = self.get_request(reverse('s5appadherant:accueil_view'), self.user)
+        request = self.get_request(reverse('s5appadherant:accueil'), self.user)
         html = self.render_tag(request)
 
-        vitrine_accueil_url = reverse('s5vitrine:accueil_view')
+        vitrine_accueil_url = reverse('s5vitrine:accueil')
         vitrine_accueil_link = u'<a href="%s" class="btn btn-xs btn-primary">Retour au site</a>' % vitrine_accueil_url
         self.assertInHTML(vitrine_accueil_link, html)
 
     def test_render_from_vitrine(self):
         # Si l'user est connecté, la template doit contenir un lien vers l'appadherant
-        request = self.get_request(reverse('s5vitrine:accueil_view'), self.user)
+        request = self.get_request(reverse('s5vitrine:accueil'), self.user)
         html = self.render_tag(request)
 
-        adherant_url = reverse('s5appadherant:accueil_view')
+        adherant_url = reverse('s5appadherant:accueil')
         adherant_link = u'<a href="%s" class="btn btn-xs btn-primary">Espace adhérant</a>' % adherant_url
         self.assertInHTML(adherant_link, html)
 

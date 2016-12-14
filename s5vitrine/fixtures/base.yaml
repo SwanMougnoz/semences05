@@ -32,10 +32,10 @@
       Aenean at eleifend dolor. Mauris vel tempor felis.'}
 - model: s5vitrine.pagegenerique
   pk: 1
-  fields: {viewname: 's5vitrine:accueil_view', params: null}
+  fields: {viewname: 's5vitrine:accueil', params: null}
 - model: s5vitrine.pagegenerique
   pk: 2
-  fields: {viewname: 's5vitrine:contact_view', params: null}
+  fields: {viewname: 's5vitrine:contact', params: null}
 - model: s5vitrine.pagegenerique
   pk: 3
-  fields: {viewname: 's5vitrine:variete_list_view', params: null}
+  fields: {viewname: 's5vitrine:variete_list', params: null}

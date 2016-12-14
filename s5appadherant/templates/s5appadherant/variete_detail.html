@@ -2,8 +2,8 @@
 
 {% load django_bootstrap_breadcrumbs %}
 {% block breadcrumbs %}
-    {% breadcrumb 'Accueil' 's5appadherant:accueil_view' %}
-    {% breadcrumb 'Liste des variétés' 's5appadherant:variete_list_view' %}
+    {% breadcrumb 'Accueil' 's5appadherant:accueil' %}
+    {% breadcrumb 'Liste des variétés' 's5appadherant:variete_list' %}
     {% breadcrumb variete.nom None %}
     {{ block.super }}
 {% endblock %}
@@ -25,7 +25,7 @@
             <h3>{{ variete.nom }}</h3>
             <p><strong>Description :</strong></p>
             <p>{{ variete.description }}</p>
-            <a class="btn btn-primary pull-right" href="{% url 's5appadherant:variete_edit_view' pk=variete.id %}">
+            <a class="btn btn-primary pull-right" href="{% url 's5appadherant:variete_edit' pk=variete.id %}">
                 <i class="fa fa-pencil"></i>
                 &nbsp;Modifier cette variété
             </a>

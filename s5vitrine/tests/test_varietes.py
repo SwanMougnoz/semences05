@@ -10,7 +10,7 @@ class VarieteListTest(TestCase):
     fixtures = ['base']
 
     def test_get(self):
-        response = self.client.get(reverse('s5vitrine:variete_list_view'))
+        response = self.client.get(reverse('s5vitrine:variete_list'))
 
         # La page doit retourner la bonne template
         self.assertEqual(200, response.status_code)
@@ -30,7 +30,7 @@ class VarieteDetailTest(TestCase):
     fixtures = ['base', 'varietes']
 
     def test_get(self):
-        response = self.client.get(reverse('s5vitrine:variete_detail_view', kwargs={
+        response = self.client.get(reverse('s5vitrine:variete_detail', kwargs={
             'variete_id': 6
         }))
 
@@ -43,7 +43,7 @@ class VarieteDetailTest(TestCase):
         self.assertEqual('variete_list', response.context['menu_actif'].identifiant)
 
         # Si la variete n'existe pas, la réponse doit contenir une 404
-        response = self.client.get(reverse('s5vitrine:variete_detail_view', kwargs={
+        response = self.client.get(reverse('s5vitrine:variete_detail', kwargs={
             'variete_id': 46112
         }))
 

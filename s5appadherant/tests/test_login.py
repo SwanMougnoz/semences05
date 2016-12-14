@@ -15,24 +15,24 @@ class LoginViewTest(TestCase):
         return client_user.__eq__(user)
 
     def test_get(self):
-        response = self.client.get(reverse('s5appadherant:login_view'))
+        response = self.client.get(reverse('s5appadherant:login'))
         self.assertEqual(response.status_code, 200)
         self.assertIsInstance(response.context['form'], LoginForm)
         self.assertTemplateUsed(response, 's5appadherant/login.html')
 
     def test_post_login_ok(self):
         # Test avec un formulaire valide
-        response = self.client.post(reverse('s5appadherant:login_view'), data={
+        response = self.client.post(reverse('s5appadherant:login'), data={
             'username': 'john',
             'password': 'johnpassword'
         })
         self.assertEqual(response.status_code, 302)
         self.assertTrue(self.isLoggedInAs(self.user))
-        self.assertEqual(reverse('s5appadherant:accueil_view'), response.url)
+        self.assertEqual(reverse('s5appadherant:accueil'), response.url)
 
     def test_post_login_failed(self):
         # Test avec un formulaire invalide
-        response = self.client.post(reverse('s5appadherant:login_view'), data={
+        response = self.client.post(reverse('s5appadherant:login'), data={
             'username': 'john',
             'password': 'wrongpassword'
         })
@@ -52,12 +52,12 @@ class LogoutViewTest(TestCase):
         return client_user.__eq__(user)
 
     def test_get(self):
-        self.client.post(reverse('s5appadherant:login_view'), data={
+        self.client.post(reverse('s5appadherant:login'), data={
             'username': 'john',
             'password': 'johnpassword'
         })
         self.assertTrue(self.isLoggedInAs(self.user))
-        self.client.get(reverse('s5appadherant:logout_view'))
+        self.client.get(reverse('s5appadherant:logout'))
         self.assertFalse(self.isLoggedInAs(self.user))
 
 

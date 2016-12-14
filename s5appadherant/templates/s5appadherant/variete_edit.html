@@ -2,10 +2,10 @@
 
 {% load django_bootstrap_breadcrumbs %}
 {% block breadcrumbs %}
-    {% breadcrumb 'Accueil' 's5appadherant:accueil_view' %}
-    {% breadcrumb 'Liste des variétés' 's5appadherant:variete_list_view' %}
+    {% breadcrumb 'Accueil' 's5appadherant:accueil' %}
+    {% breadcrumb 'Liste des variétés' 's5appadherant:variete_list' %}
     {% if variete %}
-        {% breadcrumb variete.nom 's5appadherant:variete_detail_view' variete_id=variete.id %}
+        {% breadcrumb variete.nom 's5appadherant:variete_detail' variete_id=variete.id %}
         {% breadcrumb "Édition" None %}
     {% else %}
         {% breadcrumb "Ajout d'une variété" None %}
@@ -27,9 +27,9 @@
     <div class="row">
         <div class="col-md-7">
             {% if variete %}
-                <form action="{% url 's5appadherant:variete_edit_view' pk=variete.id %}"
+                <form action="{% url 's5appadherant:variete_edit' pk=variete.id %}"
             {% else %}
-                <form action="{% url 's5appadherant:variete_new_view' %}"
+                <form action="{% url 's5appadherant:variete_new' %}"
             {% endif %}
                   method="POST"
                   role="form"
@@ -41,7 +41,7 @@
                         <i class="fa fa-check"></i>
                         &nbsp;Envoyer
                     </button>
-                    <a class="pull-right" href="{% url 's5appadherant:variete_list_view' %}">Retour à la liste</a>
+                    <a class="pull-right" href="{% url 's5appadherant:variete_list' %}">Retour à la liste</a>
                 </div>
             </form>
         </div>

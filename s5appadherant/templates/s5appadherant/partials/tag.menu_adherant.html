@@ -1,9 +1,9 @@
 <div class="list-group menu-adherant">
-    <a href="{% url 's5appadherant:accueil_view' %}" class="list-group-item {% if menu_actif == 'accueil' %}active{% endif %}">
+    <a href="{% url 's5appadherant:accueil' %}" class="list-group-item {% if menu_actif == 'accueil' %}active{% endif %}">
         <i class="fa fa-home"></i>
         {{ username }}
     </a>
-    <a href="{% url 's5appadherant:variete_list_view' %}" class="list-group-item {% if menu_actif == 'variete' %}active{% endif %}">
+    <a href="{% url 's5appadherant:variete_list' %}" class="list-group-item {% if menu_actif == 'variete' %}active{% endif %}">
         Variétés
     </a>
 </div>

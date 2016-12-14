@@ -59,7 +59,7 @@ class VarieteAddView(LoginRequiredMixin, CreateView):
     model = Variete
 
     def get_success_url(self):
-        return reverse('s5appadherant:variete_list_view')
+        return reverse('s5appadherant:variete_list')
 
     def get_context_data(self, **kwargs):
         context = super(VarieteAddView, self).get_context_data(**kwargs)
@@ -76,7 +76,7 @@ class VarieteEditView(LoginRequiredMixin, UpdateView):
     model = Variete
 
     def get_success_url(self):
-        return reverse('s5appadherant:variete_list_view')
+        return reverse('s5appadherant:variete_list')
 
     def get_context_data(self, **kwargs):
         context = super(VarieteEditView, self).get_context_data(**kwargs)
