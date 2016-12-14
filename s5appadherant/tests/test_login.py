@@ -2,7 +2,7 @@ from django.contrib import auth
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.core.urlresolvers import reverse
-from s5appadherant.forms import LoginForm
+from s5appadherant.forms.login import LoginForm
 
 
 class LoginViewTest(TestCase):

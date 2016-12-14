@@ -7,8 +7,8 @@ from django.views.generic import CreateView
 from django.views.generic import TemplateView
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import UpdateView
-from s5appadherant.models import Variete
-from s5appadherant.forms import VarieteForm
+from s5appadherant.models.variete import Variete
+from s5appadherant.forms.variete import VarieteForm
 
 
 class VarieteListView(LoginRequiredMixin, TemplateView):

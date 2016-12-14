@@ -1,1 +1,0 @@
-from variete import Variete

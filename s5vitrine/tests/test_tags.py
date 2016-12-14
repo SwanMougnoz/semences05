@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse, resolve
 from django.template import Context
 from django.template import Template
 from s5vitrine.models import Menuitem
-from s5appadherant.models import Variete
+from s5appadherant.models.variete import Variete
 
 
 class MenuTest(TestCase):

@@ -1,5 +1,5 @@
 from django import forms
-from s5appadherant.models import Variete
+from s5appadherant.models.variete import Variete
 
 
 class VarieteForm(forms.ModelForm):

@@ -5,9 +5,9 @@ from django.core.urlresolvers import reverse, resolve
 from django.test import RequestFactory
 from django.test import TestCase
 
-from s5appadherant.forms import VarieteForm
-from s5appadherant.models import Variete
-from s5appadherant.views import VarieteAddView, VarieteDetailView, VarieteEditView, VarieteListView
+from s5appadherant.forms.variete import VarieteForm
+from s5appadherant.models.variete import Variete
+from s5appadherant.views.variete import VarieteAddView, VarieteDetailView, VarieteEditView, VarieteListView
 
 
 class VarieteListViewTest(TestCase):

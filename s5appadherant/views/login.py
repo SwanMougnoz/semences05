@@ -2,7 +2,7 @@
 from django.shortcuts import redirect
 from django.views.generic import TemplateView, RedirectView
 from django.contrib.auth import authenticate, login, logout
-from s5appadherant.forms import LoginForm
+from s5appadherant.forms.login import LoginForm
 
 
 class LoginView(TemplateView):
