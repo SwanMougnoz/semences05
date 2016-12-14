@@ -8,7 +8,7 @@ from s5appadherant.forms.login import LoginForm
 
 class LoginView(TemplateView):
 
-    template_name = "s5appadherant/login.html"
+    template_name = "s5appadherant/login/form.html"
 
     def get(self, request, *args, **kwargs):
 

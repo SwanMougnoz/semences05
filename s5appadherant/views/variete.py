@@ -13,7 +13,7 @@ from s5appadherant.forms.variete import VarieteForm
 
 class VarieteListView(LoginRequiredMixin, TemplateView):
 
-    template_name = 's5appadherant/variete_list.html'
+    template_name = 's5appadherant/variete/list.html'
 
     def get(self, request, *args, **kwargs):
 
@@ -36,7 +36,7 @@ class VarieteListView(LoginRequiredMixin, TemplateView):
 
 class VarieteDetailView(LoginRequiredMixin, TemplateView):
 
-    template_name = 's5appadherant/variete_detail.html'
+    template_name = 's5appadherant/variete/detail.html'
 
     def get(self, request, *args, **kwargs):
 
@@ -54,7 +54,7 @@ class VarieteDetailView(LoginRequiredMixin, TemplateView):
 
 
 class VarieteAddView(LoginRequiredMixin, CreateView):
-    template_name = 's5appadherant/variete_edit.html'
+    template_name = 's5appadherant/variete/edit.html'
     form_class = VarieteForm
     model = Variete
 
@@ -71,7 +71,7 @@ class VarieteAddView(LoginRequiredMixin, CreateView):
 
 
 class VarieteEditView(LoginRequiredMixin, UpdateView):
-    template_name = 's5appadherant/variete_edit.html'
+    template_name = 's5appadherant/variete/edit.html'
     form_class = VarieteForm
     model = Variete
 

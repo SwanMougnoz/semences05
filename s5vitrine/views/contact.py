@@ -7,7 +7,7 @@ from s5vitrine.models.menuitem import Menuitem
 
 class ContactView(TemplateView):
 
-    template_name = "s5vitrine/contact.html"
+    template_name = "s5vitrine/contact/form.html"
 
     def get(self, request, *args, **kwargs):
         menuitem = Menuitem.objects.get(pk='contact')
@@ -40,7 +40,7 @@ class ContactView(TemplateView):
 
 class ContactEnvoyeView(TemplateView):
 
-    template_name = 's5vitrine/contact_envoye.html'
+    template_name = 's5vitrine/contact/envoye.html'
 
     def get(self, request, *args, **kwargs):
         return self.render_to_response({})

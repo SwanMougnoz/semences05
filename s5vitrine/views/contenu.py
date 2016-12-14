@@ -6,7 +6,7 @@ from s5vitrine.models.page import PageContenu
 
 class ContenuView(TemplateView):
 
-    template_name = "s5vitrine/contenu.html"
+    template_name = "s5vitrine/contenu/detail.html"
 
     def get(self, request, *args, **kwargs):
         contenu_id = kwargs.get('contenu_id', None)

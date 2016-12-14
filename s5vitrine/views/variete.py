@@ -9,7 +9,7 @@ from s5vitrine.models.menuitem import Menuitem
 
 class VarieteListView(TemplateView):
 
-    template_name = 's5vitrine/variete_list.html'
+    template_name = 's5vitrine/variete/list.html'
 
     def get(self, request, *args, **kwargs):
 
@@ -34,7 +34,7 @@ class VarieteListView(TemplateView):
 
 class VarieteDetailView(TemplateView):
 
-    template_name = 's5vitrine/variete_detail.html'
+    template_name = 's5vitrine/variete/detail.html'
 
     def get(self, request, *args, **kwargs):
 
