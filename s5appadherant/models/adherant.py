@@ -6,7 +6,7 @@ from s5appadherant.models import Adresse
 
 class AdherantManager(models.Manager):
     def get_from_user(self, user):
-        return self.filter(user=user)
+        return self.get(user=user)
 
 
 class Adherant(models.Model):

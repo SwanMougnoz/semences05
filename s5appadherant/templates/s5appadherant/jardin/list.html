@@ -32,9 +32,8 @@
                                 <p>{{ jardin.description|truncatechars:200 }}</p>
                             </div>
                             <div class="col-md-2">
-                                <a class="btn btn-primary pull-right" href="{% url 's5appadherant:accueil' %}">
-                                    <i class="fa fa-leaf"></i>
-                                    &nbsp;Détail
+                                <a class="btn btn-primary pull-right" href="{% url 's5appadherant:jardin_detail' jardin_id=jardin.id %}">
+                                    Voir ce jardin
                                 </a>
                             </div>
                         </div>
