@@ -1,0 +1,58 @@
+{% extends 's5appadherant/layout_adherant.html' %}
+
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+    {% breadcrumb 'Accueil' 's5appadherant:accueil' %}
+    {% breadcrumb 'Mes jardins' 's5appadherant:jardin_list' %}
+    {% if jardin %}
+        {% breadcrumb jardin.appelation 's5appadherant:jardin_detail' jardin_id=jardin.id %}
+        {% breadcrumb "Édition" None %}
+    {% else %}
+        {% breadcrumb "Ajouter un jardin" None %}
+    {% endif %}
+    {{ block.super }}
+{% endblock %}
+
+{% load bootstrap %}
+{% block content_adherant %}
+    <div class="row">
+        <div class="col-md-12">
+            {% if jardin %}
+                <h2>Édition d'un jardin : <i>{{ jardin.appelation }}</i></h2>
+            {% else %}
+                <h2>Ajouter un jardin</h2>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        {% if jardin %}
+            <form action="{% url 's5appadherant:jardin_edit' pk=jardin.id %}"
+        {% else %}
+            <form action="{% url 's5appadherant:jardin_new' %}"
+        {% endif %}
+              method="POST"
+              role="form"
+              enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="col-md-6">
+                <div class="well">
+                    <h3>Informations</h3>
+                    {{ form|bootstrap }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="well">
+                    <h3>Localisation</h3>
+                    {{ adress_form|bootstrap }}
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary pull-right">
+                    <i class="fa fa-check"></i>
+                    &nbsp;Envoyer
+                </button>
+                <a class="pull-right" href="{% url 's5appadherant:jardin_list' %}">Retour à la liste</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}
