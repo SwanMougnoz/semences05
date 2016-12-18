@@ -8,13 +8,30 @@
     {{ block.super }}
 {% endblock %}
 
+{% load static %}
+{% block stylesheet %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'leaflet/dist/leaflet.css' %}">
+{% endblock %}
+
+
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'jquery/dist/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'leaflet/dist/leaflet.js' %}"></script>
+    <script type="text/javascript" src="{% static 's5appadherant/js/jardin-detail-map.js' %}"></script>
+{% endblock %}
+
 {% block content_adherant %}
     <div class="row">
         <div class="col-md-12">
             <h2>{{ jardin.appelation }}</h2>
         </div>
         <div class="col-md-4">
-
+            <div id="jardin-detail-map"
+                 data-latitude="{{ jardin.adresse.latitude|stringformat:"f" }}"
+                 data-longitude="{{ jardin.adresse.longitude|stringformat:"f" }}">
+            </div>
         </div>
         <div class="col-md-8 jardin-detail">
             <table>
