@@ -1,0 +1,83 @@
+{% extends 's5appadherant/layout_adherant.html' %}
+
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+    {% breadcrumb 'Accueil' 's5appadherant:accueil' %}
+    {% breadcrumb 'Mes jardins' 's5appadherant:jardin_list' %}
+    {% breadcrumb jardin.appelation None %}
+    {{ block.super }}
+{% endblock %}
+
+{% load static %}
+{% block stylesheet %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'leaflet/dist/leaflet.css' %}">
+{% endblock %}
+
+
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'jquery/dist/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'leaflet/dist/leaflet.js' %}"></script>
+    <script type="text/javascript" src="{% static 's5appadherant/js/jardin-detail-map.js' %}"></script>
+{% endblock %}
+
+{% block content_adherant %}
+    <div class="row">
+        <div class="col-md-12">
+            <h2>{{ jardin.appelation }}</h2>
+        </div>
+        <div class="col-md-4">
+            <div id="jardin-detail-map"
+                 data-latitude="{{ jardin.adresse.latitude|stringformat:"f" }}"
+                 data-longitude="{{ jardin.adresse.longitude|stringformat:"f" }}">
+            </div>
+        </div>
+        <div class="col-md-8 jardin-detail">
+            <table>
+                <tr>
+                    <td>Commune :</td>
+                    <td>{{ jardin.adresse.commune }}</td>
+                </tr>
+                 <tr>
+                    <td>Altitude :</td>
+                    <td>{{ jardin.adresse.altitude }}</td>
+                </tr>
+                <tr>
+                    <td>Exposition :</td>
+                    <td>{{ jardin.exposition }}</td>
+                </tr>
+                <tr>
+                    <td>Type de sol :</td>
+                    <td>{{ jardin.type_sol }}</td>
+                </tr>
+                <tr>
+                    <td>Superficie :</td>
+                    <td>{{ jardin.superficie }} m²</td>
+                </tr>
+                <tr>
+                    <td>Irrigation :</td>
+                    <td>{{ jardin.irrigation }}</td>
+                </tr>
+                <tr>
+                    <td>Mise en culture :</td>
+                    <td>{{ jardin.mise_en_culture }}</td>
+                </tr>
+            </table>
+            <p>
+                <span>Desctiption :</span>{{ jardin.description }}
+            </p>
+            <a href="{% url 's5appadherant:jardin_edit' pk=jardin.id %}" class="btn btn-primary pull-right">
+                <i class="fa fa-pencil"></i>
+                &nbsp;Éditer les informations
+            </a>
+        </div>
+        <div class="col-md-12">
+            <h3>Variétés cultivées</h3>
+        </div>
+        <div class="col-md-12">
+            <h3>Variétés récoltées</h3>
+        </div>
+    </div>
+
+{% endblock %}

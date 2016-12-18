@@ -13,7 +13,7 @@ class ContactTest(TestCase):
 
         # La page doit retourner la bonne template
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 's5vitrine/contact.html')
+        self.assertTemplateUsed(response, 's5vitrine/contact/form.html')
 
         # L'item de menu doit correspondre au menu principal
         self.assertIsInstance(response.context['menu_actif'], Menuitem)

@@ -3,6 +3,9 @@
         <i class="fa fa-home"></i>
         {{ username }}
     </a>
+    <a href="{% url 's5appadherant:jardin_list' %}" class="list-group-item {% if menu_actif == 'jardin' %}active{% endif %}">
+        Mes jardins
+    </a>
     <a href="{% url 's5appadherant:variete_list' %}" class="list-group-item {% if menu_actif == 'variete' %}active{% endif %}">
         Variétés
     </a>

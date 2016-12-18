@@ -1,0 +1,48 @@
+{% extends 's5appadherant/layout_adherant.html' %}
+
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+    {% breadcrumb 'Accueil' 's5appadherant:accueil' %}
+    {% breadcrumb 'Mes jardins' None %}
+    {{ block.super }}
+{% endblock %}
+
+{% load tags %}
+{% load static %}
+{% block content_adherant %}
+    <div class="row">
+        <div class="col-md-10">
+            <h2>Mes jardins</h2>
+        </div>
+        <div class="col-md-2">
+            <a class="btn btn-success pull-right" href="{% url 's5appadherant:jardin_new' %}">
+                <i class="fa fa-plus"></i>
+                &nbsp;Ajouter un jardin
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="list-group jardin-list">
+                {% for jardin in jardins %}
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <p><strong>{{ jardin.appelation }}</strong></p>
+                                <p>{{ jardin.description|truncatechars:200 }}</p>
+                            </div>
+                            <div class="col-md-2">
+                                <a class="btn btn-primary pull-right" href="{% url 's5appadherant:jardin_detail' jardin_id=jardin.id %}">
+                                    Voir ce jardin
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="row text-center">
+        {% pagination jardins %}
+    </div>
+{% endblock %}

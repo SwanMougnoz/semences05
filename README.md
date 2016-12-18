@@ -3,7 +3,7 @@
 ## Installation
 
 Installer les paquets :
-`sudo aptitude install python-dev python-mysqldb libmysqlclient-dev`
+`sudo aptitude install python-dev python-mysqldb libmysqlclient-dev libxml2 libxml2-dev libxslt1-dev`
 
 Configurer django pour utiliser Mysql :
 `pip install MySQL-python`
