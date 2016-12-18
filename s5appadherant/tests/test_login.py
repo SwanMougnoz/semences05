@@ -18,7 +18,7 @@ class LoginViewTest(TestCase):
         response = self.client.get(reverse('s5appadherant:login'))
         self.assertEqual(response.status_code, 200)
         self.assertIsInstance(response.context['form'], LoginForm)
-        self.assertTemplateUsed(response, 's5appadherant/login.html')
+        self.assertTemplateUsed(response, 's5appadherant/login/form.html')
 
     def test_post_login_ok(self):
         # Test avec un formulaire valide
@@ -38,7 +38,7 @@ class LoginViewTest(TestCase):
         })
         self.assertEqual(response.status_code, 200)
         self.assertFalse(self.isLoggedInAs(self.user))
-        self.assertTemplateUsed(response, 's5appadherant/login.html')
+        self.assertTemplateUsed(response, 's5appadherant/login/form.html')
         self.assertTrue(response.context['on_error'])
         self.assertIn('message', response.context)
 

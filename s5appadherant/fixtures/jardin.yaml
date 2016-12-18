@@ -1,0 +1,54 @@
+- model: s5appadherant.adresse
+  pk: 1
+  fields: {adresse: 7 rue Henri Moissan, commune: Grenoble, latitude: null, longitude: null,
+    altitude: 456}
+- model: s5appadherant.adresse
+  pk: 2
+  fields: {adresse: 10 Place Victor Hugo, commune: Grenoble, latitude: null, longitude: null,
+    altitude: null}
+- model: auth.user
+  pk: 1
+  fields:
+    password: pbkdf2_sha256$24000$oYzjAhLguEGT$+8Eztix6PdTPHi55Qe8zPpW1LN1KX7vUJHg1mXSUVeo=
+    last_login: 2016-12-17 11:38:56.155122+00:00
+    is_superuser: false
+    username: testuser
+    first_name: Jean
+    last_name: Foutre
+    email: ''
+    is_staff: false
+    is_active: true
+    date_joined: 2016-11-19 11:28:17+00:00
+    groups: []
+    user_permissions: []
+- model: auth.user
+  pk: 2
+  fields:
+    password: pbkdf2_sha256$24000$oYzjAhLguEGT$+8Eztix6PdTPHi55Qe8zPpW1LN1KX7vUJHg1mXSUVeo=
+    last_login: 2016-12-17 11:38:56.155122+00:00
+    is_superuser: false
+    username: otheruser
+    first_name: Pierre
+    last_name: Jacques
+    email: ''
+    is_staff: false
+    is_active: true
+    date_joined: 2016-11-19 11:28:17+00:00
+    groups: []
+    user_permissions: []
+- model: s5appadherant.adherant
+  pk: 1
+  fields: {user: 1, adresse: 1, telephone: 0681301167, est_professionnel: false, experience: debutant}
+- model: s5appadherant.adherant
+  pk: 2
+  fields: {user: 2, adresse: 2, telephone: 0123456789, est_professionnel: true, experience: experimente}
+- model: s5appadherant.jardin
+  pk: 1
+  fields: {proprietaire: 1, adresse: 1, appelation: Mon jardin, exposition: 180,
+    type_sol: Argilo-calcaire, irrigation: Canaux, mise_en_culture: 2016, description: Bla
+      bla bla mon jardin c'est le plus beau des jardins, superficie: 500.0}
+- model: s5appadherant.jardin
+  pk: 2
+  fields: {proprietaire: 2, adresse: 2, appelation: Jardin communal, exposition: 10,
+    type_sol: Calcaire, irrigation: Aucune, mise_en_culture: 1999, description: Bla
+      bla bla, superficie: 50.0}

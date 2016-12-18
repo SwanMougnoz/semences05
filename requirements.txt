@@ -5,3 +5,4 @@ django-bootstrap-form==3.2.1
 Pillow==3.4.2
 django-ckeditor==5.1.1
 django-bootstrap-breadcrumbs==0.8.2
+django-with-asserts==0.0.1
