@@ -34,16 +34,27 @@
               role="form"
               enctype="multipart/form-data">
             {% csrf_token %}
+            <div class="col-md-12">{{ form.non_field_errors }}</div>
             <div class="col-md-6">
                 <div class="well">
                     <h3>Informations</h3>
-                    {{ form|bootstrap }}
+                    {{ form.appelation|bootstrap }}
+                    {{ form.exposition|bootstrap }}
+                    {{ form.type_sol|bootstrap }}
+                    {{ form.irrigation|bootstrap }}
+                    {{ form.mise_en_culture|bootstrap }}
+                    {{ form.description|bootstrap }}
+                    {{ form.superficie|bootstrap }}
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="well">
                     <h3>Localisation</h3>
-                    {{ adress_form|bootstrap }}
+                    {{ form.adresse|bootstrap }}
+                    {{ form.commune|bootstrap }}
+                    {{ form.latitude|bootstrap }}
+                    {{ form.longitude|bootstrap }}
+                    {{ form.altitude|bootstrap }}
                 </div>
             </div>
             <div class="form-group">
