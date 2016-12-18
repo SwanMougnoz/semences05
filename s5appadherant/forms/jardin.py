@@ -1,4 +1,6 @@
 from django import forms
+from django.core.exceptions import ObjectDoesNotExist
+
 from s5appadherant.models import Jardin, Adresse
 
 
@@ -9,8 +11,24 @@ class JardinForm(forms.ModelForm):
     longitude = forms.FloatField()
     altitude = forms.IntegerField()
 
+    def __init__(self, *args, **kwargs):
+        super(JardinForm, self).__init__(*args, **kwargs)
+        self.set_initial(kwargs.pop('instance'))
+
+    def set_initial(self, jardin):
+        if isinstance(jardin, Jardin):
+            self.fields['adresse'].initial = jardin.adresse.adresse
+            self.fields['commune'].initial = jardin.adresse.commune
+            self.fields['latitude'].initial = jardin.adresse.latitude
+            self.fields['longitude'].initial = jardin.adresse.longitude
+            self.fields['altitude'].initial = jardin.adresse.altitude
+
     def save(self, commit=True):
-        adr = Adresse()
+        try:
+            adr = self.instance.adresse
+        except ObjectDoesNotExist:
+            adr = Adresse()
+
         adr.adresse = self.cleaned_data.get('adresse')
         adr.commune = self.cleaned_data.get('commune')
         adr.latitude = self.cleaned_data.get('latitude')

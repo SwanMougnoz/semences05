@@ -46,7 +46,7 @@
             <p>
                 <span>Desctiption :</span>{{ jardin.description }}
             </p>
-            <a href="{% url 's5appadherant:accueil' %}" class="btn btn-primary pull-right">
+            <a href="{% url 's5appadherant:jardin_edit' pk=jardin.id %}" class="btn btn-primary pull-right">
                 <i class="fa fa-pencil"></i>
                 &nbsp;Éditer les informations
             </a>

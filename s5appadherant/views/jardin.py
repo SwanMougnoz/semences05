@@ -7,6 +7,7 @@ from django.http import HttpResponseNotFound
 from django.http import HttpResponseRedirect
 from django.views.generic import CreateView
 from django.views.generic import ListView, TemplateView
+from django.views.generic import UpdateView
 
 from s5appadherant.forms.jardin import JardinForm
 from s5appadherant.models import Jardin, Adherant
@@ -65,6 +66,31 @@ class JardinAddView(LoginRequiredMixin, CreateView):
         context.update({
             'menu_actif': 'jardin',
             'titre_page': u"Ajout d'un jardin"
+        })
+        return context
+
+    def form_valid(self, form):
+        adherant = Adherant.objects.get_from_user(self.request.user)
+        jardin = form.save(commit=False)
+        jardin.proprietaire = adherant
+        jardin.save()
+
+        return HttpResponseRedirect(self.get_success_url())
+
+
+class JardinEditView(LoginRequiredMixin, UpdateView):
+    template_name = 's5appadherant/jardin/edit.html'
+    form_class = JardinForm
+    model = Jardin
+
+    def get_success_url(self):
+        return reverse('s5appadherant:jardin_list')
+
+    def get_context_data(self, **kwargs):
+        context = super(JardinEditView, self).get_context_data(**kwargs)
+        context.update({
+            'menu_actif': 'jardin',
+            'titre_page': u"Édition d'un jardin : %s" % context.get('jardin').appelation
         })
         return context
 
