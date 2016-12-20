@@ -1,0 +1,38 @@
+{% extends 's5appadherant/layout_adherant.html' %}
+
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+    {% breadcrumb 'Accueil' 's5appadherant:accueil' %}
+    {% breadcrumb 'Mes jardins' 's5appadherant:jardin_list' %}
+    {% breadcrumb jardin.appelation 's5appadherant:jardin_detail' jardin_id=jardin.id %}
+    {% breadcrumb 'Ajouter une variété cultivée' None %}
+    {{ block.super }}
+{% endblock %}
+
+{% load bootstrap %}
+{% block content_adherant %}
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Ajouter une variété cultivée</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <form action="{% url 's5appadherant:culture_new' jardin_id=jardin.id %}"
+                  method="POST"
+                  role="form"
+                  enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.variete|bootstrap }}
+                {{ form.type_conservation|bootstrap }}
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary pull-right">
+                        <i class="fa fa-check"></i>
+                        &nbsp;Ajouter
+                    </button>
+                    <a class="pull-right" href="{% url 's5appadherant:jardin_detail' jardin_id=jardin.id %}">Retour au jardin</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
