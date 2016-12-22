@@ -23,8 +23,7 @@
                   role="form"
                   enctype="multipart/form-data">
                 {% csrf_token %}
-                {{ form.variete|bootstrap }}
-                {{ form.type_conservation|bootstrap }}
+                {{ form|bootstrap }}
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary pull-right">
                         <i class="fa fa-check"></i>
