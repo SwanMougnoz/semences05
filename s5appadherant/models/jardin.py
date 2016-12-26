@@ -13,3 +13,7 @@ class Jardin(models.Model):
     mise_en_culture = models.IntegerField()
     description = models.TextField()
     superficie = models.FloatField()
+
+    def __str__(self):
+        return self.appelation
+

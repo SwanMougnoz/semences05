@@ -31,6 +31,9 @@
             {% block content %}{% endblock %}
         </div>
     </div>
-    {% block js %}{% endblock %}
+    {% block js %}
+        <script type="text/javascript" src="{% static 'jquery/dist/jquery.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'bootstrap-sass/assets/javascripts/bootstrap.min.js' %}"></script>
+    {% endblock %}
 </body>
 </html>

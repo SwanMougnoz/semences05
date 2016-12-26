@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import locale
+
 from django.contrib.auth.models import AnonymousUser
 from django.core.paginator import Page
 from django.core.urlresolvers import reverse, resolve
@@ -66,7 +68,7 @@ class JardinListTest(TestCase, AssertHTMLMixin):
 
 class JardinDetailTest(TestCase, AssertHTMLMixin):
 
-    fixtures = ['jardin']
+    fixtures = ['culture']
 
     def setUp(self):
         self.factory = RequestFactory()
@@ -95,7 +97,18 @@ class JardinDetailTest(TestCase, AssertHTMLMixin):
         self.assertContains(response, '%s m²' % str(jardin.superficie).replace('.', ','))
         self.assertContains(response, jardin.irrigation)
         self.assertContains(response, jardin.mise_en_culture)
-        # self.assertContains(response, jardin.description)
+        # todo self.assertContains(response, jardin.description)
+
+        for culture in jardin.culture_set.all():
+            self.assertContains(response, culture.variete.nom)
+            self.assertContains(response, culture.type_conservation)
+            # todo self.assertContains(response, culture.date_debut.strftime('%d %b %Y'))
+
+            variete_url = reverse('s5appadherant:variete_detail', kwargs={
+                'variete_id': culture.variete.id
+            })
+            with self.assertHTML(response, "a[href='%s']" % variete_url):
+                pass
 
         # Le document doit contenir un lien vers la page d'édition de ce jardin
         edit_url = reverse('s5appadherant:jardin_edit', kwargs={
