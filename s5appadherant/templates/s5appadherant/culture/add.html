@@ -9,7 +9,14 @@
     {{ block.super }}
 {% endblock %}
 
+{% load static %}
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 's5appadherant/js/culture-add.js' %}"></script>
+{% endblock %}
+
 {% load bootstrap %}
+{% load widget_tweaks %}
 {% block content_adherant %}
     <div class="row">
         <div class="col-md-12">
@@ -17,13 +24,37 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-7">
             <form action="{% url 's5appadherant:culture_new' jardin_id=jardin.id %}"
                   method="POST"
                   role="form"
-                  enctype="multipart/form-data">
+                  enctype="multipart/form-data"
+                  class="new-culture-form">
                 {% csrf_token %}
-                {{ form|bootstrap }}
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger alert-dismissable">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+                {{ form.type_conservation|bootstrap }}
+                <strong>{{ form.variete.label }}</strong>
+                <div class="form-group">
+                    <div class="input-group">
+                        {{ form.variete|add_class:"form-control" }}
+                        <span class="input-group-btn">
+                            <button id="add-variete-btn" type="button" class="btn btn-default">
+                                <i class="fa fa-pencil-square-o"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <div id="add-variete-fields" class="well hidden">
+                    {{ form.variete_nom|bootstrap }}
+                    {{ form.variete_description|bootstrap }}
+                    {{ form.variete_photo|bootstrap }}
+                </div>
+                {{ form.mode_selection }}
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary pull-right">
                         <i class="fa fa-check"></i>
