@@ -40,7 +40,8 @@ PREREQ_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'django_bootstrap_breadcrumbs',
-    'widget_tweaks'
+    'widget_tweaks',
+    'compressor'
 ]
 
 PROJECT_APPS = [
@@ -145,7 +146,8 @@ STATICFILES_DIRS = [
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'djangobower.finders.BowerFinder'
+    'djangobower.finders.BowerFinder',
+    'compressor.finders.CompressorFinder'
 ]
 
 BOWER_COMPONENTS_ROOT = os.path.join(PROJECT_DIR, 'frontend')
@@ -162,4 +164,5 @@ MEDIA_URL = '/media/'
 CKEDITOR_UPLOAD_PATH = 'ckeditor_uploads/'
 CKEDITOR_IMAGE_BACKEND = 'pillow'
 
-
+COMPRESS_ROOT = os.path.join(PROJECT_DIR, 'var/assets')
+COMPRESS_URL = '/static/'
