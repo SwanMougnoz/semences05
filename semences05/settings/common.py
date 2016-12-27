@@ -165,4 +165,4 @@ CKEDITOR_UPLOAD_PATH = 'ckeditor_uploads/'
 CKEDITOR_IMAGE_BACKEND = 'pillow'
 
 COMPRESS_ROOT = os.path.join(PROJECT_DIR, 'var/assets')
-COMPRESS_URL = '/static/'
+COMPRESS_URL = STATIC_URL
