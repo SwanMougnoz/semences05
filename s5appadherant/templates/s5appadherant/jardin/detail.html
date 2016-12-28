@@ -14,14 +14,11 @@
     <link rel="stylesheet" href="{% static 'leaflet/dist/leaflet.css' %}">
 {% endblock %}
 
-
 {% block js %}
-    {{ block.super }}
     <script type="text/javascript" src="{% static 'leaflet/dist/leaflet.js' %}"></script>
     <script type="text/javascript" src="{% static 's5appadherant/js/jardin-detail-map.js' %}"></script>
 {% endblock %}
 
-{% load static %}
 {% load table_tags %}
 {% block content_adherant %}
     <div class="row">
@@ -97,5 +94,4 @@
             <h3>Variétés récoltées</h3>
         </div>
     </div>
-
 {% endblock %}
