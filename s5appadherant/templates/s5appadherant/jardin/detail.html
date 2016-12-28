@@ -22,6 +22,7 @@
 {% endblock %}
 
 {% load static %}
+{% load table_tags %}
 {% block content_adherant %}
     <div class="row">
         <div class="col-md-12">
@@ -82,36 +83,7 @@
              <div class="row">
                 <div class="col-md-12">
                     <h3>Variétés cultivées</h3>
-                    <table class="table table-bordered table-hover s5-table">
-                        <thead>
-                            <tr>
-                                <th>Photo</th>
-                                <th>Appelation</th>
-                                <th>Cultivée depuis</th>
-                                <th>Type de conservation</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for culture in jardin.culture_set.all %}
-                                <tr>
-                                    <td>
-                                        {% if culture.variete.photo %}
-                                            <img src="{{ culture.variete.photo.url }}" alt="{{ culture.variete.appelation }}" class="img-responsive">
-                                        {% else %}
-                                            <img src="{% static 's5appadherant/images/no_image.png' %}" alt="{{ culture.variete.appelation }}" class="img-responsive">
-                                        {% endif %}
-                                    </td>
-                                    <td>{{ culture.variete.nom }}</td>
-                                    <td>{{ culture.date_debut|date:"d M Y" }}</td>
-                                    <td>{{ culture.type_conservation }}</td>
-                                    <td>
-                                        <a href="{% url 's5appadherant:variete_detail' variete_id=culture.variete.id %}">Fiche variété</a>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                    {% render_table culture_table %}
                 </div>
                 <div class="col-md-12">
                     <a href="{% url 's5appadherant:culture_new' jardin_id=jardin.id %}" class="btn btn-primary pull-right">
