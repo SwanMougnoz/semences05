@@ -7,8 +7,11 @@ from table.utils import A
 from table.columns import Link
 from table.columns import Column, DatetimeColumn, LinkColumn
 
+from s5appadherant.tables.columns import ImageColumn
+
 
 class CultureTable(Table):
+    photo = ImageColumn(field='variete.photo', header='Photo')
     appelation = Column(field='variete.nom', header='Appelation')
     date_debut = DatetimeColumn(field='date_debut', header='Cultivée depuis')
     type_conservation = Column(field='type_conservation', header='Type de conservation')
@@ -32,3 +35,4 @@ class CultureTable(Table):
     class Meta:
         ajax = True
         model = Culture
+        attrs = {'class': 's5-table'}
