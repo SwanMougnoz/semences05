@@ -11,11 +11,12 @@ from s5appadherant.tables.columns import ImageColumn
 
 
 class CultureTable(Table):
-    photo = ImageColumn(field='variete.photo', header='Photo')
+    photo = ImageColumn(field='variete.photo', header='Photo', sortable=False)
     appelation = Column(field='variete.nom', header='Appelation')
     date_debut = DatetimeColumn(field='date_debut', header='Cultivée depuis')
     type_conservation = Column(field='type_conservation', header='Type de conservation')
     action = LinkColumn(header='Action',
+                        sortable=False,
                         links=[Link(
                             text='Fiche variété',
                             viewname='s5appadherant:variete_detail',
@@ -31,8 +32,13 @@ class CultureTable(Table):
         self.opts.ajax_source = reverse_lazy('s5appadherant:culture_data', kwargs={
             'jardin_id': jardin.id
         })
+        self.opts.page_length = 5
 
     class Meta:
+        search = False
+        pagination_next = 'Suivant'
+        pagination_prev = 'Précédent'
+        zero_records = "Aucune variété n'est cultivée dans ce jardin"
         ajax = True
         model = Culture
-        attrs = {'class': 's5-table'}
+        attrs = {'class': 's5-table table-bordered table-hover table-striped'}
