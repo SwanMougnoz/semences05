@@ -41,7 +41,8 @@ PREREQ_APPS = [
     'ckeditor_uploader',
     'django_bootstrap_breadcrumbs',
     'widget_tweaks',
-    'compressor'
+    'compressor',
+    'table'
 ]
 
 PROJECT_APPS = [
