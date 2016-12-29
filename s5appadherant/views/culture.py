@@ -4,9 +4,20 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseNotFound
 from django.shortcuts import redirect
 from django.views.generic import TemplateView
+from table.views import FeedDataView
 
 from s5appadherant.forms.culture import CultureForm
 from s5appadherant.models import Culture, Jardin
+from s5appadherant.tables.culture import CultureTable
+
+
+class CultureDataView(FeedDataView):
+    token = CultureTable.token
+
+    def get_queryset(self):
+        jardin_id = self.kwargs.get('jardin_id')
+        jardin = Jardin.objects.get(pk=jardin_id)
+        return Culture.objects.filter(jardin=jardin)
 
 
 class CultureAddView(LoginRequiredMixin, TemplateView):

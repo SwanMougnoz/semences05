@@ -10,7 +10,8 @@ from django.views.generic import ListView, TemplateView
 from django.views.generic import UpdateView
 
 from s5appadherant.forms.jardin import JardinForm
-from s5appadherant.models import Jardin, Adherant
+from s5appadherant.models import Jardin, Adherant, Culture
+from s5appadherant.tables.culture import CultureTable
 
 
 class JardinListView(LoginRequiredMixin, ListView):
@@ -46,8 +47,11 @@ class JardinDetailView(LoginRequiredMixin, TemplateView):
         if jardin.proprietaire != adherant:
             return HttpResponseForbidden()
 
+        culture_table = CultureTable(jardin=jardin)
+
         return self.render_to_response({
             'jardin': jardin,
+            'culture_table': culture_table,
             'menu_actif': 'jardin',
             'titre_page': u'Jardin - %s' % jardin.appelation
         })

@@ -8,13 +8,19 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{ titre_page }}</title>
     {% compress css %}
         {% block stylesheet %}
             <link rel="stylesheet" href="{% static 'font-awesome/css/font-awesome.css' %}">
             <link rel="stylesheet" href="{% static 'screen.css' %}">
         {% endblock %}
     {% endcompress %}
-    <title>{{ titre_page }}</title>
+    {% compress js %}
+        {% block head_js %}
+            <script type="text/javascript" src="{% static 'jquery/dist/jquery.min.js' %}"></script>
+            <script type="text/javascript" src="{% static 'bootstrap-sass/assets/javascripts/bootstrap.min.js' %}"></script>
+        {% endblock %}
+    {% endcompress %}
 </head>
 <body class="context-adherant">
     {% block auth_widget %}
@@ -35,10 +41,7 @@
         </div>
     </div>
     {% compress js %}
-        {% block js %}
-            <script type="text/javascript" src="{% static 'jquery/dist/jquery.min.js' %}"></script>
-            <script type="text/javascript" src="{% static 'bootstrap-sass/assets/javascripts/bootstrap.min.js' %}"></script>
-        {% endblock %}
+        {% block js %}{% endblock %}
     {% endcompress %}
 </body>
 </html>
