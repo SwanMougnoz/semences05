@@ -18,7 +18,24 @@ class Jardin(models.Model):
         return self.appelation
 
 
+class EntretientQuerySet(models.query.QuerySet):
+    def accepte(self):
+        return self.filter(accepte=True)
+
+
+class EntretientManager(models.Manager):
+    use_for_related_fields = True
+
+    def get_queryset(self):
+        return EntretientQuerySet(self.model)
+
+    def accepte(self):
+        return self.get_queryset().accepte()
+
+
 class Entretient(models.Model):
     jardin = models.ForeignKey(Jardin, on_delete=models.CASCADE)
     adherant = models.ForeignKey(Adherant, on_delete=models.CASCADE)
     accepte = models.BooleanField(default=False)
+
+    objects = EntretientManager()
