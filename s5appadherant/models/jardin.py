@@ -17,3 +17,8 @@ class Jardin(models.Model):
     def __str__(self):
         return self.appelation
 
+
+class Entretient(models.Model):
+    jardin = models.ForeignKey(Jardin, on_delete=models.CASCADE)
+    adherant = models.ForeignKey(Adherant, on_delete=models.CASCADE)
+    accepte = models.BooleanField(default=False)
