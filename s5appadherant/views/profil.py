@@ -7,6 +7,19 @@ from s5appadherant.forms.adherant import UserForm, AdherantForm
 from s5appadherant.models import Adherant
 
 
+class ProfilDetailView(LoginRequiredMixin, TemplateView):
+    template_name = 's5appadherant/profil/detail.html'
+
+    def get(self, request, *args, **kwargs):
+        adherant = Adherant.objects.get_from_user(request.user)
+
+        return self.render_to_response({
+            'adherant': adherant,
+            'menu_actif': 'profil',
+            'titre_page': 'Profil'
+        })
+
+
 class ProfilEditView(LoginRequiredMixin, TemplateView):
     template_name = 's5appadherant/profil/edit.html'
 
@@ -19,7 +32,7 @@ class ProfilEditView(LoginRequiredMixin, TemplateView):
         return self.render_to_response({
             'user_form': user_form,
             'adherant_form': adherant_form,
-            'menu_actif': 'accueil',
+            'menu_actif': 'profil',
             'titre_page': u'Éditer mon profil'
         })
 
@@ -35,11 +48,11 @@ class ProfilEditView(LoginRequiredMixin, TemplateView):
             adherant.user = user
             adherant.save()
 
-            return redirect('s5appadherant:accueil')
+            return redirect('s5appadherant:profil_detail')
 
         return self.render_to_response({
             'user_form': user_form,
             'adherant_form': adherant_form,
-            'menu_actif': 'accueil',
+            'menu_actif': 'profil',
             'titre_page': u'Éditer mon profil'
         })

@@ -7,6 +7,7 @@ urlpatterns = [
     url(r'^$', accueil.AccueilView.as_view(), name='accueil'),
     url(r'^login/$', login.LoginView.as_view(), name='login'),
     url(r'^logout/$', login.LogoutView.as_view(), name='logout'),
+    url(r'^profil/$', profil.ProfilDetailView.as_view(), name='profil_detail'),
     url(r'^profil/edit$', profil.ProfilEditView.as_view(), name='profil_edit'),
     url(r'^varietes/$', variete.VarieteListView.as_view(), name='variete_list'),
     url(r'^varietes/(?P<variete_id>[0-9]+)/$', variete.VarieteDetailView.as_view(), name='variete_detail'),

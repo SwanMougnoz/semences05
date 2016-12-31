@@ -1,0 +1,61 @@
+{% extends 's5appadherant/layout_adherant.html' %}
+
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+    {% breadcrumb 'Accueil' 's5appadherant:accueil' %}
+    {% breadcrumb 'Profil' None %}
+    {{ block.super }}
+{% endblock %}
+
+{% block content_adherant %}
+    <div class="row">
+        <div class="col-md-12">
+            <h2>{{ adherant.user.first_name }} {{ adherant.user.last_name }}</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <table>
+                <tr>
+                    <td>Professionnel :</td>
+                    <td>
+                        {% if adherant.est_professionnel %}
+                            Oui
+                        {% else %}
+                            Non
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Expérience :</td>
+                    <td>{{ adherant.get_experience_display }}</td>
+                </tr>
+            </table>
+            <p>
+                <a href="{% url 's5appadherant:profil_edit' %}" class="btn btn-xs btn-default">
+                    <i class="fa fa-pencil"></i>
+                    &nbsp;Éditer mes informations
+                </a>
+            </p>
+        </div>
+        <div class="col-md-4">
+            <div class="well">
+                <h4>Me contacter</h4>
+                <p>
+                    <strong>
+                        <i class="fa fa-phone"></i>
+                        Téléphone :
+                    </strong>
+                    {{ adherant.telephone }}
+                </p>
+                <p>
+                    <strong>
+                        <i class="fa fa-envelope"></i>
+                        Email :
+                    </strong>
+                    <a href="mailto:{{ adherant.user.email }}">{{ adherant.user.email }}</a>
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
