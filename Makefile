@@ -1,28 +1,45 @@
 SHELL=/bin/bash
 
-all:
+ifeq ($(PROD),true)
+    SCRIPT = DJANGO_SETTINGS_MODULE=semences05.settings.prod python manage.py
+    PIP = pip
+else
+    SCRIPT = ./dev
+    PIP = venv/bin/pip
+endif
 
 clean:
 	rm -rf ./var
 
 env:
-	virtualenv -p python venv
-	venv/bin/pip install --upgrade pip setuptools
-	venv/bin/pip install --upgrade -r requirements.txt
-	venv/bin/pip install -e .
+    ifneq ($(PROD),true)
+		virtualenv -p python venv
+    endif
+	$(PIP) install --upgrade pip setuptools
+	$(PIP) install --upgrade -r requirements.txt
+	$(PIP) install -e .
 	mkdir -p var
 
 server:
-	./dev runserver 0.0.0.0:8000
+	$(SCRIPT) runserver 0.0.0.0:8000
 
 db:
-	./dev makemigrations
-	./dev makemigrations s5vitrine
-	./dev makemigrations s5appadherant
-	./dev migrate
+	$(SCRIPT) makemigrations
+	$(SCRIPT) makemigrations s5vitrine
+	$(SCRIPT) makemigrations s5appadherant
+	$(SCRIPT) migrate
 
 tests:
-	./dev test
+	$(SCRIPT) test
+
+bower:
+	$(SCRIPT) bower install
+
+clean_bytescode:
+	find -name "*.pyc" -not -path "./venv/*" | xargs rm
+
+static:
+	$(SCRIPT) collectstatic
 
 cleanenv: clean env
 
