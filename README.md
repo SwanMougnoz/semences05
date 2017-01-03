@@ -5,7 +5,7 @@
 ### Dépendances
 
 Installer les paquets :
-`sudo apt-get install python-dev python-pip mysql-server python-mysqldb libmysqlclient-dev libxml2 libxml2-dev libxslt1-dev ruby-full`
+`sudo apt-get install python-dev python-pip mysql-server python-mysqldb libmysqlclient-dev libxml2 libxml2-dev libxslt1-dev ruby-full libjpeg62 libjpeg8-dev python-lxml`
 
 Installer nodejs et bower : [https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions]()
 `curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -`
