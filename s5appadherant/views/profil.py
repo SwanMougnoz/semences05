@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import HttpResponseNotFound
 from django.shortcuts import redirect
 from django.views.generic import TemplateView
 
@@ -11,7 +13,15 @@ class ProfilDetailView(LoginRequiredMixin, TemplateView):
     template_name = 's5appadherant/profil/detail.html'
 
     def get(self, request, *args, **kwargs):
-        adherant = Adherant.objects.get_from_user(request.user)
+        adherant_id = kwargs.get('adherant_id')
+
+        if adherant_id is None:
+            adherant = Adherant.objects.get_from_user(request.user)
+        else:
+            try:
+                adherant = Adherant.objects.get(pk=adherant_id)
+            except ObjectDoesNotExist:
+                return HttpResponseNotFound("<h1>La page demandee n'existe pas</h1>")
 
         return self.render_to_response({
             'adherant': adherant,
@@ -48,7 +58,7 @@ class ProfilEditView(LoginRequiredMixin, TemplateView):
             adherant.user = user
             adherant.save()
 
-            return redirect('s5appadherant:profil_detail')
+            return redirect('s5appadherant:profil_current')
 
         return self.render_to_response({
             'user_form': user_form,

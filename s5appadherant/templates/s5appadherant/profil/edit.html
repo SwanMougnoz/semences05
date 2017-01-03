@@ -3,7 +3,7 @@
 {% load django_bootstrap_breadcrumbs %}
 {% block breadcrumbs %}
     {% breadcrumb 'Accueil' 's5appadherant:accueil' %}
-    {% breadcrumb 'Profil' 's5appadherant:profil_detail' %}
+    {% breadcrumb 'Profil' 's5appadherant:profil_current' %}
     {% breadcrumb 'Éditer mon profil' None %}
     {{ block.super }}
 {% endblock %}
@@ -29,7 +29,7 @@
                         <i class="fa fa-check"></i>
                         &nbsp;Envoyer
                     </button>
-                    <a class="pull-right" href="{% url 's5appadherant:profil_detail' %}">Retour à mon profil</a>
+                    <a class="pull-right" href="{% url 's5appadherant:profil_current' %}">Retour à mon profil</a>
                 </div>
             </form>
         </div>

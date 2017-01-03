@@ -3,7 +3,13 @@
 {% load django_bootstrap_breadcrumbs %}
 {% block breadcrumbs %}
     {% breadcrumb 'Accueil' 's5appadherant:accueil' %}
-    {% breadcrumb 'Profil' None %}
+    {% if adherant.user == request.user %}
+        {% breadcrumb 'Mon profil' None %}
+    {% else %}
+        {% with "Profil de "|add:adherant.user.first_name|add:" "|add:adherant.user.last_name as label %}
+            {% breadcrumb label None %}
+        {% endwith %}
+    {% endif %}
     {{ block.super }}
 {% endblock %}
 
@@ -31,12 +37,14 @@
                     <td>{{ adherant.get_experience_display }}</td>
                 </tr>
             </table>
-            <p>
-                <a href="{% url 's5appadherant:profil_edit' %}" class="btn btn-xs btn-default">
-                    <i class="fa fa-pencil"></i>
-                    &nbsp;Éditer mes informations
-                </a>
-            </p>
+            {% if adherant.user == request.user %}
+                <p>
+                    <a href="{% url 's5appadherant:profil_edit' %}" class="btn btn-xs btn-default">
+                        <i class="fa fa-pencil"></i>
+                        &nbsp;Éditer mes informations
+                    </a>
+                </p>
+            {% endif %}
         </div>
         <div class="col-md-4">
             <div class="well">
