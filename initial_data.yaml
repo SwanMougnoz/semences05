@@ -1,0 +1,19 @@
+- model: s5vitrine.pagegenerique
+  pk: 1
+  fields: {viewname: 's5vitrine:accueil', params: null}
+- model: s5vitrine.pagegenerique
+  pk: 2
+  fields: {viewname: 's5vitrine:contact', params: null}
+- model: s5vitrine.pagegenerique
+  pk: 3
+  fields: {viewname: 's5vitrine:variete_list', params: null}
+- model: s5vitrine.menuitem
+  pk: accueil
+  fields: {libelle: Accueil, position: 1, actif: true, _page_contenu: null, _page_generique: 1}
+- model: s5vitrine.menuitem
+  pk: contact
+  fields: {libelle: Contact, position: 3, actif: true, _page_contenu: null, _page_generique: 2}
+- model: s5vitrine.menuitem
+  pk: variete_list
+  fields: {libelle: "Les vari\xE9t\xE9s conserv\xE9es", position: 4, actif: true,
+    _page_contenu: null, _page_generique: 3}
