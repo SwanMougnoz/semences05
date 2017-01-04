@@ -36,6 +36,7 @@ Charger les dépendances python :
 
 Charger la base :
 `make db`
+`make db_initial`
 
 Charger les dépendances javascript:
 `make bower`
@@ -61,3 +62,5 @@ En mode prod, collecter les fichiers statiques :
 `clean_bytescode` : Supprime les fichiers bytescode python
 
 `static` : Appelle collectstatic du manage.py
+
+`db_initial` : Peuple la base avec les données de base après install

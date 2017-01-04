@@ -29,6 +29,9 @@ db:
 	$(SCRIPT) makemigrations s5appadherant
 	$(SCRIPT) migrate
 
+db_initial:
+	$(script) loaddata initial_data.yaml
+
 tests:
 	$(SCRIPT) test
 
