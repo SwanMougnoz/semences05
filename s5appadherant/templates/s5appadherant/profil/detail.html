@@ -13,6 +13,7 @@
     {{ block.super }}
 {% endblock %}
 
+{% load table_tags %}
 {% block content_adherant %}
     <div class="row">
         <div class="col-md-12">
@@ -64,6 +65,10 @@
                     <a href="mailto:{{ adherant.user.email }}">{{ adherant.user.email }}</a>
                 </p>
             </div>
+        </div>
+        <div class="col-md-12">
+            <h3>Jardins cultivés</h3>
+            {% render_table jardin_table %}
         </div>
     </div>
 {% endblock %}

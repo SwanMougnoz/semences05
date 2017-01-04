@@ -4,9 +4,11 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseNotFound
 from django.shortcuts import redirect
 from django.views.generic import TemplateView
+from table.views import FeedDataView
 
 from s5appadherant.forms.adherant import UserForm, AdherantForm
-from s5appadherant.models import Adherant
+from s5appadherant.models import Adherant, Jardin
+from tables.jardin import ProfilJardinTable
 
 
 class ProfilDetailView(LoginRequiredMixin, TemplateView):
@@ -23,8 +25,11 @@ class ProfilDetailView(LoginRequiredMixin, TemplateView):
             except ObjectDoesNotExist:
                 return HttpResponseNotFound("<h1>La page demandee n'existe pas</h1>")
 
+        jardin_table = ProfilJardinTable(adherant=adherant)
+
         return self.render_to_response({
             'adherant': adherant,
+            'jardin_table': jardin_table,
             'menu_actif': 'profil',
             'titre_page': 'Profil'
         })
@@ -66,3 +71,12 @@ class ProfilEditView(LoginRequiredMixin, TemplateView):
             'menu_actif': 'profil',
             'titre_page': u'Éditer mon profil'
         })
+
+
+class ProfilJardinDataView(FeedDataView):
+    token = ProfilJardinTable.token
+
+    def get_queryset(self):
+        adherant_id = self.kwargs.get('adherant_id')
+        adherant = Adherant.objects.get(pk=adherant_id)
+        return Jardin.objects.filter(proprietaire=adherant)
