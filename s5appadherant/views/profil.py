@@ -6,6 +6,7 @@ from django.shortcuts import redirect
 from django.views.generic import TemplateView
 from table.views import FeedDataView
 
+from forms.adresse import AdresseForm
 from s5appadherant.forms.adherant import UserForm, AdherantForm
 from s5appadherant.models import Adherant, Jardin
 from tables.jardin import ProfilJardinTable
@@ -43,10 +44,12 @@ class ProfilEditView(LoginRequiredMixin, TemplateView):
 
         user_form = UserForm(prefix='user', instance=request.user)
         adherant_form = AdherantForm(prefix='adherant', instance=adherant)
+        adresse_form = AdresseForm(prefix='adresse', instance=adherant.adresse)
 
         return self.render_to_response({
             'user_form': user_form,
             'adherant_form': adherant_form,
+            'adresse_form': adresse_form,
             'menu_actif': 'profil',
             'titre_page': u'Éditer mon profil'
         })
@@ -56,11 +59,14 @@ class ProfilEditView(LoginRequiredMixin, TemplateView):
 
         user_form = UserForm(request.POST, prefix='user', instance=request.user)
         adherant_form = AdherantForm(request.POST, prefix='adherant', instance=adherant)
+        adresse_form = AdresseForm(request.POST, prefix='adresse', instance=adherant.adresse)
 
-        if user_form.is_valid() * adherant_form.is_valid():
+        if user_form.is_valid() * adherant_form.is_valid() * adresse_form.is_valid():
             user = user_form.save()
+            adresse = adresse_form.save()
             adherant = adherant_form.save(commit=False)
             adherant.user = user
+            adherant.adresse = adresse
             adherant.save()
 
             return redirect('s5appadherant:profil_current')
@@ -68,6 +74,7 @@ class ProfilEditView(LoginRequiredMixin, TemplateView):
         return self.render_to_response({
             'user_form': user_form,
             'adherant_form': adherant_form,
+            'adresse_form': adresse_form,
             'menu_actif': 'profil',
             'titre_page': u'Éditer mon profil'
         })

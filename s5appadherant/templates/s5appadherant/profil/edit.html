@@ -16,14 +16,29 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-7">
             <form action="{% url 's5appadherant:profil_edit'%}"
                   method="POST"
                   role="form"
                   enctype="multipart/form-data">
                 {% csrf_token %}
-                {{ user_form|bootstrap }}
-                {{ adherant_form|bootstrap }}
+                <div class="col-md-6">
+                    <div class="well">
+                        <h3>Informations</h3>
+                        {{ user_form.username|bootstrap }}
+                        {{ user_form.first_name|bootstrap }}
+                        {{ user_form.last_name|bootstrap }}
+                        {{ adherant_form.est_professionnel|bootstrap }}
+                        {{ adherant_form.experience|bootstrap }}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="well">
+                        <h3>Coordonnées</h3>
+                        {{ adresse_form|bootstrap }}
+                        {{ user_form.email|bootstrap }}
+                        {{ adherant_form.telephone|bootstrap }}
+                    </div>
+                </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary pull-right">
                         <i class="fa fa-check"></i>
@@ -32,6 +47,5 @@
                     <a class="pull-right" href="{% url 's5appadherant:profil_current' %}">Retour à mon profil</a>
                 </div>
             </form>
-        </div>
     </div>
 {% endblock %}
