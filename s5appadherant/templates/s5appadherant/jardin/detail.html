@@ -125,7 +125,7 @@
                         {% elif current_adherant not in cultivateurs_all %}
                             <p class="alert alert-info">
                                 Vous participez à la culture de ce jardin ? Vous pouvez faire une demande d'ajout en tant que cultivateur :
-                                <a href="{% url 's5appadherant:entretient_request' jardin_id=jardin.id %}"
+                                <a href="{% url 's5appadherant:cultivateur_request' jardin_id=jardin.id %}"
                                    class="btn btn-xs btn-default pull-right">
                                     <i class="fa fa-plus-circle"></i>
                                     Faire une demande

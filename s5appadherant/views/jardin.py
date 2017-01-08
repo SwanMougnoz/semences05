@@ -1,16 +1,15 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseNotFound
 from django.http import HttpResponseRedirect
-from django.shortcuts import redirect
 from django.views.generic import CreateView
 from django.views.generic import ListView, TemplateView
 from django.views.generic import UpdateView
 
 from s5appadherant.forms.jardin import JardinForm
-from s5appadherant.models import Jardin, Adherant, Entretient
+from s5appadherant.models import Jardin, Adherant
 from s5appadherant.tables.culture import CultureTable
 
 
@@ -45,9 +44,9 @@ class JardinDetailView(LoginRequiredMixin, TemplateView):
 
         culture_table = CultureTable(jardin=jardin)
 
-        qs = jardin.entretient_set.all()
-        cultivateurs_all = [entretient.adherant for entretient in qs]
-        cultivateurs_acceptes = [entretient.adherant for entretient in qs.filter(accepte=True)]
+        qs = jardin.cultivateur_set.all()
+        cultivateurs_all = [cultivateur.adherant for cultivateur in qs]
+        cultivateurs_acceptes = [cultivateur.adherant for cultivateur in qs.filter(accepte=True)]
 
         return self.render_to_response({
             'jardin': jardin,
@@ -108,69 +107,3 @@ class JardinEditView(LoginRequiredMixin, UpdateView):
 
         return HttpResponseRedirect(self.get_success_url())
 
-
-class EntretientConfirmationView(LoginRequiredMixin, TemplateView):
-    template_name = 's5appadherant/jardin/entretient_confirmation.html'
-
-    def get(self, request, *args, **kwargs):
-        return self.render_to_response({
-            'jardin_id': kwargs.get('jardin_id'),
-            'titre_page': u"Demande prise en compte",
-            'menu_actif': 'jardin'
-        })
-
-
-class JardinEntretientRequestView(LoginRequiredMixin, TemplateView):
-    template_name = 's5appadherant/jardin/entretient_request.html'
-
-    @staticmethod
-    def _validate(jardin, adherant):
-        if jardin.proprietaire == adherant:
-            raise PermissionDenied("Vous proprietaire de ce jardin")
-
-        qs = jardin.entretient_set.all()
-        cultivateurs = [entretient.adherant for entretient in qs]
-
-        if adherant in cultivateurs:
-            acceptes = [entretient.adherant for entretient in qs.filter(accepte=True)]
-            if adherant in acceptes:
-                raise PermissionDenied("Vous cultivez déjà ce jardin")
-            raise PermissionDenied("Vous avez déjà effectué une demande pour cultiver ce jardin. Celle-ci doit être accepté par le proprietaire")
-
-    def get(self, request, *args, **kwargs):
-        adherant = Adherant.objects.get_from_user(request.user)
-        jardin_id = kwargs.get('jardin_id')
-
-        try:
-            jardin = Jardin.objects.get(pk=jardin_id)
-        except ObjectDoesNotExist:
-            return HttpResponseNotFound("<h1>La page demandee n'existe pas</h1>")
-
-        JardinEntretientRequestView._validate(jardin, adherant)
-
-        return self.render_to_response({
-            'jardin': jardin,
-            'titre_page': u"Demande d'entretient pour %s" % jardin.appelation,
-            'menu_actif': 'jardin'
-        })
-
-    def post(self, request, *args, **kwargs):
-        adherant = Adherant.objects.get_from_user(request.user)
-        jardin_id = kwargs.get('jardin_id')
-
-        try:
-            jardin = Jardin.objects.get(pk=jardin_id)
-        except ObjectDoesNotExist:
-            return HttpResponseNotFound("<h1>La page demandee n'existe pas</h1>")
-
-        JardinEntretientRequestView._validate(jardin, adherant)
-
-        entretient = Entretient()
-        entretient.adherant = adherant
-        entretient.jardin = jardin
-        entretient.accepte = False
-        entretient.save()
-
-        return redirect(reverse('s5appadherant:entretient_confirmation', kwargs={
-            'jardin_id': jardin_id
-        }))
