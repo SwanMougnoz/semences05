@@ -108,7 +108,7 @@
                             <ul>
                                 {% for cultivateur in cultivateurs %}
                                     <li>
-                                        <a href="{% url 's5appadherant:accueil' %}">
+                                        <a href="{% url 's5appadherant:profil_detail' adherant_id=cultivateur.id %}">
                                             <i class="fa fa-user"></i>
                                             {{ cultivateur.adherant.user.first_name }} {{ cultivateur.adherant.user.last_name }}
                                         </a>
