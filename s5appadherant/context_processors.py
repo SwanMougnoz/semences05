@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.models import AnonymousUser
 
-from models import Adherant
+from s5appadherant.models import Adherant
 
 
 def adherant(request):

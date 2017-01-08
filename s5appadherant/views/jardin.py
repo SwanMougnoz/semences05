@@ -19,13 +19,16 @@ class JardinListView(LoginRequiredMixin, ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        adherant = Adherant.objects.get_from_user(self.request.user)
-        return Jardin.objects.filter(proprietaire=adherant)
+        adherant_id = self.kwargs.get('adherant_id')
+        if adherant_id is not None:
+            return Jardin.objects.filter(proprietaire_id=adherant_id)
+        return Jardin.objects.all()
 
     def get_context_data(self, **kwargs):
         context = super(JardinListView, self).get_context_data(**kwargs)
         context.update({
             'jardins': context.get('page_obj'),
+            'all_jardins': self.kwargs.get('adherant_id') is None,
             'menu_actif': 'jardin',
             'titre_page': u"Mes jardins"
         })
@@ -64,7 +67,9 @@ class JardinAddView(LoginRequiredMixin, CreateView):
     model = Jardin
 
     def get_success_url(self):
-        return reverse('s5appadherant:jardin_list')
+        return reverse('s5appadherant:jardin_adherant', kwargs={
+            'adherant_id': self.request.user.adherant.id
+        })
 
     def get_context_data(self, **kwargs):
         context = super(JardinAddView, self).get_context_data(**kwargs)
@@ -89,7 +94,9 @@ class JardinEditView(LoginRequiredMixin, UpdateView):
     model = Jardin
 
     def get_success_url(self):
-        return reverse('s5appadherant:jardin_list')
+        return reverse('s5appadherant:jardin_adherant', kwargs={
+            'adherant_id': self.request.user.adherant.id
+        })
 
     def get_context_data(self, **kwargs):
         context = super(JardinEditView, self).get_context_data(**kwargs)

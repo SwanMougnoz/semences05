@@ -3,7 +3,7 @@
 {% load django_bootstrap_breadcrumbs %}
 {% block breadcrumbs %}
     {% breadcrumb 'Accueil' 's5appadherant:accueil' %}
-    {% breadcrumb 'Mes jardins' 's5appadherant:jardin_list' %}
+    {% breadcrumb 'Mes jardins' 's5appadherant:jardin_adherant' adherant_id=current_adherant.id %}
     {% breadcrumb jardin.appelation 's5appadherant:jardin_detail' jardin_id=jardin.id %}
     {% breadcrumb 'Ajouter une variété cultivée' None %}
     {{ block.super }}

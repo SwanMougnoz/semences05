@@ -3,7 +3,7 @@
 {% load django_bootstrap_breadcrumbs %}
 {% block breadcrumbs %}
     {% breadcrumb 'Accueil' 's5appadherant:accueil' %}
-    {% breadcrumb 'Mes jardins' 's5appadherant:jardin_list' %}
+    {% breadcrumb 'Mes jardins' 's5appadherant:jardin_adherant' adherant_id=current_adherant.id %}
     {% if jardin %}
         {% breadcrumb jardin.appelation 's5appadherant:jardin_detail' jardin_id=jardin.id %}
         {% breadcrumb "Édition" None %}
@@ -62,7 +62,11 @@
                     <i class="fa fa-check"></i>
                     &nbsp;Envoyer
                 </button>
-                <a class="pull-right" href="{% url 's5appadherant:jardin_list' %}">Retour à la liste</a>
+                {% if jardin %}
+                    <a class="pull-right" href="{% url 's5appadherant:jardin_detail' jardin_id=jardin.id %}">Retour au jardin</a>
+                {% else %}
+                    <a class="pull-right" href="{% url 's5appadherant:jardin_adherant' adherant_id=current_adherant.id %}">Retour à la liste</a>
+                {% endif %}
             </div>
         </form>
     </div>

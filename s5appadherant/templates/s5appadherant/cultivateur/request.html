@@ -3,7 +3,7 @@
 {% load django_bootstrap_breadcrumbs %}
 {% block breadcrumbs %}
     {% breadcrumb 'Accueil' 's5appadherant:accueil' %}
-    {% breadcrumb 'Jardins' 's5appadherant:jardin_list' %}
+    {% breadcrumb 'Tous les jardins' 's5appadherant:jardin_all' %}
     {% breadcrumb jardin.appelation 's5appadherant:jardin_detail' jardin_id=jardin.id %}
     {% breadcrumb 'Demande de participation à un jardin' None %}
     {{ block.super }}

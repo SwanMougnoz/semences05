@@ -18,7 +18,8 @@ urlpatterns = [
     url(r'^varietes/new/$', variete.VarieteAddView.as_view(), name='variete_new'),
     url(r'^varietes/edit/(?P<pk>[0-9]+)/$', variete.VarieteEditView.as_view(), name='variete_edit'),
 
-    url(r'^jardins/$', jardin.JardinListView.as_view(), name='jardin_list'),
+    url(r'^jardins/$', jardin.JardinListView.as_view(), name='jardin_all'),
+    url(r'^jardins/adherant/(?P<adherant_id>[0-9]+)/', jardin.JardinListView.as_view(), name='jardin_adherant'),
     url(r'^jardins/(?P<jardin_id>[0-9]+)/$', jardin.JardinDetailView.as_view(), name='jardin_detail'),
     url(r'^jardins/new/$', jardin.JardinAddView.as_view(), name='jardin_new'),
     url(r'^jardins/edit/(?P<pk>[0-9]+)/$', jardin.JardinEditView.as_view(), name='jardin_edit'),
