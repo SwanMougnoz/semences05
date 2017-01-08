@@ -24,5 +24,6 @@ urlpatterns = [
     url(r'^jardins/edit/(?P<pk>[0-9]+)/$', jardin.JardinEditView.as_view(), name='jardin_edit'),
     url(r'^jardins/(?P<jardin_id>[0-9]+)/cultures/new$', culture.CultureAddView.as_view(), name='culture_new'),
     url(r'^jardins/(?P<jardin_id>[0-9]+)/cultures/tabledata/$', culture.CultureDataView.as_view(), name='culture_data'),
-    url(r'^jardins/(?P<jardin_id>[0-9]+)/entretientrequest/$', jardin.JardinEntretientRequestView.as_view(), name='entretient_request')
+    url(r'^jardins/(?P<jardin_id>[0-9]+)/entretientrequest/$', jardin.JardinEntretientRequestView.as_view(), name='entretient_request'),
+    url(r'^jardins/(?P<jardin_id>[0-9]+)/entretientconfirmation/$', jardin.EntretientConfirmationView.as_view(), name='entretient_confirmation')
 ]
