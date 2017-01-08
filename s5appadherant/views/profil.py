@@ -6,10 +6,10 @@ from django.shortcuts import redirect
 from django.views.generic import TemplateView
 from table.views import FeedDataView
 
-from forms.adresse import AdresseForm
+from s5appadherant.forms.adresse import AdresseForm
 from s5appadherant.forms.adherant import UserForm, AdherantForm
 from s5appadherant.models import Adherant, Jardin
-from tables.jardin import ProfilJardinTable
+from s5appadherant.tables.jardin import ProfilJardinTable
 
 
 class ProfilDetailView(LoginRequiredMixin, TemplateView):
