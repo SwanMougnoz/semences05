@@ -43,15 +43,17 @@ class JardinDetailView(LoginRequiredMixin, TemplateView):
         except ObjectDoesNotExist:
             return HttpResponseNotFound("<h1>La page demandee n'existe pas</h1>")
 
-        adherant = Adherant.objects.get_from_user(request.user)
-        if jardin.proprietaire != adherant:
-            return HttpResponseForbidden()
-
         culture_table = CultureTable(jardin=jardin)
+
+        qs = jardin.entretient_set.all()
+        cultivateurs_all = [entretient.adherant for entretient in qs]
+        cultivateurs_acceptes = [entretient.adherant for entretient in qs.filter(accepte=True)]
 
         return self.render_to_response({
             'jardin': jardin,
             'culture_table': culture_table,
+            'cultivateurs_all': cultivateurs_all,
+            'cultivateurs_acceptes': cultivateurs_acceptes,
             'menu_actif': 'jardin',
             'titre_page': u'Jardin - %s' % jardin.appelation
         })
@@ -105,3 +107,37 @@ class JardinEditView(LoginRequiredMixin, UpdateView):
         jardin.save()
 
         return HttpResponseRedirect(self.get_success_url())
+
+
+class JardinEntretientRequestView(TemplateView):
+    template_name = 's5appadherant/jardin/entretient_request.html'
+
+    def get(self, request, *args, **kwargs):
+        adherant = Adherant.objects.get_from_user(request.user)
+        jardin_id = kwargs.get('jardin_id')
+
+        try:
+            jardin = Jardin.objects.get(pk=jardin_id)
+        except ObjectDoesNotExist:
+            return HttpResponseNotFound("<h1>La page demandee n'existe pas</h1>")
+
+        if jardin.proprietaire == adherant:
+            return HttpResponseForbidden("Vous proprietaire de ce jardin")
+
+        qs = jardin.entretient_set.all()
+        cultivateurs = [entretient.adherant for entretient in qs]
+
+        if adherant in cultivateurs:
+            acceptes = [entretient.adherant for entretient in qs.filter(accepte=True)]
+            if adherant in acceptes:
+                return HttpResponseForbidden("Vous cultivez déjà ce jardin")
+            return HttpResponseForbidden("Vous avez déjà effectué une demande pour cultiver ce jardin. Celle-ci doit être accepté par le proprietaire")
+
+        return self.render_to_response({
+            'jardin': jardin,
+            'titre_page': u"Demande d'entretient pour %s" % jardin.appelation,
+            'menu_actif': 'jardin'
+        })
+
+    def post(self, request):
+        pass

@@ -93,32 +93,48 @@
         <div class="col-md-12">
             <h3>Variétés récoltées</h3>
         </div>
-        {% with jardin.entretient_set.accepte as cultivateurs %}
-            {% if cultivateurs|length > 0 %}
+        <div class="col-md-12">
+            <div class="row">
                 <div class="col-md-12">
-                    <div class="row">
-                        <div class="col-md-12">
-                            {% if cultivateurs|length == 1 %}
-                                <h3>Une autre personne cultive ce jardin</h3>
-                            {% else %}
-                                <h3>{{ cultivateurs|length }} autres personnes cultivent ce jardin</h3>
-                            {% endif %}
-                        </div>
-                        <div class="col-md-12">
-                            <ul>
-                                {% for cultivateur in cultivateurs %}
-                                    <li>
-                                        <a href="{% url 's5appadherant:profil_detail' adherant_id=cultivateur.id %}">
-                                            <i class="fa fa-user"></i>
-                                            {{ cultivateur.adherant.user.first_name }} {{ cultivateur.adherant.user.last_name }}
-                                        </a>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    </div>
+                    {% if cultivateurs_acceptes|length == 0 %}
+                        <h3>Aucune autre personne ne cultive ce jardin</h3>
+                    {% elif cultivateurs_acceptes|length == 1 %}
+                        <h3>Une autre personne cultive ce jardin</h3>
+                    {% else %}
+                        <h3>{{ cultivateurs_acceptes|length }} autres personnes cultivent ce jardin</h3>
+                    {% endif %}
                 </div>
-            {% endif %}
-        {% endwith %}
+                <div class="col-md-12">
+                    <ul>
+                        {% for cultivateur in cultivateurs_acceptes %}
+                            <li>
+                                <a href="{% url 's5appadherant:profil_detail' adherant_id=cultivateur.id %}">
+                                    <i class="fa fa-user"></i>
+                                    {{ cultivateur.user.first_name }} {{ cultivateur.user.last_name }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    {% if current_adherant != jardin.proprietaire %}
+                        {% if current_adherant in cultivateurs_all and current_adherant not in cultivateurs_acceptes %}
+                            <p class="alert alert-warning">
+                                Vous avez déjà envoyé une demande participation à ce jardin.
+                                Si la demande n'aboutie pas, n'hésitez pas à prendre contact avec le proprietaire. Ses coordonnées sont présents sur sa
+                                <a href="{% url 's5appadherant:profil_detail' adherant_id=jardin.proprietaire.id %}">page de profil</a>
+                            </p>
+                        {% elif current_adherant not in cultivateurs_all %}
+                            <p class="alert alert-info">
+                                Vous participez à la culture de ce jardin ? Vous pouvez faire une demande d'ajout en tant que cultivateur :
+                                <a href="{% url 's5appadherant:entretient_request' jardin_id=jardin.id %}"
+                                   class="btn btn-xs btn-default pull-right">
+                                    <i class="fa fa-plus-circle"></i>
+                                    Faire une demande
+                                </a>
+                            </p>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
