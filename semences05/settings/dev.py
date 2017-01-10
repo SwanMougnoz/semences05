@@ -12,3 +12,7 @@ DATABASES = {
         'PORT': '3306',
     }
 }
+
+MAILS = {
+    'noreply': 'mougnoz.swan@gmail.com'
+}

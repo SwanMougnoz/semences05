@@ -7,6 +7,7 @@ from django.shortcuts import redirect
 from django.views.generic import TemplateView
 
 from s5appadherant.models import Adherant, Jardin, Cultivateur
+from services.mailer import MailFactory
 
 
 class CultivateurConfirmationView(LoginRequiredMixin, TemplateView):
@@ -70,6 +71,8 @@ class CultivateurRequestView(LoginRequiredMixin, TemplateView):
         cultivateur.jardin = jardin
         cultivateur.accepte = False
         cultivateur.save()
+
+        MailFactory.send('cultivateur_request', cultivateur=cultivateur)
 
         return redirect(reverse('s5appadherant:cultivateur_confirmation', kwargs={
             'jardin_id': jardin_id
