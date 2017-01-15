@@ -1,5 +1,7 @@
 SHELL=/bin/bash
 
+.PHONY: static
+
 ifeq ($(PROD),true)
     SCRIPT = DJANGO_SETTINGS_MODULE=semences05.settings.prod python manage.py
     PIP = pip

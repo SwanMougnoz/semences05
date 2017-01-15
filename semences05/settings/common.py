@@ -141,7 +141,7 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(PROJECT_DIR, 'frontend/sass/stylesheets'),
-    # os.path.join(APPADHERANT_DIR, 'static')
+    os.path.join(PROJECT_DIR, 'var/assets')
 ]
 
 STATICFILES_FINDERS = [
@@ -166,4 +166,3 @@ CKEDITOR_UPLOAD_PATH = 'ckeditor_uploads/'
 CKEDITOR_IMAGE_BACKEND = 'pillow'
 
 COMPRESS_ROOT = os.path.join(PROJECT_DIR, 'var/assets')
-COMPRESS_URL = STATIC_URL
