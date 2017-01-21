@@ -6,7 +6,7 @@ from s5vitrine.models.menuitem import Menuitem
 
 class ContactTest(TestCase):
 
-    fixtures = ['base']
+    fixtures = ['base_vitrine']
 
     def test_get(self):
         response = self.client.get('/contact/')

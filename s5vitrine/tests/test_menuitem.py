@@ -5,7 +5,7 @@ from s5vitrine.models.page import PageGenerique, PageContenu
 
 class MenuitemTest(TestCase):
 
-    fixtures = ['base']
+    fixtures = ['base_vitrine']
 
     def test_page_propertie(self):
         menuitem = Menuitem.objects.get(pk='contenu1')

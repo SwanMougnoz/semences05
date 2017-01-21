@@ -2,20 +2,19 @@
 from django.core.urlresolvers import reverse, resolve
 from django.test import RequestFactory
 from django.test import TestCase
+from django_dynamic_fixture import G
 from with_asserts.mixin import AssertHTMLMixin
 
-from s5appadherant.models import Adherant
+from s5appadherant.models import Adherant, User
 from views.profil import ProfilDetailView, ProfilEditView
 
 
 class ProfilDetailTest(TestCase, AssertHTMLMixin):
 
-    fixtures = ['jardin']
-
     def setUp(self):
         self.factory = RequestFactory()
-        self.adherant = Adherant.objects.get(pk=1)
-        self.other_adherant = Adherant.objects.get(pk=2)
+        self.adherant = G(Adherant, user=G(User))
+        self.other_adherant = G(Adherant, user=G(User))
 
     def test_current(self):
         url = reverse('s5appadherant:profil_current')
@@ -63,11 +62,9 @@ class ProfilDetailTest(TestCase, AssertHTMLMixin):
 
 class ProfilEditTest(TestCase, AssertHTMLMixin):
 
-    fixtures = ['jardin']
-
     def setUp(self):
         self.factory = RequestFactory()
-        self.adherant = Adherant.objects.get(pk=1)
+        self.adherant = G(Adherant, user=G(User))
 
     def test_get(self):
         url = reverse('s5appadherant:profil_edit')
@@ -126,7 +123,7 @@ class ProfilEditTest(TestCase, AssertHTMLMixin):
         ProfilEditView.as_view()(request)
 
         post_add_count = Adherant.objects.count()
-        adherant = Adherant.objects.get(pk=1)
+        adherant = Adherant.objects.get(pk=self.adherant.id)
 
         self.assertEqual(count, post_add_count)
         self.assertEqual('newname', adherant.user.username)

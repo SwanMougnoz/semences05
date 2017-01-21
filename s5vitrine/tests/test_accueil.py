@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
+from django.core.urlresolvers import reverse
 from django.test import TestCase
 from django.conf import settings
+
 from s5vitrine.models.menuitem import Menuitem
 
 
 class AccueilTest(TestCase):
 
-    fixtures = ['base']
+    fixtures = ['base_vitrine']
 
     # On s'assure que compress n'est pas activé pour tester la bonne inclusion des js
     def __init__(self, methodName):
@@ -20,7 +22,8 @@ class AccueilTest(TestCase):
         settings.COMPRESS_ENABLED = self.original_compress_enabled
 
     def test_get(self):
-        response = self.client.get('/')
+        url = reverse('s5vitrine:accueil')
+        response = self.client.get(url)
 
         # La page doit retourner la bonne template
         self.assertEqual(response.status_code, 200)

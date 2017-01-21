@@ -5,13 +5,15 @@ from django.test import TestCase, RequestFactory
 from django.core.urlresolvers import reverse, resolve
 from django.template import Context
 from django.template import Template
+from django_dynamic_fixture import G
+
 from s5vitrine.models.menuitem import Menuitem
 from s5appadherant.models.variete import Variete
 
 
 class MenuTest(TestCase):
 
-    fixtures = ['base']
+    fixtures = ['base_vitrine']
 
     def test_render(self):
         template = Template('{% load tags %}{% menu menu_actif %}')
@@ -127,10 +129,8 @@ class AuthWidgetTest(TestCase):
 
 class PaginationTest(TestCase):
 
-    # 3 Variétés
-    fixtures = ['varietes']
-
     def setUp(self):
+        [G(Variete) for i in range(1, 5)]
         self.varietes = Variete.objects.all()
 
     def render_tag(self, page_length, page_number, queryset):

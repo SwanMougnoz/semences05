@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django_dynamic_fixture import G
 
 from s5appadherant.models import Variete
 from s5appadherant.tables.columns import ImageColumn
@@ -6,7 +7,8 @@ from s5appadherant.tables.columns import ImageColumn
 
 class ImageColumnTest(TestCase):
 
-    fixtures = ['varietes']
+    def setUp(self):
+        [G(Variete) for i in range(1, 5)]
 
     def test_render(self):
         variete = Variete.objects.first()

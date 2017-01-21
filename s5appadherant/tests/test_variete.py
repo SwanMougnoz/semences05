@@ -4,9 +4,10 @@ from django.core.paginator import Page
 from django.core.urlresolvers import reverse, resolve
 from django.test import RequestFactory
 from django.test import TestCase
+from django_dynamic_fixture import G
 
 from s5appadherant.forms.variete import VarieteForm
-from s5appadherant.models.variete import Variete
+from s5appadherant.models import Variete, Adherant
 from s5appadherant.views.variete import VarieteAddView, VarieteDetailView, VarieteEditView, VarieteListView
 
 
@@ -14,7 +15,7 @@ class VarieteListViewTest(TestCase):
 
     def setUp(self):
         self.factory = RequestFactory()
-        self.user = User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')
+        self.user = G(User)
 
     def test_get(self):
         request = self.factory.get(reverse('s5appadherant:variete_list'))
@@ -39,11 +40,10 @@ class VarieteListViewTest(TestCase):
 
 class VarieteDetailTest(TestCase):
 
-    fixtures = ['varietes']
-
     def setUp(self):
         self.factory = RequestFactory()
-        self.user = User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')
+        self.adherant = G(Adherant, user=G(User))
+        [G(Variete, id=i) for i in range(1, 5)]
 
     def get(self, user, params):
         url = reverse('s5appadherant:variete_detail', kwargs=params)
@@ -53,8 +53,8 @@ class VarieteDetailTest(TestCase):
         return VarieteDetailView.as_view()(request, **params)
 
     def test_get(self):
-        variete = Variete.objects.get(pk=6)
-        response = self.get(self.user, {
+        variete = Variete.objects.first()
+        response = self.get(self.adherant.user, {
             'variete_id': variete.id
         })
 
@@ -64,14 +64,15 @@ class VarieteDetailTest(TestCase):
         self.assertContains(response, variete.photo.url)
 
     def test_get_not_found(self):
-        response = self.get(self.user, {
+        response = self.get(self.adherant.user, {
             'variete_id': 666
         })
         self.assertEqual(404, response.status_code)
 
     def test_get_login_required(self):
+        variete = Variete.objects.first()
         response = self.get(AnonymousUser(), {
-            'variete_id': 6
+            'variete_id': variete.id
         })
         self.assertEqual(302, response.status_code)
 
@@ -80,11 +81,11 @@ class VarieteAddTest(TestCase):
 
     def setUp(self):
         self.factory = RequestFactory()
-        self.user = User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')
+        self.adherant = G(Adherant, user=G(User))
 
     def test_get(self):
         request = self.factory.get(reverse('s5appadherant:variete_new'))
-        request.user = self.user
+        request.user = self.adherant.user
         response = VarieteAddView.as_view()(request)
 
         self.assertEqual(response.status_code, 200)
@@ -97,7 +98,7 @@ class VarieteAddTest(TestCase):
             'nom': 'Nouvelle variete',
             'description': 'Bla bla bla'
         })
-        request.user = self.user
+        request.user = self.adherant.user
         VarieteAddView.as_view()(request)
 
         post_add_count = Variete.objects.count()
@@ -110,35 +111,42 @@ class VarieteAddTest(TestCase):
 
 class VarieteEditTest(TestCase):
 
-    fixtures = ['varietes']
-
     def setUp(self):
         self.factory = RequestFactory()
-        self.user = User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')
+        self.adherant = G(Adherant, user=G(User))
+        [G(Variete) for i in range(1, 5)]
 
     def test_get(self):
-        params = {'pk': 6}
+        params = {
+            'pk': Variete.objects.first().id
+        }
         request = self.factory.get(reverse('s5appadherant:variete_edit', kwargs=params))
-        request.user = self.user
+        request.user = self.adherant.user
         response = VarieteEditView.as_view()(request, **params)
 
         self.assertEqual(response.status_code, 200)
         self.assertIsInstance(response.context_data['form'], VarieteForm)
 
     def test_post(self):
-        count = Variete.objects.count()
+        variete = Variete.objects.first()
+        params = {
+            'pk': variete.id
+        }
+        url = reverse('s5appadherant:variete_edit', kwargs=params)
 
-        params = {'pk': 6}
-        request = self.factory.post(reverse('s5appadherant:variete_edit', kwargs=params), data={
+        request = self.factory.post(url, data={
             'nom': 'Nouveau nom',
             'description': 'Nouvelle description'
         })
-        request.user = self.user
+        request.user = self.adherant.user
+
+        count = Variete.objects.count()
+
         VarieteEditView.as_view()(request, **params)
 
         post_edit_count = Variete.objects.count()
-        variete = Variete.objects.get(pk=6)
 
+        variete = Variete.objects.get(pk=variete.id)
         self.assertEqual(count, post_edit_count)
         self.assertEqual('Nouveau nom', variete.nom)
         self.assertEqual('Nouvelle description', variete.description)

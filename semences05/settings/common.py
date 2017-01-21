@@ -43,7 +43,8 @@ PREREQ_APPS = [
     'widget_tweaks',
     'compressor',
     'table',
-    'rules'
+    'rules',
+    'django_dynamic_fixture'
 ]
 
 PROJECT_APPS = [
@@ -175,3 +176,7 @@ CKEDITOR_UPLOAD_PATH = 'ckeditor_uploads/'
 CKEDITOR_IMAGE_BACKEND = 'pillow'
 
 COMPRESS_ROOT = os.path.join(PROJECT_DIR, 'var/assets')
+
+# Misc
+
+DDF_DEFAULT_DATA_FIXTURE = 'random'

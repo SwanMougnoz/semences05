@@ -2,12 +2,15 @@
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.core.paginator import Page
+from django_dynamic_fixture import G
+
+from s5appadherant.models import Variete
 from s5vitrine.models.menuitem import Menuitem
 
 
 class VarieteListTest(TestCase):
 
-    fixtures = ['base']
+    fixtures = ['base_vitrine']
 
     def test_get(self):
         response = self.client.get(reverse('s5vitrine:variete_list'))
@@ -27,11 +30,14 @@ class VarieteListTest(TestCase):
 
 class VarieteDetailTest(TestCase):
 
-    fixtures = ['base', 'varietes']
+    fixtures = ['base_vitrine']
+
+    def setUp(self):
+        [G(Variete, id=i) for i in range(1, 5)]
 
     def test_get(self):
         response = self.client.get(reverse('s5vitrine:variete_detail', kwargs={
-            'variete_id': 6
+            'variete_id': Variete.objects.first().id
         }))
 
         # La page doit retourner la bonne template
