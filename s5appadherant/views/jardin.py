@@ -7,10 +7,12 @@ from django.http import HttpResponseRedirect
 from django.views.generic import CreateView
 from django.views.generic import ListView, TemplateView
 from django.views.generic import UpdateView
+from rules.contrib.views import PermissionRequiredMixin
 
 from s5appadherant.forms.jardin import JardinForm
 from s5appadherant.models import Jardin, Adherant
 from s5appadherant.tables.culture import CultureTable
+from s5appadherant import permissions
 
 
 class JardinListView(LoginRequiredMixin, ListView):
@@ -88,8 +90,9 @@ class JardinAddView(LoginRequiredMixin, CreateView):
         return HttpResponseRedirect(self.get_success_url())
 
 
-class JardinEditView(LoginRequiredMixin, UpdateView):
+class JardinEditView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     template_name = 's5appadherant/jardin/edit.html'
+    permission_required = 's5appadherant.change_jardin'
     form_class = JardinForm
     model = Jardin
 
