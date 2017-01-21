@@ -59,7 +59,7 @@ class CultivateurDecideView(LoginRequiredMixin, PermissionRequiredMixin, Templat
     permission_required = 's5appadherant.accept_cultivateur'
 
     def get_permission_object(self):
-        return get_object_or_404(Cultivateur, self.kwargs.get('cultivateur_id'))
+        return get_object_or_404(Cultivateur, pk=self.kwargs.get('cultivateur_id'))
 
     def get(self, request, *args, **kwargs):
         cultivateur = get_object_or_404(Cultivateur, pk=kwargs.get('cultivateur_id'))
