@@ -16,6 +16,6 @@ class Variete(models.Model):
     description = models.TextField(null=True)
     photo = models.ImageField(upload_to=get_variete_upload_path, null=True, blank=True)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.nom
 
