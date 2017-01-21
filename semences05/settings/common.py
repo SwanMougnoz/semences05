@@ -42,7 +42,8 @@ PREREQ_APPS = [
     'django_bootstrap_breadcrumbs',
     'widget_tweaks',
     'compressor',
-    'table'
+    'table',
+    'rules'
 ]
 
 PROJECT_APPS = [
@@ -118,6 +119,13 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 LOGIN_URL = 's5appadherant:login'
+
+# Authentication
+
+AUTHENTICATION_BACKENDS = (
+    'rules.permissions.ObjectPermissionBackend',
+    'django.contrib.auth.backends.ModelBackend'
+)
 
 
 # Internationalization
