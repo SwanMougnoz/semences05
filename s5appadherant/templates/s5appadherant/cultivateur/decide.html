@@ -1,0 +1,43 @@
+{% extends 's5appadherant/layout_adherant.html' %}
+
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+    {% breadcrumb 'Accueil' 's5appadherant:accueil' %}
+    {% breadcrumb 'Mes jardins' 's5appadherant:jardin_adherant' adherant_id=request.user.adherant.id %}
+    {% breadcrumb cultivateur.jardin.appelation 's5appadherant:jardin_detail' jardin_id=cultivateur.jardin.id %}
+    {% breadcrumb "Ajout d'un cultivateur" None %}
+    {{ block.super }}
+{% endblock %}
+
+{% block content_adherant %}
+    <div class="row">
+        <div class="col-md-12">
+            <h2>{{ cultivateur.adherant.user.first_name }} {{ cultivateur.adherant.user.last_name }} a indiqué cultiver un de vos jardin</h2>
+            <p>
+                Le jardin en question est <a href="{% url 's5appadherant:jardin_detail' jardin_id=cultivateur.jardin.id %}">{{ cultivateur.jardin.appelation }}</a>.
+                Vous pouvez confirmer cette demande et donner alors l'accès à ce jardin à <a href="{% url 's5appadherant:profil_detail' adherant_id=cultivateur.adherant.id %}">{{ cultivateur.adherant.user.first_name }} {{ cultivateur.adherant.user.last_name }}</a>.
+                Il lui saura alors possible d'ajouter des variétés, de déclarer des récoltes ou des semis comme vous pouvez le faire. Vous pouvez également refuser cette demande ou prendre
+                contact avec cet utilisateur sur sa <a href="{% url 's5appadherant:profil_detail' adherant_id=cultivateur.adherant.id %}">page de profil</a>.
+            </p>
+        </div>
+        <div class="col-md-12">
+            <form action="{% url 's5appadherant:cultivateur_decide' cultivateur_id=cultivateur.id %}"
+                  method="POST"
+                  role="form"
+                  enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success pull-right" name="cultivateur_accept">
+                        <i class="fa fa-check"></i>
+                        &nbsp;Accepter la demande
+                    </button>
+                    <button type="submit" class="btn btn-warning pull-right" name="cultivateur_deny">
+                        <i class="fa fa-times"></i>
+                        &nbsp;Refuser
+                    </button>
+                    <a class="pull-right" href="{% url 's5appadherant:jardin_detail' jardin_id=cultivateur.jardin.id %}">Retour à {{ cultivateur.jardin.appelation }}</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

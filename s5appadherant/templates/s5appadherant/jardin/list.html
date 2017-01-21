@@ -3,7 +3,11 @@
 {% load django_bootstrap_breadcrumbs %}
 {% block breadcrumbs %}
     {% breadcrumb 'Accueil' 's5appadherant:accueil' %}
-    {% breadcrumb 'Mes jardins' None %}
+    {% if all_jardins %}
+        {% breadcrumb 'Tous les jardins' None %}
+    {% else %}
+        {% breadcrumb 'Mes jardins' None %}
+    {% endif %}
     {{ block.super }}
 {% endblock %}
 
@@ -11,14 +15,20 @@
 {% load static %}
 {% block content_adherant %}
     <div class="row">
-        <div class="col-md-10">
-            <h2>Mes jardins</h2>
-        </div>
-        <div class="col-md-2">
-            <a class="btn btn-success pull-right" href="{% url 's5appadherant:jardin_new' %}">
+        <div class="col-md-12">
+            <a class="btn btn-sm btn-success pull-right" href="{% url 's5appadherant:jardin_new' %}">
                 <i class="fa fa-plus"></i>
                 &nbsp;Ajouter un jardin
             </a>
+            <ul class="nav nav-tabs">
+                {% if all_jardins %}
+                    <li><a href="{% url 's5appadherant:jardin_adherant' adherant_id=current_adherant.id %}">Mes jardins</a></li>
+                    <li class="active"><a href="#">Tous les jardins</a></li>
+                {% else %}
+                    <li class="active"><a href="#">Mes jardins</a></li>
+                    <li><a href="{% url 's5appadherant:jardin_all' %}">Tous les jardins</a></li>
+                {% endif %}
+            </ul>
         </div>
     </div>
     <div class="row">

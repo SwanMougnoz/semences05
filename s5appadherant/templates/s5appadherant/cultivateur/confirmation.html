@@ -1,0 +1,36 @@
+{% extends 's5appadherant/layout_adherant.html' %}
+
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+    {% breadcrumb 'Accueil' 's5appadherant:accueil' %}
+    {% breadcrumb 'Tous les jardins' 's5appadherant:jardin_all' %}
+    {% breadcrumb jardin.appelation 's5appadherant:jardin_detail' jardin_id=jardin.id %}
+    {% breadcrumb 'Demande de participation à un jardin' None %}
+    {{ block.super }}
+{% endblock %}
+
+{% load static %}
+{% block js %}
+    <script src="{% static 's5appadherant/js/countdown.js' %}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#compteur').countDown({
+                redirect: "{% url 's5appadherant:jardin_detail' jardin_id=jardin_id %}"
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block content_adherant %}
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <div class="span alert alert-success">
+                <h2>Demande prise en compte !</h2>
+                <p>
+                    Vous allez être redirigé vers le jardin concerné dans <strong id="compteur">5</strong> secondes.
+                    Si ce n'est pas le cas, merci de suivre <a href="{% url 's5appadherant:jardin_detail' jardin_id=jardin_id %}">ce lien</a>
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

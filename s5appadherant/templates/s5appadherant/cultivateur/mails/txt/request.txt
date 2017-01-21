@@ -1,0 +1,4 @@
+Demande d'ajout comme cultivateur
+
+Un utilisateur a effectué une demande d'ajout comme cultivateur sur un de vos jardins.
+Rendez-vous sur votre site pour confirmer ou refuser cette demande.

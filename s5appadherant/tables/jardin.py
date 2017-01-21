@@ -10,6 +10,13 @@ from table.columns import Column, LinkColumn
 
 class ProfilJardinTable(Table):
     appelation = Column(field='appelation', header='Appelation')
+    proprietaire = LinkColumn(field='proprietaire',
+                              header='Proprietaire',
+                              links=[Link(
+                                  text=A('proprietaire.user.first_name'),
+                                  viewname='s5appadherant:profil_detail',
+                                  args=(A('proprietaire.id'),)
+                              )])
     commune = Column(field='adresse.commune', header='Commune')
     exposition = Column(field='exposition', header='Exposition')
     type_sol = Column(field='type_sol', header='Type de sol')
@@ -21,7 +28,8 @@ class ProfilJardinTable(Table):
                         links=[Link(
                             text='Détail',
                             viewname='s5appadherant:jardin_detail',
-                            args=(A('id'),))])
+                            args=(A('id'),)
+                        )])
 
     def __init__(self, *args, **kwargs):
         adherant = kwargs.pop('adherant', None)

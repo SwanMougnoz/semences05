@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Q
 from django.http import HttpResponseNotFound
 from django.shortcuts import redirect
 from django.views.generic import TemplateView
@@ -85,5 +86,7 @@ class ProfilJardinDataView(FeedDataView):
 
     def get_queryset(self):
         adherant_id = self.kwargs.get('adherant_id')
-        adherant = Adherant.objects.get(pk=adherant_id)
-        return Jardin.objects.filter(proprietaire=adherant)
+        return Jardin.objects.filter(
+            Q(proprietaire_id=adherant_id)
+            | (Q(cultivateur__adherant_id=adherant_id) & Q(cultivateur__accepte=True))
+        ).distinct()

@@ -1,0 +1,41 @@
+{% extends 's5appadherant/layout_adherant.html' %}
+
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+    {% breadcrumb 'Accueil' 's5appadherant:accueil' %}
+    {% breadcrumb 'Tous les jardins' 's5appadherant:jardin_all' %}
+    {% breadcrumb jardin.appelation 's5appadherant:jardin_detail' jardin_id=jardin.id %}
+    {% breadcrumb 'Demande de participation à un jardin' None %}
+    {{ block.super }}
+{% endblock %}
+
+{% block content_adherant %}
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Demande de participation à un jardin</h2>
+        </div>
+        <div class="col-md-12">
+            <p>Vous cultivez <a href="{% url 's5appadherant:jardin_detail' jardin_id=jardin.id %}">{{ jardin.appelation }}</a> avec son <a href="{% url 's5appadherant:profil_detail' adherant_id=jardin.proprietaire.id %}">proprietaire</a> ?</p>
+            <p>Cette page vous permet de lui signaler afin d'apparaitre dans la liste des cultivateur et avoir accès aux fonctionnalités de gestion de ce jardin.
+            <strong>Cette demande devra être validé par le propriétaire du jardin.</strong>
+            Vous serez notifié sur le site ainsi que par email de cette décision. Après quoi, vous aurez la possibilité de gérer les variétés, de déclarer une récolte ou un semis sur ce jardin comme si vous en êtiez proprietaire.</p>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <form action="{% url 's5appadherant:cultivateur_request' jardin_id=jardin.id %}"
+                      method="POST"
+                      role="form"
+                      enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-warning pull-right">
+                            <i class="fa fa-check"></i>
+                            &nbsp;Confirmer
+                        </button>
+                        <a class="pull-right" href="{% url 's5appadherant:jardin_detail' jardin_id=jardin.id %}">Retour à {{ jardin.appelation }}</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -2,7 +2,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseForbidden
 from django.http import HttpResponseNotFound
 from django.http import HttpResponseRedirect
 from django.views.generic import CreateView
@@ -10,7 +9,7 @@ from django.views.generic import ListView, TemplateView
 from django.views.generic import UpdateView
 
 from s5appadherant.forms.jardin import JardinForm
-from s5appadherant.models import Jardin, Adherant, Culture
+from s5appadherant.models import Jardin, Adherant
 from s5appadherant.tables.culture import CultureTable
 
 
@@ -20,13 +19,16 @@ class JardinListView(LoginRequiredMixin, ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        adherant = Adherant.objects.get_from_user(self.request.user)
-        return Jardin.objects.filter(proprietaire=adherant)
+        adherant_id = self.kwargs.get('adherant_id')
+        if adherant_id is not None:
+            return Jardin.objects.filter(proprietaire_id=adherant_id)
+        return Jardin.objects.all()
 
     def get_context_data(self, **kwargs):
         context = super(JardinListView, self).get_context_data(**kwargs)
         context.update({
             'jardins': context.get('page_obj'),
+            'all_jardins': self.kwargs.get('adherant_id') is None,
             'menu_actif': 'jardin',
             'titre_page': u"Mes jardins"
         })
@@ -43,15 +45,17 @@ class JardinDetailView(LoginRequiredMixin, TemplateView):
         except ObjectDoesNotExist:
             return HttpResponseNotFound("<h1>La page demandee n'existe pas</h1>")
 
-        adherant = Adherant.objects.get_from_user(request.user)
-        if jardin.proprietaire != adherant:
-            return HttpResponseForbidden()
-
         culture_table = CultureTable(jardin=jardin)
+
+        qs = jardin.cultivateur_set.all()
+        cultivateurs_all = [cultivateur.adherant for cultivateur in qs]
+        cultivateurs_acceptes = [cultivateur.adherant for cultivateur in qs.filter(accepte=True)]
 
         return self.render_to_response({
             'jardin': jardin,
             'culture_table': culture_table,
+            'cultivateurs_all': cultivateurs_all,
+            'cultivateurs_acceptes': cultivateurs_acceptes,
             'menu_actif': 'jardin',
             'titre_page': u'Jardin - %s' % jardin.appelation
         })
@@ -63,7 +67,9 @@ class JardinAddView(LoginRequiredMixin, CreateView):
     model = Jardin
 
     def get_success_url(self):
-        return reverse('s5appadherant:jardin_list')
+        return reverse('s5appadherant:jardin_adherant', kwargs={
+            'adherant_id': self.request.user.adherant.id
+        })
 
     def get_context_data(self, **kwargs):
         context = super(JardinAddView, self).get_context_data(**kwargs)
@@ -88,7 +94,9 @@ class JardinEditView(LoginRequiredMixin, UpdateView):
     model = Jardin
 
     def get_success_url(self):
-        return reverse('s5appadherant:jardin_list')
+        return reverse('s5appadherant:jardin_adherant', kwargs={
+            'adherant_id': self.request.user.adherant.id
+        })
 
     def get_context_data(self, **kwargs):
         context = super(JardinEditView, self).get_context_data(**kwargs)
@@ -105,3 +113,4 @@ class JardinEditView(LoginRequiredMixin, UpdateView):
         jardin.save()
 
         return HttpResponseRedirect(self.get_success_url())
+
