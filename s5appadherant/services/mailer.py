@@ -7,11 +7,17 @@ from django.template.loader import get_template
 
 class Mail(object):
 
-    @staticmethod
-    def _send(subject, text_content, html_content, sender, recipient):
-        msg = EmailMultiAlternatives(subject, text_content, sender, recipient)
-        if html_content is not None:
-            msg.attach_alternative(html_content, "text/html")
+    def __init__(self, **kwargs):
+        self.subject = kwargs.get('subject', None)
+        self.text_content = kwargs.get('text_content', None)
+        self.html_content = kwargs.get('html_content', None)
+        self.sender = kwargs.get('sender', None)
+        self.recipients = kwargs.get('recipients', [])
+
+    def _send(self):
+        msg = EmailMultiAlternatives(self.subject, self.text_content, self.sender, self.recipients)
+        if self.html_content is not None:
+            msg.attach_alternative(self.html_content, "text/html")
 
         return msg.send()
 
@@ -22,20 +28,66 @@ class Mail(object):
 
 
 class CultivateurRequest(Mail):
-    html_template = 's5appadherant/cultivateur/mails/request.html'
-    text_template = 's5appadherant/cultivateur/mails/request.txt'
+    html_template = 's5appadherant/cultivateur/mails/html/request.html'
+    text_template = 's5appadherant/cultivateur/mails/txt/request.txt'
 
     def send(self, cultivateur):
         adherant = cultivateur.adherant
         proprietaire = cultivateur.jardin.proprietaire
 
         subject_str = u"%s %s vous à adressé une demande pour cultiver votre jardin"
-        subject = subject_str % (adherant.user.first_name, adherant.user.last_name)
-
         text_content = self.render(self.text_template, {})
         html_content = self.render(self.html_template, {})
 
-        return self._send(subject, text_content, html_content, settings.MAILS.get('NOREPLY'), [proprietaire.user.email])
+        self.subject = subject_str % (adherant.user.first_name, adherant.user.last_name)
+        self.text_content = text_content
+        self.html_content = html_content
+        self.sender = "some email"
+        self.recipients = [proprietaire.user.email]
+
+        return self._send()
+
+
+class CultivateurAccept(Mail):
+    html_template = 's5appadherant/cultivateur/mails/html/accept.html'
+    text_template = 's5appadherant/cultivateur/mails/txt/accept.txt'
+
+    def send(self, cultivateur):
+        adherant = cultivateur.adherant
+        proprietaire = cultivateur.jardin.proprietaire
+
+        subject_str = u"%s %s a accepté votre demande pour cultiver son jardin"
+        text_content = self.render(self.text_template, {})
+        html_content = self.render(self.html_template, {})
+
+        self.subject = subject_str % (proprietaire.user.first_name, proprietaire.user.last_name)
+        self.text_content = text_content
+        self.html_content = html_content
+        self.sender = "some email"
+        self.recipients = [adherant.user.email]
+
+        return self._send()
+
+
+class CultivateurDeny(Mail):
+    html_template = 's5appadherant/cultivateur/mails/html/deny.html'
+    text_template = 's5appadherant/cultivateur/mails/txt/deny.txt'
+
+    def send(self, cultivateur):
+        adherant = cultivateur.adherant
+        proprietaire = cultivateur.jardin.proprietaire
+
+        subject_str = u"%s %s a accepté votre demande pour cultiver son jardin"
+        text_content = self.render(self.text_template, {})
+        html_content = self.render(self.html_template, {})
+
+        self.subject = subject_str % (proprietaire.user.first_name, proprietaire.user.last_name)
+        self.text_content = text_content
+        self.html_content = html_content
+        self.sender = "some email"
+        self.recipients = [adherant.user.email]
+
+        return self._send()
 
 
 class MailDoesntExist(Exception):
@@ -45,7 +97,9 @@ class MailDoesntExist(Exception):
 class MailFactory(object):
 
     mails = {
-        'cultivateur_request': CultivateurRequest
+        'cultivateur_request': CultivateurRequest,
+        'cultivateur_accept': CultivateurAccept,
+        'cultivateur_deny': CultivateurDeny
     }
 
     @staticmethod

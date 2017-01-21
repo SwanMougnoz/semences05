@@ -120,7 +120,9 @@ class CultivateurDecideView(LoginRequiredMixin, TemplateView):
         if 'cultivateur_accept' in request.POST:
             cultivateur.accepte = True
             cultivateur.save()
+            MailFactory.send('cultivateur_accept', cultivateur=cultivateur)
         elif 'cultivateur_deny' in request.POST:
             cultivateur.delete()
+            MailFactory.send('cultivateur_deny', cultivateur=cultivateur)
 
         return redirect('s5appadherant:accueil')

@@ -13,6 +13,5 @@ DATABASES = {
     }
 }
 
-MAILS = {
-    'noreply': 'mougnoz.swan@gmail.com'
-}
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = os.path.join(PROJECT_DIR, 'var/emails')
