@@ -108,12 +108,3 @@ class JardinEditView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
             'titre_page': u"Édition d'un jardin : %s" % context.get('jardin').appelation
         })
         return context
-
-    def form_valid(self, form):
-        adherant = Adherant.objects.get_from_user(self.request.user)
-        jardin = form.save(commit=False)
-        jardin.proprietaire = adherant
-        jardin.save()
-
-        return HttpResponseRedirect(self.get_success_url())
-
