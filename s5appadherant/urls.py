@@ -28,5 +28,6 @@ urlpatterns = [
     url(r'^jardins/(?P<jardin_id>[0-9]+)/cultures/tabledata/$', culture.CultureDataView.as_view(), name='culture_data'),
 
     url(r'^jardins/(?P<jardin_id>[0-9]+)/cultivateur/request/$', cultivateur.CultivateurRequestView.as_view(), name='cultivateur_request'),
-    url(r'^jardins/(?P<jardin_id>[0-9]+)/cultivateur/confirmation/$', cultivateur.CultivateurConfirmationView.as_view(), name='cultivateur_confirmation')
+    url(r'^jardins/(?P<jardin_id>[0-9]+)/cultivateur/confirmation/$', cultivateur.CultivateurConfirmationView.as_view(), name='cultivateur_confirmation'),
+    url(r'^jardins/(?P<cultivateur_id>[0-9]+)/cultivateur/decide/$', cultivateur.CultivateurDecideView.as_view(), name='cultivateur_decide')
 ]

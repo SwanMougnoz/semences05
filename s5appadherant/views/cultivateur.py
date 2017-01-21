@@ -2,6 +2,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
 from django.core.urlresolvers import reverse
+from django.http import HttpResponseForbidden
 from django.http import HttpResponseNotFound
 from django.shortcuts import redirect
 from django.views.generic import TemplateView
@@ -77,3 +78,49 @@ class CultivateurRequestView(LoginRequiredMixin, TemplateView):
         return redirect(reverse('s5appadherant:cultivateur_confirmation', kwargs={
             'jardin_id': jardin_id
         }))
+
+
+class CultivateurDecideView(LoginRequiredMixin, TemplateView):
+    template_name = 's5appadherant/cultivateur/decide.html'
+
+    def get(self, request, *args, **kwargs):
+        cultivateur_id = kwargs.get('cultivateur_id')
+
+        try:
+            cultivateur = Cultivateur.objects.get(pk=cultivateur_id)
+        except ObjectDoesNotExist:
+            return HttpResponseNotFound("<h1>La page demandee n'existe pas</h1>")
+
+        if cultivateur.adherant == request.user.adherant:
+            return HttpResponseForbidden()
+
+        if cultivateur.accepte:
+            return redirect('s5appadherant:accueil')
+
+        return self.render_to_response({
+            'cultivateur': cultivateur,
+            'titre_page': u"Ajout d'un cultivateur pour %s" % cultivateur.jardin.appelation,
+            'menu_actif': 'jardin'
+        })
+
+    def post(self, request, **kwargs):
+        cultivateur_id = kwargs.get('cultivateur_id')
+
+        try:
+            cultivateur = Cultivateur.objects.get(pk=cultivateur_id)
+        except ObjectDoesNotExist:
+            return HttpResponseNotFound("<h1>La page demandee n'existe pas</h1>")
+
+        if cultivateur.adherant == request.user.adherant:
+            return HttpResponseForbidden()
+
+        if cultivateur.accepte:
+            return redirect('s5appadherant:accueil')
+
+        if 'cultivateur_accept' in request.POST:
+            cultivateur.accepte = True
+            cultivateur.save()
+        elif 'cultivateur_deny' in request.POST:
+            cultivateur.delete()
+
+        return redirect('s5appadherant:accueil')
