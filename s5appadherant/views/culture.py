@@ -1,17 +1,19 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import HttpResponseNotFound
+from django.http import Http404
 from django.shortcuts import redirect
 from django.views.generic import TemplateView
+from rules.contrib.views import PermissionRequiredMixin
 from table.views import FeedDataView
 
 from s5appadherant.forms.culture import CultureForm
 from s5appadherant.models import Culture, Jardin
 from s5appadherant.tables.culture import CultureTable
+from s5appadherant import permissions
 
 
-class CultureDataView(FeedDataView):
+class CultureDataView(FeedDataView, PermissionRequiredMixin):
     token = CultureTable.token
 
     def get_queryset(self):
@@ -20,16 +22,20 @@ class CultureDataView(FeedDataView):
         return Culture.objects.filter(jardin=jardin)
 
 
-class CultureAddView(LoginRequiredMixin, TemplateView):
+class CultureAddView(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
     template_name = 's5appadherant/culture/add.html'
+    permission_required = 's5appadherant.change_jardin'
 
-    def get(self, request, *args, **kwargs):
-        jardin_id = kwargs.get('jardin_id')
+    def get_permission_object(self):
+        jardin_id = self.kwargs.get('jardin_id')
         try:
             jardin = Jardin.objects.get(pk=jardin_id)
         except ObjectDoesNotExist:
-            return HttpResponseNotFound("<h1>La page demandee n'existe pas</h1>")
+            raise Http404
+        return jardin
 
+    def get(self, request, *args, **kwargs):
+        jardin = Jardin.objects.get(pk=kwargs.get('jardin_id'))
         form = kwargs.get('form', CultureForm())
 
         return self.render_to_response({
@@ -39,13 +45,8 @@ class CultureAddView(LoginRequiredMixin, TemplateView):
             'titre_page': u"Ajout d'une variété cultivée"
         })
 
-    def post(self, request, *args, **kwargs):
-        jardin_id = kwargs.get('jardin_id')
-        try:
-            jardin = Jardin.objects.get(pk=jardin_id)
-        except ObjectDoesNotExist:
-            return HttpResponseNotFound("<h1>La page demandee n'existe pas</h1>")
-
+    def post(self, request, **kwargs):
+        jardin = Jardin.objects.get(pk=kwargs.get('jardin_id'))
         form = CultureForm(request.POST, request.FILES)
 
         if form.is_valid():

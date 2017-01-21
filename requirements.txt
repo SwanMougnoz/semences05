@@ -10,3 +10,4 @@ django-with-asserts==0.0.1
 django-widget-tweaks==1.4.1
 django_compressor==2.1
 django-datatable==0.2.1
+rules==1.2
