@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseForbidden
-from django.http import HttpResponseNotFound
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.views.generic import TemplateView
+from rules.contrib.views import PermissionRequiredMixin
 
-from s5appadherant.models import Adherant, Jardin, Cultivateur
+from s5appadherant.models import Jardin, Cultivateur
 from services.mailer import MailFactory
+from s5appadherant import permissions
 
 
 class CultivateurConfirmationView(LoginRequiredMixin, TemplateView):
+    # todo: remplacer par un message en js (idem vitrine.contact ?)
     template_name = 's5appadherant/cultivateur/confirmation.html'
 
     def get(self, request, *args, **kwargs):
@@ -22,33 +22,15 @@ class CultivateurConfirmationView(LoginRequiredMixin, TemplateView):
         })
 
 
-class CultivateurRequestView(LoginRequiredMixin, TemplateView):
+class CultivateurRequestView(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
     template_name = 's5appadherant/cultivateur/request.html'
+    permission_required = 's5appadherant.add_cultivateur'
 
-    @staticmethod
-    def _validate(jardin, adherant):
-        if jardin.proprietaire == adherant:
-            raise PermissionDenied("Vous proprietaire de ce jardin")
-
-        qs = jardin.cultivateur_set.all()
-        cultivateurs = [cultivateur.adherant for cultivateur in qs]
-
-        if adherant in cultivateurs:
-            acceptes = [cultivateur.adherant for cultivateur in qs.filter(accepte=True)]
-            if adherant in acceptes:
-                raise PermissionDenied("Vous cultivez déjà ce jardin")
-            raise PermissionDenied("Vous avez déjà effectué une demande pour cultiver ce jardin. Celle-ci doit être accepté par le proprietaire")
+    def get_permission_object(self):
+        return get_object_or_404(Jardin, pk=self.kwargs.get('jardin_id'))
 
     def get(self, request, *args, **kwargs):
-        adherant = Adherant.objects.get_from_user(request.user)
-        jardin_id = kwargs.get('jardin_id')
-
-        try:
-            jardin = Jardin.objects.get(pk=jardin_id)
-        except ObjectDoesNotExist:
-            return HttpResponseNotFound("<h1>La page demandee n'existe pas</h1>")
-
-        CultivateurRequestView._validate(jardin, adherant)
+        jardin = get_object_or_404(Jardin, pk=kwargs.get('jardin_id'))
 
         return self.render_to_response({
             'jardin': jardin,
@@ -56,19 +38,11 @@ class CultivateurRequestView(LoginRequiredMixin, TemplateView):
             'menu_actif': 'jardin'
         })
 
-    def post(self, request, *args, **kwargs):
-        adherant = Adherant.objects.get_from_user(request.user)
-        jardin_id = kwargs.get('jardin_id')
-
-        try:
-            jardin = Jardin.objects.get(pk=jardin_id)
-        except ObjectDoesNotExist:
-            return HttpResponseNotFound("<h1>La page demandee n'existe pas</h1>")
-
-        CultivateurRequestView._validate(jardin, adherant)
+    def post(self, request, **kwargs):
+        jardin = get_object_or_404(Jardin, pk=kwargs.get('jardin_id'))
 
         cultivateur = Cultivateur()
-        cultivateur.adherant = adherant
+        cultivateur.adherant = request.user.adherant
         cultivateur.jardin = jardin
         cultivateur.accepte = False
         cultivateur.save()
@@ -76,26 +50,19 @@ class CultivateurRequestView(LoginRequiredMixin, TemplateView):
         MailFactory.send('cultivateur_request', cultivateur=cultivateur)
 
         return redirect(reverse('s5appadherant:cultivateur_confirmation', kwargs={
-            'jardin_id': jardin_id
+            'jardin_id': jardin.id
         }))
 
 
-class CultivateurDecideView(LoginRequiredMixin, TemplateView):
+class CultivateurDecideView(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
     template_name = 's5appadherant/cultivateur/decide.html'
+    permission_required = 's5appadherant.accept_cultivateur'
+
+    def get_permission_object(self):
+        return get_object_or_404(Cultivateur, self.kwargs.get('cultivateur_id'))
 
     def get(self, request, *args, **kwargs):
-        cultivateur_id = kwargs.get('cultivateur_id')
-
-        try:
-            cultivateur = Cultivateur.objects.get(pk=cultivateur_id)
-        except ObjectDoesNotExist:
-            return HttpResponseNotFound("<h1>La page demandee n'existe pas</h1>")
-
-        if cultivateur.adherant == request.user.adherant:
-            return HttpResponseForbidden()
-
-        if cultivateur.accepte:
-            return redirect('s5appadherant:accueil')
+        cultivateur = get_object_or_404(Cultivateur, pk=kwargs.get('cultivateur_id'))
 
         return self.render_to_response({
             'cultivateur': cultivateur,
@@ -104,18 +71,7 @@ class CultivateurDecideView(LoginRequiredMixin, TemplateView):
         })
 
     def post(self, request, **kwargs):
-        cultivateur_id = kwargs.get('cultivateur_id')
-
-        try:
-            cultivateur = Cultivateur.objects.get(pk=cultivateur_id)
-        except ObjectDoesNotExist:
-            return HttpResponseNotFound("<h1>La page demandee n'existe pas</h1>")
-
-        if cultivateur.adherant == request.user.adherant:
-            return HttpResponseForbidden()
-
-        if cultivateur.accepte:
-            return redirect('s5appadherant:accueil')
+        cultivateur = get_object_or_404(Cultivateur, pk=kwargs.get('cultivateur_id'))
 
         if 'cultivateur_accept' in request.POST:
             cultivateur.accepte = True
