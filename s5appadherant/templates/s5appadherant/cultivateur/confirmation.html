@@ -13,11 +13,12 @@
 {% block js %}
     <script src="{% static 's5appadherant/js/countdown.js' %}"></script>
     <script>
-        $(document).ready(function() {
-            $('#compteur').countDown({
-                redirect: "{% url 's5appadherant:jardin_detail' jardin_id=jardin_id %}"
-            });
-        });
+{#    todo: impossible d'utiliser compress avec un set de variable dans ce block, ce block va etre supprimé de toute façon#}
+{#        $(document).ready(function() {#}
+{#            $('#compteur').countDown({#}
+{#                redirect: "{% url 's5appadherant:jardin_detail' jardin_id=jardin_id %}"#}
+{#            });#}
+{#        });#}
     </script>
 {% endblock %}
 
