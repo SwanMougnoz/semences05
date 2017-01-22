@@ -6,7 +6,7 @@ from django.views.generic import TemplateView
 from rules.contrib.views import PermissionRequiredMixin
 
 from s5appadherant.models import Jardin, Cultivateur
-from services.mailer import MailFactory
+from s5appadherant.services.mailer import MailFactory
 from s5appadherant import permissions
 
 

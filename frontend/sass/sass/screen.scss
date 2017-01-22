@@ -64,6 +64,25 @@ nav {
   height: 200px;
 }
 
+.jardin-detail {
+  table {
+    tr td:first-child {
+      font-weight: bold;
+      padding-right: 17px;
+      padding-bottom: 5px;
+    }
+  }
+  // todo: changer ça
+
+  p {
+    line-height: 20px;
+    span {
+      font-weight: bold;
+      margin-right: 43px;
+    }
+  }
+}
+
 .bloc-lien {
   border: 1px solid #000;
   height: 150px;

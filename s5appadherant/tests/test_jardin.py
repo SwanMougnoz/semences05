@@ -102,7 +102,7 @@ class JardinDetailTest(TestCase, AssertHTMLMixin):
 
         # Le document doit contenir toutes les informations relative au jardin
         self.assertContains(response, self.jardin.adresse.commune)
-        self.assertContains(response, self.jardin.adresse.altitude)
+        self.assertContains(response, "%s m" % self.jardin.adresse.altitude)
         self.assertContains(response, self.jardin.appelation)
         self.assertContains(response, self.jardin.exposition)
         self.assertContains(response, self.jardin.type_sol)
@@ -203,7 +203,7 @@ class JardinAddTest(TestCase, AssertHTMLMixin):
 
         self.assertEqual('Nouveau jardin', jardin.appelation)
         self.assertEqual('Bla bla bla', jardin.description)
-        self.assertEqual(123, jardin.exposition)
+        self.assertEqual('123', jardin.exposition)
         self.assertEqual('Sableux', jardin.type_sol)
         self.assertEqual('Arrosoir', jardin.irrigation)
         self.assertEqual(2014, jardin.mise_en_culture)
@@ -300,7 +300,7 @@ class JardinEditTest(TestCase, AssertHTMLMixin):
         jardin_edited = Jardin.objects.get(pk=self.jardin.id)
         self.assertEqual('Nouveau jardin', jardin_edited.appelation)
         self.assertEqual('Bla bla bla', jardin_edited.description)
-        self.assertEqual(123, jardin_edited.exposition)
+        self.assertEqual('123', jardin_edited.exposition)
         self.assertEqual('Sableux', jardin_edited.type_sol)
         self.assertEqual('Arrosoir', jardin_edited.irrigation)
         self.assertEqual(2014, jardin_edited.mise_en_culture)
