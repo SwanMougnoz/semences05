@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from ckeditor.fields import RichTextField
 from django.db import models
 from s5appadherant.models import Adherant, Adresse
 
@@ -11,9 +12,9 @@ class Jardin(models.Model):
     type_sol = models.CharField(max_length=255)
     irrigation = models.CharField(max_length=255)
     mise_en_culture = models.IntegerField()
-    description = models.TextField()
+    description = RichTextField()
     superficie = models.FloatField()
 
-    def __str__(self):
+    def __unicode__(self):
         return self.appelation
 

@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 import locale
 import os
 
+from semences05.settings.ckeditor import *
+
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 APP_DIR = os.path.join(PROJECT_DIR, 'semences05')
 VITRINE_DIR = os.path.join(PROJECT_DIR, 's5vitrine')
@@ -169,9 +171,6 @@ BOWER_INSTALLED_APPS = (
 
 MEDIA_ROOT = os.path.join(PROJECT_DIR, 'var/media')
 MEDIA_URL = '/media/'
-
-CKEDITOR_UPLOAD_PATH = 'ckeditor_uploads/'
-CKEDITOR_IMAGE_BACKEND = 'pillow'
 
 COMPRESS_ROOT = os.path.join(PROJECT_DIR, 'var/assets')
 

@@ -83,6 +83,20 @@ nav {
   }
 }
 
+.panel-description-jardin {
+  margin-top: 15px;
+}
+
+
+.jardin-description {
+  .django-ckeditor-widget {
+    width: 100%;
+    & > div {
+      width: 100%!important;
+    }
+  }
+}
+
 .bloc-lien {
   border: 1px solid #000;
   height: 150px;
