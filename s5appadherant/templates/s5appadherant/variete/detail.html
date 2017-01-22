@@ -24,7 +24,11 @@
         <div class="col-md-8 variete-detail">
             <p class="legend">Ajoutée le : {{ variete.date_ajout }}</p>
             <p><strong>Description :</strong></p>
-            <p>{{ variete.description }}</p>
+            <div>
+                {% autoescape off %}
+                    {{ variete.description }}
+                {% endautoescape %}
+            </div>
             <a class="btn btn-primary pull-right" href="{% url 's5appadherant:variete_edit' pk=variete.id %}">
                 <i class="fa fa-pencil"></i>
                 &nbsp;Modifier cette variété

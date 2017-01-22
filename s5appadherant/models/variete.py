@@ -1,3 +1,4 @@
+from ckeditor.fields import RichTextField
 from django.db import models
 import uuid
 import os
@@ -13,7 +14,7 @@ def get_variete_upload_path(instance, filename):
 
 class Variete(models.Model):
     nom = models.CharField(max_length=255)
-    description = models.TextField(null=True)
+    description = RichTextField(null=True)
     photo = models.ImageField(upload_to=get_variete_upload_path, null=True, blank=True)
     date_ajout = models.DateField(auto_now_add=True)
 

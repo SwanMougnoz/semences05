@@ -87,12 +87,11 @@ nav {
   margin-top: 15px;
 }
 
-
-.jardin-description {
+.ckeditor-fill-width {
   .django-ckeditor-widget {
     width: 100%;
     & > div {
-      width: 100%!important;
+      width: 100% !important;
     }
   }
 }

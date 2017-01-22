@@ -76,7 +76,9 @@ class VarieteEditView(LoginRequiredMixin, UpdateView):
     model = Variete
 
     def get_success_url(self):
-        return reverse('s5appadherant:variete_list')
+        return reverse('s5appadherant:variete_detail', kwargs={
+            'variete_id': self.kwargs.get('pk')
+        })
 
     def get_context_data(self, **kwargs):
         context = super(VarieteEditView, self).get_context_data(**kwargs)

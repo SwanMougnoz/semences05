@@ -13,6 +13,13 @@
     {{ block.super }}
 {% endblock %}
 
+{% load static %}
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+    <script type="text/javascript" src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+{% endblock %}
+
 {% load bootstrap %}
 {% block content_adherant %}
     <div class="row">
@@ -25,7 +32,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-7">
+        <div class="col-md-7 ckeditor-fill-width">
             {% if variete %}
                 <form action="{% url 's5appadherant:variete_edit' pk=variete.id %}"
             {% else %}
