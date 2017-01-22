@@ -46,7 +46,8 @@ PREREQ_APPS = [
     'compressor',
     'table',
     'rules',
-    'django_dynamic_fixture'
+    'django_dynamic_fixture',
+    'actstream'
 ]
 
 PROJECT_APPS = [
