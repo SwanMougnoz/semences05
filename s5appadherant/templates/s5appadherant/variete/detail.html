@@ -22,6 +22,7 @@
             {% endif %}
         </div>
         <div class="col-md-8 variete-detail">
+            <p class="legend">Ajoutée le : {{ variete.date_ajout }}</p>
             <p><strong>Description :</strong></p>
             <p>{{ variete.description }}</p>
             <a class="btn btn-primary pull-right" href="{% url 's5appadherant:variete_edit' pk=variete.id %}">
