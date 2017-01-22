@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import template
 from django.contrib.auth.decorators import login_required
-from context_processors import adherant
+from s5appadherant.context_processors import adherant
 
 register = template.Library()
 
