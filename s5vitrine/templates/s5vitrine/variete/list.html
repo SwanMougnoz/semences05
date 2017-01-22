@@ -14,7 +14,7 @@
                     {% endif %}
                     <div class="caption">
                         <h3>{{ variete.nom }}</h3>
-                        <p>{{ variete.description|truncatechars:120 }}</p>
+                        <p>{{ variete.short_description|default:"" }}</p>
                         <p>
                             <a href="{% url 's5vitrine:variete_detail' variete_id=variete.id %}" class="btn btn-sm btn-primary pull-right" role="button">Fiche variété</a>
                         </p>

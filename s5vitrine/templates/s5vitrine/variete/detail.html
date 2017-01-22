@@ -13,7 +13,9 @@
         <div class="col-md-8 variete-detail">
             <h2>{{ variete.nom }}</h2>
             <p><strong>Description :</strong></p>
-            <p>{{ variete.description }}</p>
+            {% autoescape off %}
+                {{ variete.description }}
+            {% endautoescape %}
         </div>
     </div>
     <div class="row">
