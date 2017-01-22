@@ -13,6 +13,7 @@ class Jardin(models.Model):
     irrigation = models.CharField(max_length=255)
     mise_en_culture = models.IntegerField()
     description = RichTextField()
+    short_description = models.CharField(max_length=255, null=True, blank=True, verbose_name='Résumé')
     superficie = models.FloatField()
 
     def __unicode__(self):

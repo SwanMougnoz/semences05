@@ -66,12 +66,14 @@
             <div class="col-md-12">
                 <div class="well ckeditor-fill-width">
                     <h3>Description</h3>
+
                     {% if form.description.errors %}
                         <div class="alert alert-danger">
                             {{ form.description.errors }}
                         </div>
                     {% endif %}
-                    {{ form.description }}
+                    {{ form.description|bootstrap }}
+                    {{ form.short_description|bootstrap }}
                 </div>
             </div>
             <div class="form-group">
