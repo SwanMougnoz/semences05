@@ -45,6 +45,13 @@ class JardinListTest(TestCase, AssertHTMLMixin):
             with self.assertHTML(response, 'a[href="%s"]' % detail_url):
                 pass
 
+            if jardin.proprietaire != self.adherant:
+                profil_url = reverse('s5appadherant:profil_detail', kwargs={
+                    'adherant_id': jardin.proprietaire.id
+                })
+                with self.assertHTML(response, 'a[href="%s"]' % profil_url):
+                    pass
+
         # Un lien vers la page d'ajout d'un jardin doit être présent
         add_url = reverse('s5appadherant:jardin_new')
         with self.assertHTML(response, 'a[href="%s"]' % add_url):
@@ -109,7 +116,7 @@ class JardinDetailTest(TestCase, AssertHTMLMixin):
         self.assertContains(response, '%s m²' % str(self.jardin.superficie).replace('.', ','))
         self.assertContains(response, self.jardin.irrigation)
         self.assertContains(response, self.jardin.mise_en_culture)
-        # todo self.assertContains(response, jardin.description)
+        self.assertContains(response, self.jardin.description)
 
         # Le document doit contenir une table des variétés cultivé
         # todo: test js datatable correspondant
