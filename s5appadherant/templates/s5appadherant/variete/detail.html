@@ -12,7 +12,7 @@
 {% block content_adherant %}
      <div class="row">
         <div class="col-md-12">
-            <h2>Détail d'une variété</h2>
+            <h2>{{ variete.nom }}</h2>
         </div>
         <div class="col-md-4">
             {% if variete.photo %}
@@ -22,7 +22,6 @@
             {% endif %}
         </div>
         <div class="col-md-8 variete-detail">
-            <h3>{{ variete.nom }}</h3>
             <p><strong>Description :</strong></p>
             <p>{{ variete.description }}</p>
             <a class="btn btn-primary pull-right" href="{% url 's5appadherant:variete_edit' pk=variete.id %}">
