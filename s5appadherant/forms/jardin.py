@@ -1,3 +1,5 @@
+from ckeditor.widgets import CKEditorWidget
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from django import forms
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -10,6 +12,7 @@ class JardinForm(forms.ModelForm):
     latitude = forms.FloatField()
     longitude = forms.FloatField()
     altitude = forms.IntegerField()
+    description = forms.CharField(widget=CKEditorWidget(config_name='restricted'))
 
     def __init__(self, *args, **kwargs):
         super(JardinForm, self).__init__(*args, **kwargs)

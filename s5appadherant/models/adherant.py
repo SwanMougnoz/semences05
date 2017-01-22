@@ -22,3 +22,6 @@ class Adherant(models.Model):
     experience = models.CharField(max_length=32, choices=EXPERIENCE_ENUM)
 
     objects = AdherantManager()
+
+    def __unicode__(self):
+        return "%s %s" % (self.user.first_name, self.user.last_name)

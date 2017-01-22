@@ -1,13 +1,19 @@
 # -*- coding: utf-8 -*-
+import datetime
+from functools import partial
+
 from django import forms
 from django.core.exceptions import ValidationError
 
 from s5appadherant.models import Culture, Variete
 
+DatePicker = partial(forms.DateInput, {'class': 'datepicker'})
+
 
 class CultureForm(forms.Form):
     variete = forms.ModelChoiceField(label="Variété", queryset=Variete.objects.all(), required=False)
     type_conservation = forms.ChoiceField(label="Type de conservation", choices=Culture.CONSERVATION_ENUM)
+    date_debut = forms.DateField(label="Mise en culture", widget=DatePicker(), initial=datetime.date.today())
     variete_nom = forms.CharField(label="Nom", max_length=255, required=False)
     variete_description = forms.CharField(label="Description", widget=forms.Textarea, required=False)
     variete_photo = forms.ImageField(label="Photo", required=False)

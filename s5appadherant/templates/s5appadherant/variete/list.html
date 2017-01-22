@@ -37,7 +37,7 @@
                             </div>
                             <div class="col-md-8">
                                 <p><strong>{{ variete.nom }}</strong></p>
-                                <p>{{ variete.description|truncatechars:200 }}</p>
+                                <p>{{ variete.short_description|default:"" }}</p>
                             </div>
                             <div class="col-md-2">
                                 <a class="btn btn-primary pull-right" href="{% url 's5appadherant:variete_detail' variete_id=variete.id %}">

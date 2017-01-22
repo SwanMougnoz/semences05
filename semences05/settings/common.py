@@ -9,8 +9,10 @@ https://docs.djangoproject.com/en/1.10/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.10/ref/settings/
 """
-
+import locale
 import os
+
+from semences05.settings.ckeditor import *
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 APP_DIR = os.path.join(PROJECT_DIR, 'semences05')
@@ -132,14 +134,11 @@ AUTHENTICATION_BACKENDS = (
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
+locale.setlocale(locale.LC_TIME, "fr_FR.UTF-8")
 LANGUAGE_CODE = 'fr'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 
@@ -166,14 +165,12 @@ BOWER_COMPONENTS_ROOT = os.path.join(PROJECT_DIR, 'frontend')
 BOWER_INSTALLED_APPS = (
     'bootstrap-sass',
     'leaflet',
-    'font-awesome'
+    'font-awesome',
+    'datetimepicker'
 )
 
 MEDIA_ROOT = os.path.join(PROJECT_DIR, 'var/media')
 MEDIA_URL = '/media/'
-
-CKEDITOR_UPLOAD_PATH = 'ckeditor_uploads/'
-CKEDITOR_IMAGE_BACKEND = 'pillow'
 
 COMPRESS_ROOT = os.path.join(PROJECT_DIR, 'var/assets')
 

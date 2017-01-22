@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import datetime
 from django.core.urlresolvers import reverse, resolve
 from django.test import RequestFactory
 from django.test import TestCase
@@ -56,7 +57,9 @@ class CultureAddTest(TestCase, AssertHTMLMixin):
 
     def test_post_select_variete(self):
         variete = Variete.objects.first()
+        today = datetime.date.today()
         post_data = {
+            'date_debut': today,
             'variete': variete.id,
             'type_conservation': 'dynamique'
         }
@@ -73,13 +76,16 @@ class CultureAddTest(TestCase, AssertHTMLMixin):
         self.assertEqual(pre_add_variete_count, post_add_variete_count)
 
         culture = self.jardin.culture_set.first()
+        self.assertEqual(today, culture.date_debut)
         self.assertEqual('dynamique', culture.type_conservation)
         self.assertEqual(variete, culture.variete)
         self.assertIsNone(culture.date_fin)
         self.assertIsNotNone(culture.date_debut)
 
     def test_post_new_variete(self):
+        today = datetime.date.today()
         post_data = {
+            'date_debut': today,
             'variete_nom': 'Nouvelle variété !',
             'variete_description': 'Bla bla bla',
             'type_conservation': 'conservatoire'
@@ -97,6 +103,7 @@ class CultureAddTest(TestCase, AssertHTMLMixin):
         self.assertEqual((pre_add_variete_count + 1), post_add_variete_count)
 
         culture = self.jardin.culture_set.first()
+        self.assertEqual(today, culture.date_debut)
         self.assertEqual('conservatoire', culture.type_conservation)
         self.assertEqual(u'Nouvelle variété !', culture.variete.nom)
         self.assertEqual('Bla bla bla', culture.variete.description)

@@ -45,6 +45,13 @@ class JardinListTest(TestCase, AssertHTMLMixin):
             with self.assertHTML(response, 'a[href="%s"]' % detail_url):
                 pass
 
+            if jardin.proprietaire != self.adherant:
+                profil_url = reverse('s5appadherant:profil_detail', kwargs={
+                    'adherant_id': jardin.proprietaire.id
+                })
+                with self.assertHTML(response, 'a[href="%s"]' % profil_url):
+                    pass
+
         # Un lien vers la page d'ajout d'un jardin doit être présent
         add_url = reverse('s5appadherant:jardin_new')
         with self.assertHTML(response, 'a[href="%s"]' % add_url):
@@ -102,14 +109,14 @@ class JardinDetailTest(TestCase, AssertHTMLMixin):
 
         # Le document doit contenir toutes les informations relative au jardin
         self.assertContains(response, self.jardin.adresse.commune)
-        self.assertContains(response, self.jardin.adresse.altitude)
+        self.assertContains(response, "%s m" % self.jardin.adresse.altitude)
         self.assertContains(response, self.jardin.appelation)
         self.assertContains(response, self.jardin.exposition)
         self.assertContains(response, self.jardin.type_sol)
         self.assertContains(response, '%s m²' % str(self.jardin.superficie).replace('.', ','))
         self.assertContains(response, self.jardin.irrigation)
         self.assertContains(response, self.jardin.mise_en_culture)
-        # todo self.assertContains(response, jardin.description)
+        self.assertContains(response, self.jardin.description)
 
         # Le document doit contenir une table des variétés cultivé
         # todo: test js datatable correspondant
@@ -203,7 +210,7 @@ class JardinAddTest(TestCase, AssertHTMLMixin):
 
         self.assertEqual('Nouveau jardin', jardin.appelation)
         self.assertEqual('Bla bla bla', jardin.description)
-        self.assertEqual(123, jardin.exposition)
+        self.assertEqual('123', jardin.exposition)
         self.assertEqual('Sableux', jardin.type_sol)
         self.assertEqual('Arrosoir', jardin.irrigation)
         self.assertEqual(2014, jardin.mise_en_culture)
@@ -300,7 +307,7 @@ class JardinEditTest(TestCase, AssertHTMLMixin):
         jardin_edited = Jardin.objects.get(pk=self.jardin.id)
         self.assertEqual('Nouveau jardin', jardin_edited.appelation)
         self.assertEqual('Bla bla bla', jardin_edited.description)
-        self.assertEqual(123, jardin_edited.exposition)
+        self.assertEqual('123', jardin_edited.exposition)
         self.assertEqual('Sableux', jardin_edited.type_sol)
         self.assertEqual('Arrosoir', jardin_edited.irrigation)
         self.assertEqual(2014, jardin_edited.mise_en_culture)

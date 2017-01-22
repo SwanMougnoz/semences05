@@ -97,8 +97,8 @@ class JardinEditView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Jardin
 
     def get_success_url(self):
-        return reverse('s5appadherant:jardin_adherant', kwargs={
-            'adherant_id': self.request.user.adherant.id
+        return reverse('s5appadherant:jardin_detail', kwargs={
+            'jardin_id': self.kwargs.get('pk')
         })
 
     def get_context_data(self, **kwargs):

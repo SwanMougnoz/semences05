@@ -13,7 +13,7 @@ from s5appadherant.tables.columns import ImageColumn
 class CultureTable(Table):
     photo = ImageColumn(field='variete.photo', header='Photo', sortable=False)
     appelation = Column(field='variete.nom', header='Appelation')
-    date_debut = DatetimeColumn(field='date_debut', header='Cultivée depuis')
+    date_debut = DatetimeColumn(field='date_debut', header='Cultivée depuis', format="%d %B %Y")
     type_conservation = Column(field='type_conservation', header='Type de conservation')
     action = LinkColumn(header='Action',
                         sortable=False,

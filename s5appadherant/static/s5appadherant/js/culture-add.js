@@ -1,11 +1,11 @@
 $(document).ready(function() {
-    $addButton = $("#add-variete-btn");
-    $fields = $("#add-variete-fields");
-    $varieteField = $("#id_variete");
+    var $addButton = $("#add-variete-btn");
+    var $fields = $("#add-variete-fields");
+    var $varieteField = $("#id_variete");
 
     $addButton.on("click", function() {
         if ($fields.hasClass("hidden")) {
-            $fields.removeClass("hidden")
+            $fields.removeClass("hidden");
             $addButton.find("i")
                 .removeClass("fa-pencil-square-o")
                 .addClass("fa-chevron-up");
@@ -17,5 +17,11 @@ $(document).ready(function() {
                 .addClass("fa-pencil-square-o");
             $varieteField.prop("disabled", false);
         }
+    });
+
+    $.datetimepicker.setLocale('fr');
+    $('.datepicker').datetimepicker({
+        format: 'd/m/Y',
+        timepicker: false
     });
 });

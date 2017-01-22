@@ -13,6 +13,6 @@ class Culture(models.Model):
     jardin = models.ForeignKey(Jardin, on_delete=models.CASCADE)
     variete = models.ForeignKey(Variete, on_delete=models.CASCADE)
     type_conservation = models.CharField(max_length=255, choices=CONSERVATION_ENUM)
-    date_debut = models.DateField(auto_now_add=True)
+    date_debut = models.DateField()
     date_fin = models.DateField(null=True)
 
