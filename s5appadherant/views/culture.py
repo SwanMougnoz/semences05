@@ -57,6 +57,7 @@ class CultureAddView(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
             culture.jardin = jardin
             culture.variete = variete
             culture.type_conservation = form.cleaned_data['type_conservation']
+            culture.date_debut = form.cleaned_data['date_debut']
             culture.save()
 
             return redirect('s5appadherant:jardin_detail', jardin_id=jardin.id)

@@ -14,6 +14,16 @@
     <script type="text/javascript" src="{% static 's5appadherant/js/culture-add.js' %}"></script>
 {% endblock %}
 
+{% block head_js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'datetimepicker/build/jquery.datetimepicker.full.min.js' %}"></script>
+{% endblock %}
+
+{% block stylesheet %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'datetimepicker/build/jquery.datetimepicker.min.css' %}">
+{% endblock %}
+
 {% load bootstrap %}
 {% load widget_tweaks %}
 {% block content_adherant %}
@@ -36,6 +46,7 @@
                         {{ form.non_field_errors }}
                     </div>
                 {% endif %}
+                {{ form.date_debut|bootstrap }}
                 {{ form.type_conservation|bootstrap }}
                 <strong>{{ form.variete.label }}</strong>
                 <div class="form-group">
@@ -44,6 +55,7 @@
                         <span class="input-group-btn">
                             <button id="add-variete-btn" type="button" class="btn btn-default">
                                 <i class="fa fa-pencil-square-o"></i>
+                                &nbsp;Nouvelle variété
                             </button>
                         </span>
                     </div>
