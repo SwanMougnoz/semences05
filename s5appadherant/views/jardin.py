@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from actstream.actions import follow
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
@@ -97,6 +98,8 @@ class JardinAddView(LoginRequiredMixin, CreateView):
         jardin = form.save(commit=False)
         jardin.proprietaire = self.request.user.adherant
         jardin.save()
+
+        follow(self.request.user, jardin, actor_only=False, send_action=False)
 
         return HttpResponseRedirect(self.get_success_url())
 

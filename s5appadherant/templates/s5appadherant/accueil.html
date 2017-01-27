@@ -1,5 +1,9 @@
 {% extends 's5appadherant/layout_adherant.html' %}
 
+{% load activity_tags %}
 {% block content_adherant %}
-    {% lorem %}
+    {% activity_stream 'user' request.user %}
+    {% for action in stream %}
+        {% display_action action %}
+    {% endfor %}
 {% endblock %}

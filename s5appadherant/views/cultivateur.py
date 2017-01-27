@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
+from actstream.actions import follow, unfollow
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect, get_object_or_404
 from django.views.generic import TemplateView
 from rules.contrib.views import PermissionRequiredMixin
+from actstream import action
 
 from s5appadherant.models import Jardin, Cultivateur
 from s5appadherant.services.mailer import MailFactory
@@ -48,6 +50,8 @@ class CultivateurRequestView(LoginRequiredMixin, PermissionRequiredMixin, Templa
         cultivateur.save()
 
         MailFactory.send('cultivateur_request', cultivateur=cultivateur)
+        action.send(request.user, verb="request", action_object=cultivateur, target=jardin)
+        follow(request.user, cultivateur, actor_only=False, send_action=False)
 
         return redirect(reverse('s5appadherant:cultivateur_confirmation', kwargs={
             'jardin_id': jardin.id
@@ -77,8 +81,12 @@ class CultivateurDecideView(LoginRequiredMixin, PermissionRequiredMixin, Templat
             cultivateur.accepte = True
             cultivateur.save()
             MailFactory.send('cultivateur_accept', cultivateur=cultivateur)
+            action.send(request.user, verb="accept", action_object=cultivateur, target=cultivateur.jardin)
+            follow(cultivateur.adherant.user, cultivateur.jardin, actor_only=False, send_action=False)
+
         elif 'cultivateur_deny' in request.POST:
             cultivateur.delete()
             MailFactory.send('cultivateur_deny', cultivateur=cultivateur)
+            action.send(request.user, verb="deny", action_object=cultivateur, target=cultivateur.jardin)
 
         return redirect('s5appadherant:accueil')
