@@ -2,8 +2,19 @@
 
 {% load activity_tags %}
 {% block content_adherant %}
-    {% activity_stream 'user' request.user %}
-    {% for action in stream %}
-        {% display_action action %}
-    {% endfor %}
+    <div class="panel panel-default">
+        {% activity_stream 'user' request.user %}
+        <div class="panel-heading">Activité <span class="badge">{{ stream.count }}</span></div>
+        <ul class="list-group">
+            {% for action in stream %}
+                <li class="list-group-item">
+                    {% display_action action %}
+                </li>
+            {% empty %}
+                <li class="list-group-item text-center">
+                    <small><i>Aucune nouvelle activité</i></small>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}
