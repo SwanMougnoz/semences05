@@ -13,7 +13,7 @@ def is_cultivateur_adherant(user, cultivateur):
 
 @rules.predicate()
 def cultivateur_pending(user, cultivateur):
-    return not cultivateur.accepte
+    return cultivateur.pending
 
 
 rules.add_perm('s5appadherant.accept_cultivateur',
