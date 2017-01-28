@@ -184,3 +184,10 @@ CONTACT_EMAIL = 'contact@grainedesmontagnes.org'
 # Misc
 
 DDF_DEFAULT_DATA_FIXTURE = 'random'
+
+ACTSTREAM_SETTINGS = {
+    'MANAGER': 's5appadherant.managers.action.S5ActionManager',
+    'FETCH_RELATIONS': True,
+    'USE_PREFETCH': True,
+    'GFK_FETCH_DEPTH': 5,
+}

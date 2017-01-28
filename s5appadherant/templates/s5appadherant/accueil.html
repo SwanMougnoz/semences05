@@ -4,7 +4,7 @@
 {% load activity_tags %}
 {% block content_adherant %}
     <div class="panel panel-default">
-        {% activity_stream 'user' request.user %}
+        {% activity_stream 'others' request.user %}
         <div class="panel-heading">Activité <span class="badge">{{ stream.count }}</span></div>
         <ul class="list-group">
             {% for action in stream %}
