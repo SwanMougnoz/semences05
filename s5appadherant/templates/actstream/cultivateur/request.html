@@ -1,0 +1,21 @@
+<span>
+    <a href="{% url 's5appadherant:profil_detail' adherant_id=action.actor.id %}">{{ action.actor.first_name }} {{ action.actor.last_name }}</a>
+    a fait une demande pour cultiver un de vos jardin (<a href="{% url 's5appadherant:jardin_detail' jardin_id=action.target.id %}">{{ action.target }}</a>).
+    <small><a href="#">De quoi s'agit-il ?</a></small>
+    <form action="{% url 's5appadherant:cultivateur_decide' cultivateur_id=action.action_object.id %}"
+          method="POST"
+          role="form"
+          enctype="multipart/form-data"
+            class="pull-right">
+        {% csrf_token %}
+        <div class="form-group">
+            <button type="submit" class="btn btn-xs btn-success" name="cultivateur_accept">
+                Accepter
+            </button>
+            <button type="submit" class="btn btn-xs btn-danger" name="cultivateur_deny">
+                Refuser
+            </button>
+        </div>
+    </form>
+</span>
+
