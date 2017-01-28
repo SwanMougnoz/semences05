@@ -1,9 +1,12 @@
-<span>
+{% extends 'actstream/action_layout.html' %}
+
+{% block action_content %}
     {% url 's5appadherant:profil_detail' adherant_id=action.actor.id as proprietaire_profil %}
 
-    <a href="{{ proprietaire_profil }}">{{ action.actor.first_name }} {{ action.actor.last_name }}</a>
-    a refusé votre demande d'ajout comme cultivateur dans son jardin (<a href="{% url 's5appadherant:jardin_detail' jardin_id=action.target.id %}">{{ action.target }}</a>).
+    <div>
+        <a href="{{ proprietaire_profil }}">{{ action.actor.first_name }} {{ action.actor.last_name }}</a>
+        a refusé votre demande d'ajout comme cultivateur dans son jardin (<a href="{% url 's5appadherant:jardin_detail' jardin_id=action.target.id %}">{{ action.target }}</a>).
+    </div>
     Si cette décision vous surprend, vous pouvez toujours <a href="{% url 's5appadherant:cultivateur_request' jardin_id=action.target.id %}">réitérer votre demande</a>
-    et prendre contact avec <a href="{{ proprietaire_profil }}">{{ action.actor.first_name }} {{ action.actor.last_name }}</a>
-    sur sa page de <a href="{{ proprietaire_profil }}">profil</a>.
-</span>
+    et/ou prendre contact avec lui sur sa page de <a href="{{ proprietaire_profil }}">profil</a>.
+{% endblock %}

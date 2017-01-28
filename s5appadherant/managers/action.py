@@ -23,4 +23,4 @@ class S5ActionManager(ActionManager):
         return user_stream.filter(~Q(
             actor_content_type=user_content_type,
             actor_object_id=obj.id
-        ), processed__isnull=True)
+        )).exclude(adherant_has_proceed=obj.adherant)

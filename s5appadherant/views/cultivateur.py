@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from actstream.actions import follow
+from actstream.models import Action
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect, get_object_or_404
@@ -7,7 +8,7 @@ from django.views.generic import TemplateView
 from rules.contrib.views import PermissionRequiredMixin
 from actstream import action
 
-from s5appadherant.models import Jardin, Cultivateur, S5Action
+from s5appadherant.models import Jardin, Cultivateur
 from s5appadherant.services.mailer import MailFactory
 from s5appadherant import permissions
 
@@ -95,7 +96,8 @@ class CultivateurDecideView(LoginRequiredMixin, PermissionRequiredMixin, Templat
             MailFactory.send('cultivateur_deny', cultivateur=cultivateur)
             action.send(request.user, verb="deny", action_object=cultivateur, target=cultivateur.jardin)
 
-        request_action = S5Action.objects.get_by_terms('request', cultivateur, cultivateur.jardin)
-        request_action.process()
+        request_action = Action.objects.get_by_terms('request', cultivateur, cultivateur.jardin)
+        request.user.adherant.processed_actions.add(request_action)
+        request.user.save()
 
         return redirect('s5appadherant:accueil')

@@ -1,6 +1,7 @@
 from django.conf.urls import url
 
-from s5appadherant.views import login, profil, variete, accueil, jardin, culture, cultivateur
+from s5appadherant.views import login, profil, variete, accueil, \
+    jardin, culture, cultivateur, action
 
 app_name = 's5appadherant'
 urlpatterns = [
@@ -30,5 +31,7 @@ urlpatterns = [
 
     url(r'^jardins/(?P<jardin_id>[0-9]+)/cultivateur/request/$', cultivateur.CultivateurRequestView.as_view(), name='cultivateur_request'),
     url(r'^jardins/(?P<jardin_id>[0-9]+)/cultivateur/confirmation/$', cultivateur.CultivateurConfirmationView.as_view(), name='cultivateur_confirmation'),
-    url(r'^jardins/(?P<cultivateur_id>[0-9]+)/cultivateur/decide/$', cultivateur.CultivateurDecideView.as_view(), name='cultivateur_decide')
+    url(r'^jardins/(?P<cultivateur_id>[0-9]+)/cultivateur/decide/$', cultivateur.CultivateurDecideView.as_view(), name='cultivateur_decide'),
+
+    url(r'action/(?P<action_id>[0-9]+)/process/$', action.ProcessActionView.as_view(), name='action_process')
 ]
