@@ -1,5 +1,6 @@
 {% extends 's5appadherant/layout_adherant.html' %}
 
+{% load tags_adherant %}
 {% load activity_tags %}
 {% block content_adherant %}
     <div class="panel panel-default">
@@ -8,7 +9,7 @@
         <ul class="list-group">
             {% for action in stream %}
                 <li class="list-group-item">
-                    {% display_action action %}
+                    {% activity_row action %}
                 </li>
             {% empty %}
                 <li class="list-group-item text-center">
