@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import locale
 
 from django.contrib.auth.models import AnonymousUser
 from django.core.paginator import Page
