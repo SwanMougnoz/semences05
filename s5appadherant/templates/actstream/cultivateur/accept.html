@@ -2,5 +2,5 @@
 
 {% block action_content %}
     <a href="{% url 's5appadherant:profil_detail' adherant_id=action.actor.id %}">{{ action.actor.first_name }} {{ action.actor.last_name }}</a>
-    a accepté votre demande d'ajout comme cultivateur dans son jardin (<a href="{% url 's5appadherant:jardin_detail' jardin_id=action.target.id %}">{{ action.target }}</a>).
+    a accepté votre demande d'ajout comme cultivateur dans son jardin (<a href="{% url 's5appadherant:jardin_detail' jardin_id=action.action_object.jardin.id %}">{{ action.action_object.jardin }}</a>).
 {% endblock %}

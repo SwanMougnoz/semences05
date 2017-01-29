@@ -5,15 +5,29 @@ from django.db.models import Q
 
 class S5ActionManager(ActionManager):
 
-    def get_by_terms(self, verb, action_object, target):
-        action_object_content_type = ContentType.objects.get_for_model(action_object)
-        target_content_type = ContentType.objects.get_for_model(target)
+    def get_by_terms(self, verb=None, action_object=None, target=None):
+        filters = {}
 
-        return self.get(action_object_object_id=action_object.id,
-                        action_object_content_type_id=action_object_content_type.id,
-                        target_content_type_id=target_content_type.id,
-                        target_object_id=target.id,
-                        verb=verb)
+        if verb:
+            filters.update({
+                'verb': verb
+            })
+
+        if action_object:
+            action_object_content_type = ContentType.objects.get_for_model(action_object)
+            filters.update({
+                'action_object_object_id': action_object.id,
+                'action_object_content_type_id': action_object_content_type.id
+            })
+
+        if target:
+            target_content_type = ContentType.objects.get_for_model(target)
+            filters.update({
+                'target_content_type_id': target_content_type.id,
+                'target_object_id': target.id
+            })
+
+        return self.get(**filters)
 
     @stream
     def self_excluded_unprocessed(self, obj):
