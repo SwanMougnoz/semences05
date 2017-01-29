@@ -1,4 +1,6 @@
 # coding=utf-8
+from itertools import chain
+
 from django.core.urlresolvers import reverse, NoReverseMatch
 from django.db import models
 
