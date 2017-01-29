@@ -2,6 +2,7 @@ from django.db import models
 
 from s5appadherant.managers.cultivateur import CultivateurManager
 from s5appadherant.models import Jardin, Adherant
+from s5appadherant.signals import cultivateur
 
 
 class Cultivateur(models.Model):
@@ -11,3 +12,14 @@ class Cultivateur(models.Model):
     pending = models.BooleanField(default=True)
 
     objects = CultivateurManager()
+
+    def accept(self):
+        self.accepte = True
+        self.pending = False
+        self.save()
+
+    def deny(self):
+        self.accepte = False
+        self.pending = False
+        self.save()
+

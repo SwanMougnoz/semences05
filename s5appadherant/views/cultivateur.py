@@ -1,15 +1,11 @@
 # -*- coding: utf-8 -*-
-from actstream.actions import follow
-from actstream.models import Action
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect, get_object_or_404
 from django.views.generic import TemplateView
 from rules.contrib.views import PermissionRequiredMixin
-from actstream import action
 
 from s5appadherant.models import Jardin, Cultivateur
-from s5appadherant.services.mailer import MailFactory
 from s5appadherant import permissions
 
 
@@ -51,10 +47,6 @@ class CultivateurRequestView(LoginRequiredMixin, PermissionRequiredMixin, Templa
         cultivateur.pending = True
         cultivateur.save()
 
-        MailFactory.send('cultivateur_request', cultivateur=cultivateur)
-        action.send(request.user, verb="request", action_object=cultivateur, target=jardin)
-        follow(request.user, cultivateur, actor_only=False, send_action=False)
-
         return redirect(reverse('s5appadherant:cultivateur_confirmation', kwargs={
             'jardin_id': jardin.id
         }))
@@ -80,24 +72,9 @@ class CultivateurDecideView(LoginRequiredMixin, PermissionRequiredMixin, Templat
         cultivateur = get_object_or_404(Cultivateur, pk=kwargs.get('cultivateur_id'))
 
         if 'cultivateur_accept' in request.POST:
-            cultivateur.accepte = True
-            cultivateur.pending = False
-            cultivateur.save()
-
-            MailFactory.send('cultivateur_accept', cultivateur=cultivateur)
-            action.send(request.user, verb="accept", action_object=cultivateur, target=cultivateur.jardin)
-            follow(cultivateur.adherant.user, cultivateur.jardin, actor_only=False, send_action=False)
+            cultivateur.accept()
 
         elif 'cultivateur_deny' in request.POST:
-            cultivateur.accepte = False
-            cultivateur.pending = False
-            cultivateur.save()
-
-            MailFactory.send('cultivateur_deny', cultivateur=cultivateur)
-            action.send(request.user, verb="deny", action_object=cultivateur, target=cultivateur.jardin)
-
-        request_action = Action.objects.get_by_terms('request', cultivateur, cultivateur.jardin)
-        request.user.adherant.processed_actions.add(request_action)
-        request.user.save()
+            cultivateur.deny()
 
         return redirect('s5appadherant:accueil')
