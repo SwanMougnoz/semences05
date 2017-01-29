@@ -17,7 +17,18 @@ class PageContenuAdmin(admin.ModelAdmin):
     form = PageContenuAdminForm
 
 
+class MenuitemAdminForm(forms.ModelForm):
+
+    class Meta:
+        model = menuitem.Menuitem
+        exclude = ['_page_generique']
+
+
+class MenuitemAdmin(admin.ModelAdmin):
+    form = MenuitemAdminForm
+
+
 admin.site.register(page.PageContenu, PageContenuAdmin)
 admin.site.register(page.PageGenerique)
-admin.site.register(menuitem.Menuitem)
+admin.site.register(menuitem.Menuitem, MenuitemAdmin)
 admin.site.register(variete.Variete)
