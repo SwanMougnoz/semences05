@@ -21,6 +21,9 @@ class Menuitem(models.Model):
         null=True
     )
 
+    def __unicode__(self):
+        return "%s (en position %d)" % (self.libelle, self.position)
+
     @property
     def page(self):
         if self._page_contenu is not None:
@@ -41,3 +44,7 @@ class Menuitem(models.Model):
         else:
             msg = "Menuitem.page reference soit une PageContenu soit une PageGenerique. %s obtenu" % value.__class__
             raise ValueError(msg)
+
+    class Meta:
+        verbose_name = 'Menu'
+        verbose_name_plural = 'Liens du menu'
