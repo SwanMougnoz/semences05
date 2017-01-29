@@ -42,7 +42,7 @@ class CultivateurRequest(Mail):
         self.subject = subject_str % (adherant.user.first_name, adherant.user.last_name)
         self.text_content = text_content
         self.html_content = html_content
-        self.sender = "some email"
+        self.sender = settings.DEFAULT_FROM_EMAIL
         self.recipients = [proprietaire.user.email]
 
         return self._send()
@@ -63,7 +63,7 @@ class CultivateurAccept(Mail):
         self.subject = subject_str % (proprietaire.user.first_name, proprietaire.user.last_name)
         self.text_content = text_content
         self.html_content = html_content
-        self.sender = "some email"
+        self.sender = settings.DEFAULT_FROM_EMAIL
         self.recipients = [adherant.user.email]
 
         return self._send()
@@ -84,7 +84,7 @@ class CultivateurDeny(Mail):
         self.subject = subject_str % (proprietaire.user.first_name, proprietaire.user.last_name)
         self.text_content = text_content
         self.html_content = html_content
-        self.sender = "some email"
+        self.sender = settings.DEFAULT_FROM_EMAIL
         self.recipients = [adherant.user.email]
 
         return self._send()

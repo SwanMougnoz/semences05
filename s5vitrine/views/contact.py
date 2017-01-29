@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.shortcuts import redirect
 from django.views.generic import TemplateView
 from django.core.mail import send_mail
@@ -26,12 +27,11 @@ class ContactView(TemplateView):
             message = form.cleaned_data['message']
             send_copy = form.cleaned_data['send_copy']
 
-            destinataires = ['mougnoz.swan@gmail.com']
+            destinataires = [settings.CONTACT_EMAIL]
             if send_copy:
                 destinataires.append(str(expediteur))
 
-            # todo : activer en production
-            # send_mail(objet, message, expediteur, destinataires)
+            send_mail(objet, message, settings.DEFAULT_FROM_EMAIL, destinataires)
 
             return redirect("s5vitrine:contact_envoye")
 

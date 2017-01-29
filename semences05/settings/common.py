@@ -174,6 +174,12 @@ MEDIA_URL = '/media/'
 
 COMPRESS_ROOT = os.path.join(PROJECT_DIR, 'var/assets')
 
+# Emails
+
+DEFAULT_FROM_EMAIL = 'noreply@grainedesmontagnes.org'
+SERVER_EMAIL = 'admin@grainedesmontagnes.org'
+CONTACT_EMAIL = 'contact@grainedesmontagnes.org'
+
 # Misc
 
 DDF_DEFAULT_DATA_FIXTURE = 'random'
