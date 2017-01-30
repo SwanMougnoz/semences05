@@ -32,7 +32,7 @@ class CultureTable(Table):
         self.opts.ajax_source = reverse_lazy('s5appadherant:culture_data', kwargs={
             'jardin_id': jardin.id
         })
-        self.opts.page_length = 5
+        self.addons.pagination.length = 5
 
     class Meta:
         search = False

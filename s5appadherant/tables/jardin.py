@@ -41,7 +41,7 @@ class ProfilJardinTable(Table):
         self.opts.ajax_source = reverse_lazy('s5appadherant:profil_jardin_data', kwargs={
             'adherant_id': adherant.id
         })
-        self.opts.page_length = 5
+        self.addons.pagination.length = 5
 
     class Meta:
         search = False
