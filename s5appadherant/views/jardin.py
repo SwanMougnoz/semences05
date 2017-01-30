@@ -82,9 +82,8 @@ class JardinAddView(LoginRequiredMixin, CreateView):
         return context
 
     def form_valid(self, form):
-        adherant = Adherant.objects.get_from_user(self.request.user)
         jardin = form.save(commit=False)
-        jardin.proprietaire = adherant
+        jardin.proprietaire = self.request.user.adherant
         jardin.save()
 
         return HttpResponseRedirect(self.get_success_url())

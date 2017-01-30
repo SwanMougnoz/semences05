@@ -3,8 +3,8 @@
 {% load django_bootstrap_breadcrumbs %}
 {% block breadcrumbs %}
     {% breadcrumb 'Accueil' 's5appadherant:accueil' %}
-    {% if jardin.proprietaire == current_adherant %}
-        {% breadcrumb 'Mes jardins' 's5appadherant:jardin_adherant' adherant_id=current_adherant.id %}
+    {% if jardin.proprietaire == request.user.adherant %}
+        {% breadcrumb 'Mes jardins' 's5appadherant:jardin_adherant' adherant_id=request.user.adherant.id %}
     {% else %}
         {% breadcrumb 'Tous les jardins' 's5appadherant:jardin_all' %}
     {% endif %}

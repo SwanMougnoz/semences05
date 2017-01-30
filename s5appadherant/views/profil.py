@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 from django.http import HttpResponseNotFound
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.views.generic import TemplateView
 from table.views import FeedDataView
 
@@ -20,12 +20,9 @@ class ProfilDetailView(LoginRequiredMixin, TemplateView):
         adherant_id = kwargs.get('adherant_id')
 
         if adherant_id is None:
-            adherant = Adherant.objects.get_from_user(request.user)
+            adherant = request.user.adherant
         else:
-            try:
-                adherant = Adherant.objects.get(pk=adherant_id)
-            except ObjectDoesNotExist:
-                return HttpResponseNotFound("<h1>La page demandee n'existe pas</h1>")
+            adherant = get_object_or_404(Adherant, pk=adherant_id)
 
         jardin_table = ProfilJardinTable(adherant=adherant)
 
@@ -41,7 +38,7 @@ class ProfilEditView(LoginRequiredMixin, TemplateView):
     template_name = 's5appadherant/profil/edit.html'
 
     def get(self, request, *args, **kwargs):
-        adherant = Adherant.objects.get_from_user(request.user)
+        adherant = request.user.adherant
 
         user_form = UserForm(prefix='user', instance=request.user)
         adherant_form = AdherantForm(prefix='adherant', instance=adherant)
@@ -56,7 +53,7 @@ class ProfilEditView(LoginRequiredMixin, TemplateView):
         })
 
     def post(self, request):
-        adherant = Adherant.objects.get_from_user(request.user)
+        adherant = request.user.adherant
 
         user_form = UserForm(request.POST, prefix='user', instance=request.user)
         adherant_form = AdherantForm(request.POST, prefix='adherant', instance=adherant)

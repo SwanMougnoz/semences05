@@ -6,7 +6,7 @@
     <a href="{% url 's5appadherant:profil_current' %}" class="list-group-item {% if menu_actif == 'profil' %}active{% endif %}">
         Mon profil
     </a>
-    <a href="{% url 's5appadherant:jardin_adherant' adherant_id=current_adherant.id %}" class="list-group-item {% if menu_actif == 'jardin' %}active{% endif %}">
+    <a href="{% url 's5appadherant:jardin_adherant' adherant_id=request.user.adherant.id %}" class="list-group-item {% if menu_actif == 'jardin' %}active{% endif %}">
         Jardins
     </a>
     <a href="{% url 's5appadherant:variete_list' %}" class="list-group-item {% if menu_actif == 'variete' %}active{% endif %}">
