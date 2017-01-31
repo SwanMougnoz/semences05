@@ -1,0 +1,34 @@
+@import "jardin";
+@import "login";
+@import "table";
+@import "variete";
+
+.menu-adherant {
+  a:hover {
+    background-color: green;
+    &.active {
+      background-color: lighten(green, 10%);
+    }
+  }
+}
+
+header {
+  height: 75px;
+  h1 {
+    height: 46px;
+    line-height: 50px;
+    font-size: 32px;
+    & + p {
+      margin-left: 3px;
+    }
+  }
+}
+
+.ckeditor-fill-width {
+  .django-ckeditor-widget {
+    width: 100%;
+    & > div {
+      width: 100% !important;
+    }
+  }
+}
