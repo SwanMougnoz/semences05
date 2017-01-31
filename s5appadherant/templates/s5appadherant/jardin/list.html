@@ -21,13 +21,15 @@
                 &nbsp;Ajouter un jardin
             </a>
             <ul class="nav nav-tabs">
-                {% if all_jardins %}
-                    <li><a href="{% url 's5appadherant:jardin_adherant' adherant_id=request.user.adherant.id %}">Mes jardins</a></li>
-                    <li class="active"><a href="#">Tous les jardins</a></li>
-                {% else %}
-                    <li class="active"><a href="#">Mes jardins</a></li>
-                    <li><a href="{% url 's5appadherant:jardin_all' %}">Tous les jardins</a></li>
-                {% endif %}
+                <li {% if list == 'adherant' %}class="active"{% endif %}>
+                    <a href="{% url 's5appadherant:jardin_adherant' adherant_id=request.user.adherant.id %}">Mes jardins</a>
+                </li>
+                <li {% if list == 'cultivateur' %}class="active"{% endif %}>
+                    <a href="{% url 's5appadherant:jardin_cultivateur' adherant_id=request.user.adherant.id %}">Jardins auxquels je participe</a>
+                </li>
+                <li {% if list == 'all' %}class="active"{% endif %}>
+                    <a href="{% url 's5appadherant:jardin_all' %}">Tous les jardins</a>
+                </li>
             </ul>
         </div>
     </div>
