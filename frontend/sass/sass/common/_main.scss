@@ -22,3 +22,9 @@ footer {
   margin-top: 15px;
   padding-top: 15px;
 }
+
+// anti-reset pour ckeditor
+ul {
+  list-style-type: inherit;
+  padding-left: 30px;
+}
