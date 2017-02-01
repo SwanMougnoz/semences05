@@ -1,0 +1,24 @@
+#jardin-detail-map {
+  height: 200px;
+}
+
+.jardin-detail {
+  table {
+    tr td:first-child {
+      font-weight: bold;
+      padding-right: 17px;
+      padding-bottom: 5px;
+    }
+  }
+  p {
+    line-height: 20px;
+    span {
+      font-weight: bold;
+      margin-right: 43px;
+    }
+  }
+}
+
+.panel-description-jardin {
+  margin-top: 15px;
+}
