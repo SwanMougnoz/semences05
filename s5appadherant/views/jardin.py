@@ -4,6 +4,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseNotFound
 from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
 from django.views.generic import CreateView
 from django.views.generic import ListView, TemplateView
 from django.views.generic import UpdateView
@@ -19,22 +20,33 @@ class JardinListView(LoginRequiredMixin, ListView):
     template_name = 's5appadherant/jardin/list.html'
     model = Jardin
     paginate_by = 10
-
-    def get_queryset(self):
-        adherant_id = self.kwargs.get('adherant_id')
-        if adherant_id is not None:
-            return Jardin.objects.filter(proprietaire_id=adherant_id)
-        return Jardin.objects.all()
+    list_identifier = 'all'
 
     def get_context_data(self, **kwargs):
         context = super(JardinListView, self).get_context_data(**kwargs)
         context.update({
             'jardins': context.get('page_obj'),
-            'all_jardins': self.kwargs.get('adherant_id') is None,
+            'list': self.list_identifier,
             'menu_actif': 'jardin',
             'titre_page': u"Mes jardins"
         })
         return context
+
+
+class JardinAdherantListView(JardinListView):
+    list_identifier = 'adherant'
+
+    def get_queryset(self):
+        adherant = get_object_or_404(Adherant, pk=self.kwargs.get('adherant_id'))
+        return Jardin.objects.filter(proprietaire=adherant)
+
+
+class JardinCultivteurListView(JardinListView):
+    list_identifier = 'cultivateur'
+
+    def get_queryset(self):
+        adherant = get_object_or_404(Adherant, pk=self.kwargs.get('adherant_id'))
+        return Jardin.objects.filter(cultivateur__accepte=True, cultivateur__adherant=adherant)
 
 
 class JardinDetailView(LoginRequiredMixin, TemplateView):
