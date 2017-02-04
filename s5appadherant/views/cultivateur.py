@@ -43,8 +43,6 @@ class CultivateurRequestView(LoginRequiredMixin, PermissionRequiredMixin, Templa
         cultivateur = Cultivateur()
         cultivateur.adherant = request.user.adherant
         cultivateur.jardin = jardin
-        cultivateur.accepte = False
-        cultivateur.pending = True
         cultivateur.save()
 
         return redirect(reverse('s5appadherant:cultivateur_confirmation', kwargs={

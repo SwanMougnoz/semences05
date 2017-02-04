@@ -1,0 +1,9 @@
+{% extends 's5mailing/txt/base.txt' %}
+
+{% block body %}
+Demande d'ajout comme cultivateur
+
+{{ cultivateur.adherant.user.first_name }} {{ cultivateur.adherant.user.last_name }} a fait une demande pour cultiver un de vos jardin ({{ cultivateur.jardin ).
+
+Rendez-vous sur votre site pour confirmer ou refuser cette demande : {% url 's5appadherant:login' %}
+{% endblock %}

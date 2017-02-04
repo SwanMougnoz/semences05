@@ -4,12 +4,14 @@ from actstream.models import Action
 from django.core.exceptions import ObjectDoesNotExist
 import logging
 
+from s5mailing.views.cultivateur import CultivateurRequestMessageView
 from services.mailer import MailFactory
 
 
 def save_actions(sender, instance, created, **kwargs):
     if created:
-        MailFactory.send('cultivateur_request', cultivateur=instance)
+        CultivateurRequestMessageView(cultivateur=instance).send()
+
         action.send(instance.adherant.user, verb="request", action_object=instance)
         follow(instance.adherant.user, instance, actor_only=False, send_action=False)
         follow(instance.jardin.proprietaire.user, instance, actor_only=False, send_action=False)
