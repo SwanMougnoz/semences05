@@ -3,7 +3,7 @@
 {% block body %}
     <h3>Demande d'ajout comme cultivateur</h3>
     <p>
-        {{ cultivateur.adherant.user.first_name }} {{ cultivateur.adherant.user.last_name }} a fait une demande pour cultiver un de vos jardin
+        {{ cultivateur.adherant }} a fait une demande pour cultiver un de vos jardin
         (<a href="{% url 's5appadherant:jardin_detail' jardin_id=cultivateur.jardin.id %}">{{ cultivateur.jardin }}</a>).
     </p>
     <p>
