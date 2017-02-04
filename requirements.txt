@@ -14,4 +14,4 @@ rules==1.2
 django-dynamic-fixture==1.9.1
 sqlparse==0.2.2
 django-activity-stream==0.6.3
-django-mailviews==0.6.5
+git+git://github.com/disqus/django-mailviews.git@e3f4adbea04a134e485624077c0194d48f1b646f

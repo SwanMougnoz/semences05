@@ -1,0 +1,9 @@
+{% extends 's5mailing/txt/base.txt' %}
+
+{% block body %}
+Nouveau message depuis le formulaire de contact grainedesmontagnes.org :
+
+Expediteur : {{ sender }}
+Message :
+{{ message }}
+{% endblock %}

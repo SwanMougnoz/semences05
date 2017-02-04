@@ -18,6 +18,7 @@ PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__
 APP_DIR = os.path.join(PROJECT_DIR, 'semences05')
 VITRINE_DIR = os.path.join(PROJECT_DIR, 's5vitrine')
 APPADHERANT_DIR = os.path.join(PROJECT_DIR, 's5appadherant')
+MAILING_DIR = os.path.join(PROJECT_DIR, 's5mailing')
 
 
 # Quick-start development settings - unsuitable for production
@@ -55,6 +56,7 @@ PREREQ_APPS = [
 PROJECT_APPS = [
     's5appadherant',
     's5vitrine',
+    's5mailing',
     'semences05'
 ]
 
@@ -77,7 +79,8 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(VITRINE_DIR, 'templates'),
-            os.path.join(APPADHERANT_DIR, 'templates')
+            os.path.join(APPADHERANT_DIR, 'templates'),
+            os.path.join(MAILING_DIR, 'templates')
         ],
         'APP_DIRS': True,
         'OPTIONS': {

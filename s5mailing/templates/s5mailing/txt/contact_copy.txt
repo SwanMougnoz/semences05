@@ -1,0 +1,10 @@
+{% extends 's5mailing/txt/base.txt' %}
+
+{% block body %}
+Votre message a bien été envoyé. Notre équipe met tout en oeuvre pour vous répondre le plus rapidement possible. Merci pour l’intérêt que vous portez à notre association.
+
+Message envoyé :
+{{ message }}
+
+À bientôt.
+{% endblock %}
