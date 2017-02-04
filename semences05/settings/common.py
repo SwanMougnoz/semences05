@@ -48,7 +48,8 @@ PREREQ_APPS = [
     'table',
     'rules',
     'django_dynamic_fixture',
-    'actstream'
+    'actstream',
+    'mailviews'
 ]
 
 PROJECT_APPS = [

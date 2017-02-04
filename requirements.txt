@@ -14,3 +14,4 @@ rules==1.2
 django-dynamic-fixture==1.9.1
 sqlparse==0.2.2
 django-activity-stream==0.6.3
+django-mailviews==0.6.5
