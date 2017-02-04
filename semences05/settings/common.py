@@ -37,6 +37,7 @@ PREREQ_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'djangobower',
     'bootstrapform',
     'ckeditor',
@@ -46,7 +47,8 @@ PREREQ_APPS = [
     'compressor',
     'table',
     'rules',
-    'django_dynamic_fixture'
+    'django_dynamic_fixture',
+    'actstream'
 ]
 
 PROJECT_APPS = [
@@ -182,3 +184,10 @@ CONTACT_EMAIL = 'contact@grainedesmontagnes.org'
 # Misc
 
 DDF_DEFAULT_DATA_FIXTURE = 'random'
+
+ACTSTREAM_SETTINGS = {
+    'MANAGER': 's5appadherant.managers.action.S5ActionManager',
+    'FETCH_RELATIONS': True,
+    'USE_PREFETCH': True,
+    'GFK_FETCH_DEPTH': 5,
+}

@@ -20,4 +20,4 @@ class UserForm(forms.ModelForm):
 class AdherantForm(forms.ModelForm):
     class Meta:
         model = Adherant
-        exclude = ['user', 'adresse']
+        exclude = ['user', 'adresse', 'processed_actions']

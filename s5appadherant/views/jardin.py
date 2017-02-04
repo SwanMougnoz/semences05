@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from actstream.actions import follow
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
@@ -62,13 +63,13 @@ class JardinDetailView(LoginRequiredMixin, TemplateView):
         culture_table = CultureTable(jardin=jardin)
 
         qs = jardin.cultivateur_set.all()
-        cultivateurs_all = [cultivateur.adherant for cultivateur in qs]
+        cultivateurs_pending = [cultivateur.adherant for cultivateur in qs.filter(pending=True)]
         cultivateurs_acceptes = [cultivateur.adherant for cultivateur in qs.filter(accepte=True)]
 
         return self.render_to_response({
             'jardin': jardin,
             'culture_table': culture_table,
-            'cultivateurs_all': cultivateurs_all,
+            'cultivateurs_pending': cultivateurs_pending,
             'cultivateurs_acceptes': cultivateurs_acceptes,
             'menu_actif': 'jardin',
             'titre_page': u'Jardin - %s' % jardin.appelation
@@ -97,6 +98,8 @@ class JardinAddView(LoginRequiredMixin, CreateView):
         jardin = form.save(commit=False)
         jardin.proprietaire = self.request.user.adherant
         jardin.save()
+
+        follow(self.request.user, jardin, actor_only=False, send_action=False)
 
         return HttpResponseRedirect(self.get_success_url())
 

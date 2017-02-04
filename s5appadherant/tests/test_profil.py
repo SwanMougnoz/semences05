@@ -120,7 +120,7 @@ class ProfilEditTest(TestCase, AssertHTMLMixin):
         request = self.factory.post(url, data=post_data)
         request.user = self.adherant.user
         request.resolver_match = resolve(url)
-        ProfilEditView.as_view()(request)
+        response = ProfilEditView.as_view()(request)
 
         post_add_count = Adherant.objects.count()
         adherant = Adherant.objects.get(pk=self.adherant.id)

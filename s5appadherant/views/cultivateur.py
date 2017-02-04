@@ -6,7 +6,6 @@ from django.views.generic import TemplateView
 from rules.contrib.views import PermissionRequiredMixin
 
 from s5appadherant.models import Jardin, Cultivateur
-from s5appadherant.services.mailer import MailFactory
 from s5appadherant import permissions
 
 
@@ -24,7 +23,7 @@ class CultivateurConfirmationView(LoginRequiredMixin, TemplateView):
 
 class CultivateurRequestView(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
     template_name = 's5appadherant/cultivateur/request.html'
-    permission_required = 's5appadherant.add_cultivateur'
+    permission_required = 's5appadherant.request_cultivateur'
 
     def get_permission_object(self):
         return get_object_or_404(Jardin, pk=self.kwargs.get('jardin_id'))
@@ -45,9 +44,8 @@ class CultivateurRequestView(LoginRequiredMixin, PermissionRequiredMixin, Templa
         cultivateur.adherant = request.user.adherant
         cultivateur.jardin = jardin
         cultivateur.accepte = False
+        cultivateur.pending = True
         cultivateur.save()
-
-        MailFactory.send('cultivateur_request', cultivateur=cultivateur)
 
         return redirect(reverse('s5appadherant:cultivateur_confirmation', kwargs={
             'jardin_id': jardin.id
@@ -74,11 +72,9 @@ class CultivateurDecideView(LoginRequiredMixin, PermissionRequiredMixin, Templat
         cultivateur = get_object_or_404(Cultivateur, pk=kwargs.get('cultivateur_id'))
 
         if 'cultivateur_accept' in request.POST:
-            cultivateur.accepte = True
-            cultivateur.save()
-            MailFactory.send('cultivateur_accept', cultivateur=cultivateur)
+            cultivateur.accept()
+
         elif 'cultivateur_deny' in request.POST:
-            cultivateur.delete()
-            MailFactory.send('cultivateur_deny', cultivateur=cultivateur)
+            cultivateur.deny()
 
         return redirect('s5appadherant:accueil')
