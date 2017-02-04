@@ -37,3 +37,12 @@ class CultivateurAcceptMessageView(CultivateurMessageView):
 
     def get_recipients(self):
         return self.cultivateur.adherant.user.email,
+
+
+class CultivateurDenyMessageView(CultivateurMessageView):
+    subject_template_name = 's5mailing/subject/cultivateur_deny.txt'
+    body_template_name = 's5mailing/txt/cultivateur_deny.txt'
+    html_body_template_name = 's5mailing/html/cultivateur_deny.html'
+
+    def get_recipients(self):
+        return self.cultivateur.adherant.user.email,

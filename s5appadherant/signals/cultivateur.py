@@ -4,8 +4,8 @@ from actstream.models import Action
 from django.core.exceptions import ObjectDoesNotExist
 import logging
 
-from s5mailing.views.cultivateur import CultivateurRequestMessageView, CultivateurAcceptMessageView
-from services.mailer import MailFactory
+from s5mailing.views.cultivateur import CultivateurRequestMessageView, CultivateurAcceptMessageView, \
+    CultivateurDenyMessageView
 
 
 def save_actions(sender, instance, created, **kwargs):
@@ -21,7 +21,7 @@ def save_actions(sender, instance, created, **kwargs):
             action.send(instance.jardin.proprietaire.user, verb="accept", action_object=instance)
             follow(instance.adherant.user, instance.jardin, actor_only=False, send_action=False)
         else:
-            MailFactory.send('cultivateur_deny', cultivateur=instance)
+            CultivateurDenyMessageView(cultivateur=instance).send()
             action.send(instance.jardin.proprietaire.user, verb="deny", action_object=instance)
 
         try:
