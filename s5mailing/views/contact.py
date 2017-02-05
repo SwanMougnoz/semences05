@@ -42,7 +42,7 @@ class ContactCopyMessageView(TemplatedHTMLEmailMessageView):
 
     def get_context_data(self, **kwargs):
         context = super(ContactCopyMessageView, self).get_context_data(**kwargs)
-        context['subject'] = self.message
+        context['subject'] = self.subject
         context['message'] = self.message
         return context
 

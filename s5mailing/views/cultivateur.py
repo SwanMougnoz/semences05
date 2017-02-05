@@ -13,7 +13,7 @@ class CultivateurMessageView(TemplatedHTMLEmailMessageView):
         return context
 
     def get_recipients(self):
-        raise NotImplemented
+        raise NotImplementedError
 
     def render_to_message(self, *args, **kwargs):
         assert 'to' not in kwargs
