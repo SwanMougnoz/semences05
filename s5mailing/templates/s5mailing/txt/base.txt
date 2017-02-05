@@ -1,0 +1,9 @@
+{% block header%}
+GRAINE DES MONTAGNES
+Maison des semences paysannes des Hautes-Alpes
+{% endblock %}
+{% block body %}{% endblock %}
+{% block footer %}
+grainedesmontagnes.org
+{% endblock %}
+

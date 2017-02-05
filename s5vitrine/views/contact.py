@@ -1,7 +1,7 @@
-from django.conf import settings
 from django.shortcuts import redirect
 from django.views.generic import TemplateView
-from django.core.mail import send_mail
+
+from s5mailing.views.contact import ContactMessageView, ContactCopyMessageView
 from s5vitrine.forms.contact import ContactForm
 from s5vitrine.models.menuitem import Menuitem
 
@@ -22,16 +22,15 @@ class ContactView(TemplateView):
     def post(self, request):
         form = ContactForm(request.POST)
         if form.is_valid():
-            expediteur = form.cleaned_data['email']
-            objet = form.cleaned_data['objet']
+            sender = form.cleaned_data['email']
+            subject = form.cleaned_data['objet']
             message = form.cleaned_data['message']
             send_copy = form.cleaned_data['send_copy']
 
-            destinataires = [settings.CONTACT_EMAIL]
-            if send_copy:
-                destinataires.append(str(expediteur))
+            ContactMessageView(subject=subject, message=message, sender=sender).send()
 
-            send_mail(objet, message, settings.DEFAULT_FROM_EMAIL, destinataires)
+            if send_copy:
+                ContactCopyMessageView(subject=subject, message=message, sender=sender).send()
 
             return redirect("s5vitrine:contact_envoye")
 

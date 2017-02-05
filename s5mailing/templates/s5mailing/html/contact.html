@@ -1,0 +1,8 @@
+{% extends 's5mailing/html/base.html' %}
+
+{% block body %}
+    <h3>Nouveau message depuis le formulaire de contact grainedesmontagnes.org :</h3>
+    <div><strong>Expéditeur :</strong>&nbsp;{{ sender }}</div>
+    <div><strong>Message :</strong></div>
+    <p>{{ message }}</p>
+{% endblock %}
