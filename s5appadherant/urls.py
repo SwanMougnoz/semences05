@@ -21,7 +21,7 @@ urlpatterns = [
 
     url(r'^jardins/$', jardin.JardinListView.as_view(), name='jardin_all'),
     url(r'^jardins/adherant/(?P<adherant_id>[0-9]+)/', jardin.JardinAdherantListView.as_view(), name='jardin_adherant'),
-    url(r'^jardins/cultivateur/(?P<adherant_id>[0-9]+)/', jardin.JardinCultivteurListView.as_view(), name='jardin_cultivateur'),
+    url(r'^jardins/cultivateur/(?P<adherant_id>[0-9]+)/', jardin.JardinCultivateurListView.as_view(), name='jardin_cultivateur'),
     url(r'^jardins/(?P<jardin_id>[0-9]+)/$', jardin.JardinDetailView.as_view(), name='jardin_detail'),
     url(r'^jardins/new/$', jardin.JardinAddView.as_view(), name='jardin_new'),
     url(r'^jardins/edit/(?P<pk>[0-9]+)/$', jardin.JardinEditView.as_view(), name='jardin_edit'),

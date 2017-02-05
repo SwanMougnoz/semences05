@@ -9,8 +9,9 @@ from with_asserts.mixin import AssertHTMLMixin
 from django_dynamic_fixture import G
 
 from s5appadherant.forms.jardin import JardinForm
-from s5appadherant.models import Adherant, Jardin, User
-from s5appadherant.views.jardin import JardinListView, JardinDetailView, JardinAddView, JardinEditView
+from s5appadherant.models import Adherant, Jardin, User, Cultivateur
+from s5appadherant.views.jardin import JardinListView, JardinDetailView, JardinAddView, JardinEditView, \
+    JardinAdherantListView, JardinCultivateurListView
 
 
 class JardinListTest(TestCase, AssertHTMLMixin):
@@ -18,9 +19,11 @@ class JardinListTest(TestCase, AssertHTMLMixin):
     def setUp(self):
         self.factory = RequestFactory()
         self.adherant = G(Adherant, user=G(User))
+        self.cultivateur = G(Adherant, user=G(User))
 
-        G(Jardin, proprietaire=self.adherant)
+        jardin = G(Jardin, proprietaire=self.adherant)
         [G(Jardin) for i in range(1, 5)]
+        G(Cultivateur, jardin=jardin, adherant=self.cultivateur, accepte=True, pending=False)
 
     def _do_test_jardin_list(self, response, jardins):
         self.assertEqual(200, response.status_code)
@@ -44,13 +47,6 @@ class JardinListTest(TestCase, AssertHTMLMixin):
             with self.assertHTML(response, 'a[href="%s"]' % detail_url):
                 pass
 
-            if jardin.proprietaire != self.adherant:
-                profil_url = reverse('s5appadherant:profil_detail', kwargs={
-                    'adherant_id': jardin.proprietaire.id
-                })
-                with self.assertHTML(response, 'a[href="%s"]' % profil_url):
-                    pass
-
         # Un lien vers la page d'ajout d'un jardin doit être présent
         add_url = reverse('s5appadherant:jardin_new')
         with self.assertHTML(response, 'a[href="%s"]' % add_url):
@@ -73,9 +69,21 @@ class JardinListTest(TestCase, AssertHTMLMixin):
         request = self.factory.get(url)
         request.user = self.adherant.user
         request.resolver_match = resolve(url)
-        response = JardinListView.as_view()(request, **params)
+        response = JardinAdherantListView.as_view()(request, **params)
 
         self._do_test_jardin_list(response, Jardin.objects.filter(proprietaire=self.adherant))
+
+    def test_get_cultivateur(self):
+        params = {'adherant_id': self.cultivateur.id}
+        url = reverse('s5appadherant:jardin_adherant', kwargs=params)
+
+        request = self.factory.get(url)
+        request.user = self.cultivateur.user
+        request.resolver_match = resolve(url)
+        response = JardinCultivateurListView.as_view()(request, **params)
+
+        self._do_test_jardin_list(response, Jardin.objects.filter(cultivateur__adherant=self.cultivateur,
+                                                                  cultivateur__accepte=True))
 
     def test_get_login_required(self):
         request = self.factory.get(reverse('s5appadherant:jardin_all'))

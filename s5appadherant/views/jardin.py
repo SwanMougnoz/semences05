@@ -42,7 +42,7 @@ class JardinAdherantListView(JardinListView):
         return Jardin.objects.filter(proprietaire=adherant)
 
 
-class JardinCultivteurListView(JardinListView):
+class JardinCultivateurListView(JardinListView):
     list_identifier = 'cultivateur'
 
     def get_queryset(self):
