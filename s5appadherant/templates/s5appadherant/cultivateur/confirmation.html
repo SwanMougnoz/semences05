@@ -4,7 +4,7 @@
 {% block breadcrumbs %}
     {% breadcrumb 'Accueil' 's5appadherant:accueil' %}
     {% breadcrumb 'Tous les jardins' 's5appadherant:jardin_all' %}
-    {% breadcrumb jardin.appelation 's5appadherant:jardin_detail' jardin_id=jardin.id %}
+    {% breadcrumb jardin.appelation 's5appadherant:jardin_detail' jardin_id=jardin_id %}
     {% breadcrumb 'Demande de participation à un jardin' None %}
     {{ block.super }}
 {% endblock %}
@@ -12,13 +12,15 @@
 {% load static %}
 {% block js %}
     <script src="{% static 's5appadherant/js/countdown.js' %}"></script>
+{% endblock %}
+
+{% block row_js %}
     <script>
-{#    todo: impossible d'utiliser compress avec un set de variable dans ce block, ce block va etre supprimé de toute façon#}
-{#        $(document).ready(function() {#}
-{#            $('#compteur').countDown({#}
-{#                redirect: "{% url 's5appadherant:jardin_detail' jardin_id=jardin_id %}"#}
-{#            });#}
-{#        });#}
+        $(document).ready(function() {
+            $('#compteur').countDown({
+                redirect: "{% url 's5appadherant:jardin_detail' jardin_id=jardin_id %}"
+            });
+        });
     </script>
 {% endblock %}
 
