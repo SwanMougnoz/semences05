@@ -14,21 +14,14 @@
 {% endblock %}
 
 {% load static %}
-{% block js %}
+{% block row_js %}
     {{ block.super }}
-    {#    <script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>#}
-{#    <script type="text/javascript" src="{% static 'ckeditor/ckeditor-init.js' %}"></script>#}
-    <script>
-        $(document).ready(function() {
-            var $elem = $("#id_description");
-            CKEDITOR.replace($elem.attr('id'))
-        })
-    </script>
+    <script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+    <script type="text/javascript" src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
 {% endblock %}
 
 {% load bootstrap %}
 {% block content_adherant %}
-    <script src="//cdn.ckeditor.com/4.6.2/basic/ckeditor.js"></script>
     <div class="row">
         <div class="col-md-12">
             {% if jardin %}

@@ -14,6 +14,12 @@
     <script type="text/javascript" src="{% static 's5appadherant/js/culture-add.js' %}"></script>
 {% endblock %}
 
+{% block row_js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+    <script type="text/javascript" src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+{% endblock %}
+
 {% block head_js %}
     {{ block.super }}
     <script type="text/javascript" src="{% static 'datetimepicker/build/jquery.datetimepicker.full.min.js' %}"></script>
@@ -33,7 +39,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-7">
+        <div class="col-md-7 ckeditor-fill-width">
             <form action="{% url 's5appadherant:culture_new' jardin_id=jardin.id %}"
                   method="POST"
                   role="form"
