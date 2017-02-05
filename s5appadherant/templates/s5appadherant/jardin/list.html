@@ -3,10 +3,12 @@
 {% load django_bootstrap_breadcrumbs %}
 {% block breadcrumbs %}
     {% breadcrumb 'Accueil' 's5appadherant:accueil' %}
-    {% if all_jardins %}
-        {% breadcrumb 'Tous les jardins' None %}
-    {% else %}
+    {% if list == 'adherant' %}
         {% breadcrumb 'Mes jardins' None %}
+    {% elif list == 'cultivateur' %}
+        {% breadcrumb 'Jardins auxquels je participe' None %}
+    {% elif list == 'all' %}
+        {% breadcrumb 'Tous les jardins' None %}
     {% endif %}
     {{ block.super }}
 {% endblock %}
