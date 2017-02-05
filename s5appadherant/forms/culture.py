@@ -2,6 +2,7 @@
 import datetime
 from functools import partial
 
+from ckeditor.widgets import CKEditorWidget
 from django import forms
 from django.core.exceptions import ValidationError
 
@@ -15,7 +16,9 @@ class CultureForm(forms.Form):
     type_conservation = forms.ChoiceField(label="Type de conservation", choices=Culture.CONSERVATION_ENUM)
     date_debut = forms.DateField(label="Mise en culture", widget=DatePicker(), initial=datetime.date.today())
     variete_nom = forms.CharField(label="Nom", max_length=255, required=False)
-    variete_description = forms.CharField(label="Description", widget=forms.Textarea, required=False)
+    variete_description = forms.CharField(label="Description",
+                                          widget=CKEditorWidget(config_name='restricted'),
+                                          required=False)
     variete_photo = forms.ImageField(label="Photo", required=False)
 
     def clean(self):
