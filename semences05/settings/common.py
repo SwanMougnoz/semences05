@@ -50,7 +50,8 @@ PREREQ_APPS = [
     'rules',
     'django_dynamic_fixture',
     'actstream',
-    'mailviews'
+    'mailviews',
+    'maintenance_mode'
 ]
 
 PROJECT_APPS = [
@@ -70,6 +71,7 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'maintenance_mode.middleware.MaintenanceModeMiddleware'
 ]
 
 ROOT_URLCONF = 'semences05.urls'
@@ -80,7 +82,8 @@ TEMPLATES = [
         'DIRS': [
             os.path.join(VITRINE_DIR, 'templates'),
             os.path.join(APPADHERANT_DIR, 'templates'),
-            os.path.join(MAILING_DIR, 'templates')
+            os.path.join(MAILING_DIR, 'templates'),
+            os.path.join(APP_DIR, 'templates')
         ],
         'APP_DIRS': True,
         'OPTIONS': {
