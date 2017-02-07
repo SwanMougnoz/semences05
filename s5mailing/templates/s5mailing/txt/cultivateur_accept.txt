@@ -3,5 +3,5 @@
 {% block body %}
 {{ cultivateur.jardin.proprietaire }} a accepté votre demande d'ajout comme cultivateur
 
-Vous avez maintenant pleinement accès au jardin en question ({% url 's5appadherant:jardin_detail' jardin_id=cultivateur.jardin.id %}").
+Vous avez maintenant pleinement accès au jardin en question ({{ urlprefix }}{% url 's5appadherant:jardin_detail' jardin_id=cultivateur.jardin.id %}").
 {% endblock %}

@@ -3,13 +3,15 @@ from mailviews.messages import TemplatedHTMLEmailMessageView
 
 class CultivateurMessageView(TemplatedHTMLEmailMessageView):
 
-    def __init__(self, cultivateur):
+    def __init__(self, cultivateur, request):
         super(CultivateurMessageView, self).__init__()
         self.cultivateur = cultivateur
+        self.request = request
 
     def get_context_data(self, **kwargs):
         context = super(CultivateurMessageView, self).get_context_data(**kwargs)
         context['cultivateur'] = self.cultivateur
+        context['urlprefix'] = "%s://%s" % (self.request.scheme, self.request.get_host())
         return context
 
     def get_recipients(self):

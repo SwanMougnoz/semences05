@@ -7,6 +7,7 @@ from s5mailing.views.cultivateur import CultivateurMessageView, CultivateurReque
     CultivateurAcceptMessageView, CultivateurDenyMessageView
 
 
+# todo: tester vraiment les vue
 class CultivateurMessageViewTest(TestCase):
 
     def setUp(self):

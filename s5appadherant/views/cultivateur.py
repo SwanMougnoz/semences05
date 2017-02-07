@@ -7,6 +7,8 @@ from rules.contrib.views import PermissionRequiredMixin
 
 from s5appadherant.models import Jardin, Cultivateur
 from s5appadherant import permissions
+from s5mailing.views.cultivateur import CultivateurRequestMessageView, CultivateurAcceptMessageView, \
+    CultivateurDenyMessageView
 
 
 class CultivateurConfirmationView(LoginRequiredMixin, TemplateView):
@@ -45,6 +47,8 @@ class CultivateurRequestView(LoginRequiredMixin, PermissionRequiredMixin, Templa
         cultivateur.jardin = jardin
         cultivateur.save()
 
+        CultivateurRequestMessageView(cultivateur, request).send()
+
         return redirect(reverse('s5appadherant:cultivateur_confirmation', kwargs={
             'jardin_id': jardin.id
         }))
@@ -71,8 +75,10 @@ class CultivateurDecideView(LoginRequiredMixin, PermissionRequiredMixin, Templat
 
         if 'cultivateur_accept' in request.POST:
             cultivateur.accept()
+            CultivateurAcceptMessageView(cultivateur, request).send()
 
         elif 'cultivateur_deny' in request.POST:
             cultivateur.deny()
+            CultivateurDenyMessageView(cultivateur, request).send()
 
         return redirect('s5appadherant:accueil')

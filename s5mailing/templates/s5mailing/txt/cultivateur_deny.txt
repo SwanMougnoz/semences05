@@ -3,7 +3,7 @@
 {% block body %}
 {{ cultivateur.jardin.proprietaire }} a refusé votre demande d'ajout comme cultivateur
 
-Votre demande concernait le jardin {{ cultivateur.jardin }} ({% url 's5appadherant:jardin_detail' jardin_id=cultivateur.jardin.id %}).
+Votre demande concernait le jardin {{ cultivateur.jardin }} ({{ urlprefix }}{% url 's5appadherant:jardin_detail' jardin_id=cultivateur.jardin.id %}).
 
-Si cette décision vous surprend, vous pouvez toujours réitérer votre demande et/ou prendre contact le proprietaire sur sa page de profil ({% url 's5appadherant:profil_detail' adherant_id=cultivateur.jardin.proprietaire.id %}).
+Si cette décision vous surprend, vous pouvez toujours réitérer votre demande et/ou prendre contact le proprietaire sur sa page de profil ({{ urlprefix }}{% url 's5appadherant:profil_detail' adherant_id=cultivateur.jardin.proprietaire.id %}).
 {% endblock %}

@@ -4,6 +4,6 @@
     <h3>{{ cultivateur.jardin.proprietaire }} a accepté votre demande d'ajout comme cultivateur</h3>
     <p>
         Vous avez maintenant pleinement accès au jardin en question
-        (<a href="{% url 's5appadherant:jardin_detail' jardin_id=cultivateur.jardin.id %}">{{ cultivateur.jardin }}</a>).
+        (<a href="{{ urlprefix }}{% url 's5appadherant:jardin_detail' jardin_id=cultivateur.jardin.id %}">{{ cultivateur.jardin }}</a>).
     </p>
 {% endblock %}

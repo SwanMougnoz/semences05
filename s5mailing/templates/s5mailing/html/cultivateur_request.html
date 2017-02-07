@@ -4,9 +4,9 @@
     <h3>Demande d'ajout comme cultivateur</h3>
     <p>
         {{ cultivateur.adherant }} a fait une demande pour cultiver un de vos jardin
-        (<a href="{% url 's5appadherant:jardin_detail' jardin_id=cultivateur.jardin.id %}">{{ cultivateur.jardin }}</a>).
+        (<a href="{{ urlprefix }}{% url 's5appadherant:jardin_detail' jardin_id=cultivateur.jardin.id %}">{{ cultivateur.jardin }}</a>).
     </p>
     <p>
-        Rendez-vous sur <a href="{% url 's5appadherant:login' %}">votre site</a> pour confirmer ou refuser cette demande.
+        Rendez-vous sur <a href="{{ urlprefix }}{{ request.scheme }}{% url 's5appadherant:login' %}">votre site</a> pour confirmer ou refuser cette demande.
     </p>
 {% endblock %}

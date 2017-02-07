@@ -4,10 +4,10 @@
     <h3>{{ cultivateur.jardin.proprietaire }} a refusé votre demande d'ajout comme cultivateur</h3>
     <p>
         Votre demande concernait le jardin
-        <a href="{% url 's5appadherant:jardin_detail' jardin_id=cultivateur.jardin.id %}">{{ cultivateur.jardin }}</a>.
+        <a href="{{ urlprefix }}{% url 's5appadherant:jardin_detail' jardin_id=cultivateur.jardin.id %}">{{ cultivateur.jardin }}</a>.
     </p>
     <p>
-        Si cette décision vous surprend, vous pouvez toujours <a href="{% url 's5appadherant:cultivateur_request' jardin_id=cultivateur.jardin.id %}">réitérer votre demande</a>
-        et/ou prendre contact avec le proprietaire sur sa page de <a href="{% url 's5appadherant:profil_detail' adherant_id=cultivateur.jardin.proprietaire.id %}">profil</a>.
+        Si cette décision vous surprend, vous pouvez toujours <a href="{{ urlprefix }}{% url 's5appadherant:cultivateur_request' jardin_id=cultivateur.jardin.id %}">réitérer votre demande</a>
+        et/ou prendre contact avec le proprietaire sur sa page de <a href="{{ urlprefix }}{% url 's5appadherant:profil_detail' adherant_id=cultivateur.jardin.proprietaire.id %}">profil</a>.
     </p>
 {% endblock %}
