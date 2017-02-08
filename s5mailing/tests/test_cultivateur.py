@@ -1,4 +1,7 @@
+from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
+from django.core.urlresolvers import reverse
+from django.test import RequestFactory
 from django.test import TestCase
 from django_dynamic_fixture import G
 
@@ -7,15 +10,22 @@ from s5mailing.views.cultivateur import CultivateurMessageView, CultivateurReque
     CultivateurAcceptMessageView, CultivateurDenyMessageView
 
 
-# todo: tester vraiment les vue
-class CultivateurMessageViewTest(TestCase):
-
+class CultivateurMessageTestCase(TestCase):
     def setUp(self):
         self.cultivateur = G(Cultivateur)
-        self.message = CultivateurMessageView(self.cultivateur)
+        self.request = RequestFactory().get(reverse('s5appadherant:accueil'))
+        self.request.user = G(User)
+
+
+class CultivateurMessageViewTest(CultivateurMessageTestCase):
+
+    def setUp(self):
+        super(CultivateurMessageViewTest, self).setUp()
+        self.message = CultivateurMessageView(self.cultivateur, self.request)
 
     def test_init(self):
         self.assertEqual(self.cultivateur, self.message.cultivateur)
+        self.assertEqual(self.request, self.message.request)
 
     def test_get_context_data(self):
         context = self.message.get_context_data()
@@ -28,11 +38,11 @@ class CultivateurMessageViewTest(TestCase):
             self.message.get_recipients()
 
 
-class CultivateurRequestMessageViewTest(TestCase):
+class CultivateurRequestMessageViewTest(CultivateurMessageTestCase):
 
     def setUp(self):
-        self.cultivateur = G(Cultivateur)
-        self.message = CultivateurRequestMessageView(self.cultivateur)
+        super(CultivateurRequestMessageViewTest, self).setUp()
+        self.message = CultivateurRequestMessageView(self.cultivateur, self.request)
 
     def test_get_recipient(self):
         self.assertEqual((self.cultivateur.jardin.proprietaire.user.email,),
@@ -44,11 +54,11 @@ class CultivateurRequestMessageViewTest(TestCase):
         self.assertEqual(self.message.get_recipients(), tuple(rendered.to))
 
 
-class CultivateurAcceptMessageViewTest(TestCase):
+class CultivateurAcceptMessageViewTest(CultivateurMessageTestCase):
 
     def setUp(self):
-        self.cultivateur = G(Cultivateur)
-        self.message = CultivateurAcceptMessageView(self.cultivateur)
+        super(CultivateurAcceptMessageViewTest, self).setUp()
+        self.message = CultivateurAcceptMessageView(self.cultivateur, self.request)
 
     def test_get_recipient(self):
         self.assertEqual((self.cultivateur.adherant.user.email,),
@@ -60,11 +70,11 @@ class CultivateurAcceptMessageViewTest(TestCase):
         self.assertEqual(self.message.get_recipients(), tuple(rendered.to))
 
 
-class CultivateurDenyMessageViewTest(TestCase):
+class CultivateurDenyMessageViewTest(CultivateurMessageTestCase):
 
     def setUp(self):
-        self.cultivateur = G(Cultivateur)
-        self.message = CultivateurDenyMessageView(self.cultivateur)
+        super(CultivateurDenyMessageViewTest, self).setUp()
+        self.message = CultivateurDenyMessageView(self.cultivateur, self.request)
 
     def test_get_recipient(self):
         self.assertEqual((self.cultivateur.adherant.user.email,),
