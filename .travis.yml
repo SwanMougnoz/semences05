@@ -23,8 +23,8 @@ install:
   - sudo apt-get install -y libxml2-dev python-lxml ruby-full
   - sudo apt-get --reinstall install -qq language-pack-en language-pack-fr
   - npm install -g bower
-  - sudo gem update --system
-  - sudo gem install compass
+  - gem update --system
+  - gem install compass
   - python manage.py bower install
   - cd frontend/sass/ && compass compile && cd ../..
   - python manage.py collectstatic --noinput
