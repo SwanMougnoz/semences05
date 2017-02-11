@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from actstream import action
-from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.template import Context
 from django.template import Template
@@ -8,8 +6,7 @@ from django.test import RequestFactory
 from django.test import TestCase
 from django_dynamic_fixture import G
 
-from s5appadherant.models import Adherant, Action
-from templatetags.tags_adherant import DisplayActivityRow
+from s5appadherant.models import Adherant
 
 
 class MenuAdherantTest(TestCase):

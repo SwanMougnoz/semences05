@@ -6,7 +6,7 @@ from django_dynamic_fixture import G
 from with_asserts.mixin import AssertHTMLMixin
 
 from s5appadherant.models import Adherant, User
-from views.profil import ProfilDetailView, ProfilEditView
+from s5appadherant.views.profil import ProfilDetailView, ProfilEditView
 
 
 class ProfilDetailTest(TestCase, AssertHTMLMixin):
