@@ -127,7 +127,7 @@ class JardinDetailTest(TestCase, AssertHTMLMixin):
 
         # Le document doit contenir une table des variétés cultivé
         # todo: test js datatable correspondant
-        with self.assertHTML(response, 'table#culturetable'):
+        with self.assertHTML(response, 'table#culturetablecultivateur'):
             pass
 
         # Le document doit contenir un lien vers la page d'édition de ce jardin

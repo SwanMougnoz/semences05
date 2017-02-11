@@ -126,3 +126,10 @@ class CultureAddTest(TestCase, AssertHTMLMixin):
 
         self.assertEqual(pre_add_culture_count, post_add_culture_count)
         self.assertEqual(pre_add_variete_count, post_add_variete_count)
+
+
+class CultureDeleteTest(TestCase):
+    def setUp(self):
+        pass
+
+    # def test_

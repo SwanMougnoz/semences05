@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 import datetime
+
+from actstream import action
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
@@ -69,6 +71,8 @@ class CultureAddView(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
             culture.date_debut = form.cleaned_data['date_debut']
             culture.save()
 
+            action.send(request.user, verb='add', action_object=culture, target=jardin)
+
             return redirect('s5appadherant:jardin_detail', jardin_id=jardin.id)
 
         return self.render_to_response({
@@ -87,9 +91,11 @@ class CultureDeleteView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         culture = get_object_or_404(Culture, pk=kwargs['culture_id'])
-        jardin = get_object_or_404(Culture, pk=kwargs['jardin_id'])
+        jardin = get_object_or_404(Jardin, pk=kwargs['jardin_id'])
 
         culture.date_fin = datetime.date.today()
         culture.save()
+
+        action.send(request.user, verb='delete', action_object=culture, target=jardin)
 
         return redirect('s5appadherant:jardin_detail', jardin_id=jardin.id)
