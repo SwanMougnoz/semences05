@@ -10,7 +10,8 @@ before_install:
   - sudo apt-get --reinstall install -qq language-pack-en language-pack-fr
   - mysql -e 'CREATE DATABASE IF NOT EXISTS test;'
   - export DJANGO_SETTINGS_MODULE=semences05.settings.unittest
-  - export PYTHONDONTWRITEBYTECODE=yes
+  - export PYTHONPATH=$HOME/builds/SwanMougnoz/semences05
+  - export PIP_USE_MIRRORS=true
   - python manage.py compress
   - python manage.py collectstatic
 script: python manage.py test
