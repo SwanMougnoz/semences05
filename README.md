@@ -1,5 +1,7 @@
 # Semences05
 
+[![Build Status](https://travis-ci.org/SwanMougnoz/semences05.png?branch=master)](https://travis-ci.org/SwanMougnoz/semences05)
+
 ## Installation
 
 ### Dépendances
