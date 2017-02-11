@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 import datetime
 from django.core.urlresolvers import reverse, resolve
+from django.http import Http404
 from django.test import RequestFactory
 from django.test import TestCase
 from django_dynamic_fixture import G
 from with_asserts.mixin import AssertHTMLMixin
 
 from s5appadherant.forms.culture import CultureForm
-from s5appadherant.models import Adherant, Variete, Culture, User, Jardin
-from s5appadherant.views.culture import CultureAddView
+from s5appadherant.models import Adherant, Variete, Culture, User, Jardin, Cultivateur
+from s5appadherant.views.culture import CultureAddView, CultureDeleteView
 
 
 class CultureAddTest(TestCase, AssertHTMLMixin):
@@ -130,6 +131,72 @@ class CultureAddTest(TestCase, AssertHTMLMixin):
 
 class CultureDeleteTest(TestCase):
     def setUp(self):
-        pass
+        self.proprietaire = G(Adherant)
+        self.jardin = G(Jardin, proprietaire=self.proprietaire)
+        self.variete = G(Variete)
+        self.culture = G(Culture, jardin=self.jardin, variete=self.variete, date_fin=None)
 
-    # def test_
+        self.factory = RequestFactory()
+
+    def _get(self, jardin_id, culture_id, user):
+        params = {
+            'jardin_id': jardin_id,
+            'culture_id': culture_id
+        }
+        request = self.factory.get(reverse('s5appadherant:culture_delete', kwargs=params))
+        request.user = user
+
+        return CultureDeleteView.as_view()(request, **params)
+
+    def test_get(self):
+        response = self._get(self.jardin.id, self.culture.id, self.proprietaire.user)
+        self.assertEqual(302, response.status_code)
+
+        culture_loaded = Culture.objects.get(pk=self.culture.id)
+        self.assertIsNotNone(culture_loaded.date_fin)
+
+    def test_get_already_deleted(self):
+        self.culture.date_fin = datetime.date.today()
+        self.culture.save()
+
+        response = self._get(self.jardin.id, self.culture.id, self.proprietaire.user)
+        self.assertEqual(403, response.status_code)
+
+        # L'objet ne doit pas avoir changé
+        culture_loaded = Culture.objects.get(pk=self.culture.id)
+        self.assertEqual(self.culture, culture_loaded)
+
+    def test_get_culture_inexistant(self):
+        with self.assertRaises(Http404):
+            self._get(self.jardin.id, 666, self.proprietaire.user)
+
+    def test_get_culture_jardin_doesnt_match(self):
+        new_jardin = G(Jardin, proprietaire=self.proprietaire)
+
+        response = self._get(new_jardin.id, self.culture.id, self.proprietaire.user)
+        self.assertEqual(403, response.status_code)
+
+        # L'objet ne doit pas avoir changé
+        culture_loaded = Culture.objects.get(pk=self.culture.id)
+        self.assertEqual(self.culture, culture_loaded)
+
+    def test_get_cultivateur(self):
+        adherant = G(Adherant)
+        G(Cultivateur, jardin=self.jardin, adherant=adherant, accepte=True, pending=False)
+
+        response = self._get(self.jardin.id, self.culture.id, adherant.user)
+        self.assertEqual(302, response.status_code)
+
+        culture_loaded = Culture.objects.get(pk=self.culture.id)
+        self.assertIsNotNone(culture_loaded.date_fin)
+
+    def test_get_guest(self):
+        adherant = G(Adherant)
+
+        response = self._get(self.jardin.id, self.culture.id, adherant.user)
+        self.assertEqual(302, response.status_code)
+
+        # L'objet ne doit pas avoir changé
+        culture_loaded = Culture.objects.get(pk=self.culture.id)
+        self.assertEqual(self.culture, culture_loaded)
+

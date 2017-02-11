@@ -5,6 +5,7 @@ from actstream import action
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
+from django.http import HttpResponseForbidden
 from django.shortcuts import redirect, get_object_or_404
 from django.views.generic import TemplateView
 from django.views.generic import View
@@ -92,6 +93,12 @@ class CultureDeleteView(LoginRequiredMixin, PermissionRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         culture = get_object_or_404(Culture, pk=kwargs['culture_id'])
         jardin = get_object_or_404(Jardin, pk=kwargs['jardin_id'])
+
+        if culture.date_fin is not None:
+            return HttpResponseForbidden()
+
+        if jardin != culture.jardin:
+            return HttpResponseForbidden()
 
         culture.date_fin = datetime.date.today()
         culture.save()

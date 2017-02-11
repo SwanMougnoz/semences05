@@ -222,7 +222,7 @@ class CultivateurDecideTest(TestCase, AssertHTMLMixin):
         response, url = self.get(cultivateur)
         self.assertEqual(302, response.status_code)
 
-    def post_accept(self):
+    def test_post_accept(self):
         cultivateur = G(Cultivateur, jardin=self.jardin, adherant=self.adherant, accepte=False)
         self.post(cultivateur, 'cultivateur_accept')
 
@@ -235,7 +235,7 @@ class CultivateurDecideTest(TestCase, AssertHTMLMixin):
 
         self.assertTrue(Follow.objects.is_following(self.adherant.user, self.jardin))
 
-    def post_deny(self):
+    def test_post_deny(self):
         cultivateur = G(Cultivateur, jardin=self.jardin, adherant=self.adherant, accepte=False)
         self.post(cultivateur, 'cultivateur_deny')
 
@@ -249,3 +249,14 @@ class CultivateurDecideTest(TestCase, AssertHTMLMixin):
         self.assertFalse(Follow.objects.is_following(self.adherant.user, self.jardin))
 
 
+class CultivateurManagerTest(TestCase):
+    def setUp(self):
+        self.jardin = G(Jardin)
+        self.accepte = G(Cultivateur, adherant=G(Adherant), jardin=self.jardin, accepte=True, pending=False)
+        self.pending = G(Cultivateur, adherant=G(Adherant), jardin=self.jardin, accepte=False, pending=True)
+        self.refused = G(Cultivateur, adherant=G(Adherant), jardin=self.jardin, accepte=False, pending=False)
+
+    def test_accepte(self):
+        cultivateurs = Cultivateur.objects.accepte()
+        self.assertEqual(1, len(cultivateurs))
+        self.assertEqual(self.accepte, cultivateurs.first())

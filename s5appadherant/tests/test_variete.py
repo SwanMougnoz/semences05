@@ -150,5 +150,3 @@ class VarieteEditTest(TestCase):
         self.assertEqual(count, post_edit_count)
         self.assertEqual('Nouveau nom', variete.nom)
         self.assertEqual('Nouvelle description', variete.description)
-
-
