@@ -20,10 +20,13 @@ install:
   - pip install -r requirements.txt
   - pip install django==$DJANGO --quiet
   - sudo apt-get -qq update
-  - sudo apt-get install -y libxml2-dev python-lxml
+  - sudo apt-get install -y libxml2-dev python-lxml ruby-full
   - sudo apt-get --reinstall install -qq language-pack-en language-pack-fr
   - npm install -g bower
+  - sudo gem update --system
+  - sudo gem install compass
   - python manage.py bower install
+  - cd frontend/sass/ && compass compile && cd ../..
   - python manage.py collectstatic --noinput
   - python manage.py compress
 
