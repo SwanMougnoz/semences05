@@ -9,4 +9,8 @@ before_install:
   - sudo apt-get install -y libxml2-dev python-lxml
   - sudo apt-get --reinstall install -qq language-pack-en language-pack-fr
   - mysql -e 'CREATE DATABASE IF NOT EXISTS test;'
-script: DJANGO_SETTINGS_MODULE=semences05.settings.unittest PYTHONDONTWRITEBYTECODE=yes python manage.py test
+  - export DJANGO_SETTINGS_MODULE=semences05.settings.unittest
+  - export PYTHONDONTWRITEBYTECODE=yes
+  - python manage.py compress
+  - python manage.py collectstatic
+script: python manage.py test
