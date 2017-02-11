@@ -19,8 +19,8 @@ install:
   - sudo apt-get -qq update
   - sudo apt-get install -y libxml2-dev python-lxml
   - sudo apt-get --reinstall install -qq language-pack-en language-pack-fr
-  - python manage.py compress
   - python manage.py collectstatic
+  - python manage.py compress
 
 before_script:
   - mysql -e 'CREATE DATABASE IF NOT EXISTS test;'
