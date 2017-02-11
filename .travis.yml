@@ -2,6 +2,9 @@ language: python
 python:
   - "2.7"
 
+node_js:
+  - "6"
+
 env:
   - DJANGO=1.9.2
 
@@ -19,6 +22,8 @@ install:
   - sudo apt-get -qq update
   - sudo apt-get install -y libxml2-dev python-lxml
   - sudo apt-get --reinstall install -qq language-pack-en language-pack-fr
+  - npm install -g bower
+  - python manage.py bower install
   - python manage.py collectstatic
   - python manage.py compress
 
