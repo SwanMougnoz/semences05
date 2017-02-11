@@ -3,6 +3,8 @@ from semences05.settings.common import *
 DEBUG = False
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', '::1']
 
+COMPRESS_OFFLINE = True
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
