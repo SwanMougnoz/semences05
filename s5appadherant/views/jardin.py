@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 from actstream.actions import follow
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseNotFound
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.views.generic import CreateView
@@ -13,7 +11,7 @@ from rules.contrib.views import PermissionRequiredMixin
 
 from s5appadherant.forms.jardin import JardinForm
 from s5appadherant.models import Jardin, Adherant
-from s5appadherant.tables.culture import CultureTable
+from s5appadherant.tables.culture import CultureTableCultivateur, CultureTable
 from s5appadherant import permissions
 
 
@@ -54,13 +52,12 @@ class JardinDetailView(LoginRequiredMixin, TemplateView):
     template_name = 's5appadherant/jardin/detail.html'
 
     def get(self, request, *args, **kwargs):
-        jardin_id = kwargs.get('jardin_id', None)
-        try:
-            jardin = Jardin.objects.get(pk=jardin_id)
-        except ObjectDoesNotExist:
-            return HttpResponseNotFound("<h1>La page demandee n'existe pas</h1>")
+        jardin = get_object_or_404(Jardin, pk=kwargs.get('jardin_id'))
 
-        culture_table = CultureTable(jardin=jardin)
+        if request.user.has_perm('s5appadherant.change_jardin', jardin):
+            culture_table = CultureTableCultivateur(jardin=jardin)
+        else:
+            culture_table = CultureTable(jardin=jardin)
 
         qs = jardin.cultivateur_set.all()
         cultivateurs_pending = [cultivateur.adherant for cultivateur in qs.filter(pending=True)]

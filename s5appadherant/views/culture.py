@@ -11,17 +11,24 @@ from table.views import FeedDataView
 
 from s5appadherant.forms.culture import CultureForm
 from s5appadherant.models import Culture, Jardin
-from s5appadherant.tables.culture import CultureTable
+from s5appadherant.tables.culture import CultureTable, CultureTableCultivateur
 from s5appadherant import permissions
 
 
 class CultureDataView(FeedDataView, PermissionRequiredMixin):
-    token = CultureTable.token
+
+    def get(self, request, *args, **kwargs):
+        self.jardin = get_object_or_404(Jardin, pk=kwargs.get('jardin_id'))
+
+        if request.user.has_perm('s5appadherant.change_jardin', self.jardin):
+            self.token = CultureTableCultivateur.token
+        else:
+            self.token = CultureTable.token
+
+        return super(CultureDataView, self).get(request, *args, **kwargs)
 
     def get_queryset(self):
-        jardin_id = self.kwargs.get('jardin_id')
-        jardin = Jardin.objects.get(pk=jardin_id)
-        return Culture.objects.filter(jardin=jardin, date_fin__isnull=True)
+        return Culture.objects.filter(jardin=self.jardin, date_fin__isnull=True)
 
 
 class CultureAddView(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
