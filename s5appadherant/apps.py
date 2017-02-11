@@ -13,6 +13,7 @@ class S5appadherantConfig(AppConfig):
         registry.register(self.get_model('Jardin'))
         registry.register(self.get_model('Adherant'))
         registry.register(self.get_model('Cultivateur'))
+        registry.register(self.get_model('Culture'))
 
         from s5appadherant.signals import cultivateur
 

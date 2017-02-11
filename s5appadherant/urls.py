@@ -20,13 +20,14 @@ urlpatterns = [
     url(r'^varietes/edit/(?P<pk>[0-9]+)/$', variete.VarieteEditView.as_view(), name='variete_edit'),
 
     url(r'^jardins/$', jardin.JardinListView.as_view(), name='jardin_all'),
-    url(r'^jardins/adherant/(?P<adherant_id>[0-9]+)/', jardin.JardinAdherantListView.as_view(), name='jardin_adherant'),
-    url(r'^jardins/cultivateur/(?P<adherant_id>[0-9]+)/', jardin.JardinCultivateurListView.as_view(), name='jardin_cultivateur'),
+    url(r'^jardins/adherant/(?P<adherant_id>[0-9]+)/$', jardin.JardinAdherantListView.as_view(), name='jardin_adherant'),
+    url(r'^jardins/cultivateur/(?P<adherant_id>[0-9]+)/$', jardin.JardinCultivateurListView.as_view(), name='jardin_cultivateur'),
     url(r'^jardins/(?P<jardin_id>[0-9]+)/$', jardin.JardinDetailView.as_view(), name='jardin_detail'),
     url(r'^jardins/new/$', jardin.JardinAddView.as_view(), name='jardin_new'),
     url(r'^jardins/edit/(?P<pk>[0-9]+)/$', jardin.JardinEditView.as_view(), name='jardin_edit'),
 
-    url(r'^jardins/(?P<jardin_id>[0-9]+)/cultures/new$', culture.CultureAddView.as_view(), name='culture_new'),
+    url(r'^jardins/(?P<jardin_id>[0-9]+)/cultures/new/$', culture.CultureAddView.as_view(), name='culture_new'),
+    url(r'^jardins/(?P<jardin_id>[0-9]+)/cultures/(?P<culture_id>[0-9]+)/delete/$', culture.CultureDeleteView.as_view(), name='culture_delete'),
     url(r'^jardins/(?P<jardin_id>[0-9]+)/cultures/tabledata/$', culture.CultureDataView.as_view(), name='culture_data'),
 
     url(r'^jardins/(?P<jardin_id>[0-9]+)/cultivateur/request/$', cultivateur.CultivateurRequestView.as_view(), name='cultivateur_request'),

@@ -1,0 +1,12 @@
+<div class="btn-group">
+  {{ button_link }}
+  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <span class="caret"></span>
+    <span class="sr-only">Toggle Dropdown</span>
+  </button>
+  <ul class="dropdown-menu">
+      {% for dropdown_link in dropdown_links %}
+          <li>{{ dropdown_link }}</li>
+      {% endfor %}
+  </ul>
+</div>

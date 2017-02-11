@@ -1,0 +1,7 @@
+{% extends 'actstream/action_layout.html' %}
+
+{% block action_content %}
+    <a href="{% url 's5appadherant:profil_detail' adherant_id=action.actor.adherant.id %}">{{ action.actor.adherant }}</a>
+    a supprimé une variété (<a href="{% url 's5appadherant:variete_detail' variete_id=action.action_object.variete.id %}">{{ action.action_object.variete }}</a>)
+    dans le jardin <a href="{% url 's5appadherant:jardin_detail' jardin_id=action.target.id %}">{{ action.target }}</a>
+{% endblock %}

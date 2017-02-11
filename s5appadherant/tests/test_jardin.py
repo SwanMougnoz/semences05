@@ -98,20 +98,20 @@ class JardinDetailTest(TestCase, AssertHTMLMixin):
 
     def setUp(self):
         self.factory = RequestFactory()
-        self.adherant = G(Adherant, user=G(User))
-        self.jardin = G(Jardin, proprietaire=self.adherant)
+        self.proprietaire = G(Adherant)
+        self.jardin = G(Jardin, proprietaire=self.proprietaire)
 
-    def test_get(self):
+    def get(self, user):
         params = {'jardin_id': self.jardin.id}
         url = reverse('s5appadherant:jardin_detail', kwargs=params)
 
         request = self.factory.get(url)
-        request.user = self.adherant.user
+        request.user = user
         request.resolver_match = resolve(url)
-        response = JardinDetailView.as_view()(request, **params)
+        return JardinDetailView.as_view()(request, **params)
 
+    def _assert_jardin_detail(self, response):
         self.assertEqual(200, response.status_code)
-
         response.render()
 
         # Le document doit contenir toutes les informations relative au jardin
@@ -125,9 +125,12 @@ class JardinDetailTest(TestCase, AssertHTMLMixin):
         self.assertContains(response, self.jardin.mise_en_culture)
         self.assertContains(response, self.jardin.description)
 
+    def _do_test_jardin_with_edit_permission(self, user):
+        response = self.get(user)
+        self._assert_jardin_detail(response)
+
         # Le document doit contenir une table des variétés cultivé
-        # todo: test js datatable correspondant
-        with self.assertHTML(response, 'table#culturetable'):
+        with self.assertHTML(response, 'table#culturetablecultivateur'):
             pass
 
         # Le document doit contenir un lien vers la page d'édition de ce jardin
@@ -135,6 +138,81 @@ class JardinDetailTest(TestCase, AssertHTMLMixin):
             'pk': self.jardin.id
         })
         with self.assertHTML(response, 'a[href="%s"]' % edit_url):
+            pass
+
+        # Lien pour ajouter une culture
+        culture_add_url = reverse('s5appadherant:culture_new', kwargs={
+            'jardin_id': self.jardin.id
+        })
+        with self.assertHTML(response, 'a[href="%s"]' % culture_add_url):
+            pass
+
+        # Lien pour faire une demande d'ajout
+        cultivateur_request_url = reverse('s5appadherant:cultivateur_request', kwargs={
+            'jardin_id': self.jardin.id
+        })
+        self.assertNotHTML(response, 'a[href="%s"]' % cultivateur_request_url)
+
+    def test_get_proprietaire(self):
+        self._do_test_jardin_with_edit_permission(self.proprietaire.user)
+
+    def test_get_cultivateur(self):
+        adherant = G(Adherant)
+        G(Cultivateur, jardin=self.jardin, adherant=adherant, accepte=True, pending=False)
+        self._do_test_jardin_with_edit_permission(adherant.user)
+
+    def test_get_adherant(self):
+        response = self.get(G(Adherant).user)
+        self._assert_jardin_detail(response)
+
+        # Le document doit contenir une table des variétés cultivé sans les actions cultivateur
+        with self.assertHTML(response, 'table#culturetable'):
+            pass
+
+        # Le document ne doit pas contenir un lien vers la page d'édition de ce jardin
+        edit_url = reverse('s5appadherant:jardin_edit', kwargs={
+            'pk': self.jardin.id
+        })
+        self.assertNotHTML(response, 'a[href="%s"]' % edit_url)
+
+        # Lien pour ajouter une culture
+        culture_add_url = reverse('s5appadherant:culture_new', kwargs={
+            'jardin_id': self.jardin.id
+        })
+        self.assertNotHTML(response, 'a[href="%s"]' % culture_add_url)
+
+        # Lien pour faire une demande d'ajout
+        cultivateur_request_url = reverse('s5appadherant:cultivateur_request', kwargs={
+            'jardin_id': self.jardin.id
+        })
+        with self.assertHTML(response, 'a[href="%s"]' % cultivateur_request_url):
+            pass
+
+    def test_get_cultivateur_pending(self):
+        adherant = G(Adherant)
+        G(Cultivateur, jardin=self.jardin, adherant=adherant, accepte=False, pending=True)
+
+        response = self.get(adherant.user)
+        response.render()
+
+        # Il ne doit y avoir de lien pour faire une nouvelle demande
+        cultivateur_request_url = reverse('s5appadherant:cultivateur_request', kwargs={
+            'jardin_id': self.jardin.id
+        })
+        self.assertNotHTML(response, 'a[href="%s"]' % cultivateur_request_url)
+
+    def test_get_cultivateur_refused(self):
+        adherant = G(Adherant)
+        G(Cultivateur, jardin=self.jardin, adherant=adherant, accepte=False, pending=False)
+
+        response = self.get(adherant.user)
+        response.render()
+
+        # Il doit y avoir un lien pour faire une nouvelle demande
+        cultivateur_request_url = reverse('s5appadherant:cultivateur_request', kwargs={
+            'jardin_id': self.jardin.id
+        })
+        with self.assertHTML(response, 'a[href="%s"]' % cultivateur_request_url):
             pass
 
 

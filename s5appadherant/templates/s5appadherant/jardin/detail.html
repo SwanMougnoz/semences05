@@ -90,21 +90,22 @@
             </div>
         </div>
         <div class="col-md-12">
-             <div class="row">
-                 <div class="col-md-12">
-                     <h3>Variétés cultivées</h3>
-                     {% render_table culture_table %}
-                 </div>
-                 {% has_perm 's5appadherant.change_jardin' request.user jardin as can_change_jardin %}
-                 {% if can_change_jardin %}
-                     <div class="col-md-12">
-                         <a href="{% url 's5appadherant:culture_new' jardin_id=jardin.id %}" class="btn btn-primary pull-right">
-                             <i class="fa fa-plus"></i>
-                             &nbsp;Ajouter une variété cultivée
-                         </a>
-                     </div>
-                 {% endif %}
-             </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>Variétés cultivées</h3>
+                    {% render_table culture_table %}
+                </div>
+                {% has_perm 's5appadherant.change_jardin' request.user jardin as can_change_jardin %}
+                {% if can_change_jardin %}
+                    <div class="col-md-12">
+                        <a href="{% url 's5appadherant:culture_new' jardin_id=jardin.id %}"
+                           class="btn btn-primary pull-right">
+                            <i class="fa fa-plus"></i>
+                            &nbsp;Ajouter une variété cultivée
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
         </div>
         <div class="col-md-12">
             <h3>Variétés récoltées</h3>
