@@ -1,0 +1,13 @@
+{{ link }}
+{{ modal }}
+<script>
+    $(document).ready(function() {
+        // Déplacement de la modal en dehors du dropdown car celui-ci est mis en display: none
+        // au clic sur un de ses éléments (évite de redéfinir tout le comportement du dropdown)
+        $('#{{ modal_id }}').appendTo($('#{{ modal_id }}').parents("td"));
+
+        $('#{{ modal_id }}').on('show.bs.modal', function (e) {
+            $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+        });
+    });
+</script>

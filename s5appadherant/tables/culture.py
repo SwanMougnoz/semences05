@@ -8,6 +8,7 @@ from table.columns import Link
 from table.columns import Column, DatetimeColumn, LinkColumn
 
 from s5appadherant.tables.columns import ImageColumn, DropDownLinkColumn
+from s5appadherant.tables.fields import ConfirmLink
 
 
 class CultureTable(Table):
@@ -61,13 +62,15 @@ class CultureTableCultivateur(Table):
                                         text='Fiche variété',
                                         viewname='s5appadherant:variete_detail',
                                         args=(A('variete.id'),)),
-                                    Link(
+                                    ConfirmLink(
                                         text='Supprimer',
                                         viewname='s5appadherant:culture_delete',
                                         kwargs={
                                             'jardin_id': A('jardin.id'),
                                             'culture_id': A('id')
-                                        }
+                                        },
+                                        modal_template='s5appadherant/jardin/partials/modal.delete_culture.html',
+                                        modal_id='delete-culture-modal'
                                     )
                                 ])
 
