@@ -1,21 +1,28 @@
 language: python
 python:
   - "2.7"
+
 env:
   - DJANGO=1.9.2
-install:
-  - pip install --user -r requirements.txt
-  - pip install django==$DJANGO --quiet
+
 services:
   - mysql
+
 before_install:
-  - sudo apt-get -qq update
-  - sudo apt-get install -y libxml2-dev python-lxml
-  - sudo apt-get --reinstall install -qq language-pack-en language-pack-fr
-  - mysql -e 'CREATE DATABASE IF NOT EXISTS test;'
   - export DJANGO_SETTINGS_MODULE=semences05.settings.unittest
   - export PYTHONPATH=$HOME/builds/SwanMougnoz/semences05
   - export PIP_USE_MIRRORS=true
+
+install:
+  - pip install -r requirements.txt
+  - pip install django==$DJANGO --quiet
+  - sudo apt-get -qq update
+  - sudo apt-get install -y libxml2-dev python-lxml
+  - sudo apt-get --reinstall install -qq language-pack-en language-pack-fr
   - python manage.py compress
   - python manage.py collectstatic
+
+before_script:
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS test;'
+
 script: python manage.py test
