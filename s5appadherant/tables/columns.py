@@ -26,7 +26,7 @@ class ImageColumn(Column):
 
 class DropDownLinkColumn(LinkColumn):
     def render(self, obj):
-        template = get_template('s5appadherant/partials/table.dropdown_column.html')
+        template = get_template('s5appadherant/table/dropdown_column.html')
 
         button_link = self.links[0]
         button_link.base_attrs.update({

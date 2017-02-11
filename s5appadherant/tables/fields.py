@@ -35,7 +35,7 @@ class ConfirmLink(Link):
             'modal_id': modal_id
         })
 
-        template = get_template('s5appadherant/table/field.confirm_link.html')
+        template = get_template('s5appadherant/table/confirm_link.html')
         context = {
             'link': super(ConfirmLink, self).render(obj),
             'modal': modal,
