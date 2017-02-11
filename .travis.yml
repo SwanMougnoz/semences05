@@ -2,5 +2,10 @@ language: python
 python:
   - "2.7"
 install: "pip install -r requirements.txt"
-# command to run tests
-script: make tests
+services:
+  - mysql
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y libxml2-dev python-lxml
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS test;'
+script: DJANGO_SETTINGS_MODULE=semences05.settings.unittest PYTHONDONTWRITEBYTECODE=yes python manage.py test
