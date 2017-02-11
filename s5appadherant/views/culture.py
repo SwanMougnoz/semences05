@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
+import datetime
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.views.generic import TemplateView
+from django.views.generic import View
 from rules.contrib.views import PermissionRequiredMixin
 from table.views import FeedDataView
 
@@ -19,7 +21,7 @@ class CultureDataView(FeedDataView, PermissionRequiredMixin):
     def get_queryset(self):
         jardin_id = self.kwargs.get('jardin_id')
         jardin = Jardin.objects.get(pk=jardin_id)
-        return Culture.objects.filter(jardin=jardin)
+        return Culture.objects.filter(jardin=jardin, date_fin__isnull=True)
 
 
 class CultureAddView(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
@@ -68,3 +70,19 @@ class CultureAddView(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
             'menu_actif': 'jardin',
             'titre_page': u"Ajout d'une variété cultivée"
         })
+
+
+class CultureDeleteView(LoginRequiredMixin, PermissionRequiredMixin, View):
+    permission_required = 's5appadherant.change_jardin'
+
+    def get_permission_object(self):
+        return get_object_or_404(Jardin, pk=self.kwargs['jardin_id'])
+
+    def get(self, request, *args, **kwargs):
+        culture = get_object_or_404(Culture, pk=kwargs['culture_id'])
+        jardin = get_object_or_404(Culture, pk=kwargs['jardin_id'])
+
+        culture.date_fin = datetime.date.today()
+        culture.save()
+
+        return redirect('s5appadherant:jardin_detail', jardin_id=jardin.id)

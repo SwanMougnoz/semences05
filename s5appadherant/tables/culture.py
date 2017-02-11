@@ -17,10 +17,20 @@ class CultureTable(Table):
     type_conservation = Column(field='type_conservation', header='Type de conservation')
     action = LinkColumn(header='Action',
                         sortable=False,
-                        links=[Link(
-                            text='Fiche variété',
-                            viewname='s5appadherant:variete_detail',
-                            args=(A('variete.id'),))])
+                        links=[
+                            Link(
+                                text='Fiche variété',
+                                viewname='s5appadherant:variete_detail',
+                                args=(A('variete.id'),)),
+                            Link(
+                                text='Supprimer',
+                                viewname='s5appadherant:culture_delete',
+                                kwargs={
+                                    'jardin_id': A('jardin.id'),
+                                    'culture_id': A('id')
+                                }
+                            )
+                        ])
 
     def __init__(self, *args, **kwargs):
         jardin = kwargs.pop('jardin', None)
