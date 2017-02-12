@@ -143,11 +143,12 @@
                                 </a>
                                 {% if request.user == jardin.proprietaire.user %}
                                     <span class="badge badge-link badge-danger badge-alpha">
-                                        <a href="{% url 's5appadherant:cultivateur_delete' jardin_id=jardin.id cultivateur_id=cultivateur.id %}">
+                                        <a href="#" data-toggle="modal" data-target="#delete-cultivateur-modal-{{ cultivateur.id }}">
                                             <i class="fa fa-ban"></i>
                                             Supprimer
                                         </a>
                                     </span>
+                                    {% include 's5appadherant/jardin/partials/modal.delete_cultivateur.html' %}
                                 {% endif %}
                             </li>
                         {% endfor %}
