@@ -1,10 +1,12 @@
 {% block action %}
-    <span>
+    <div class="row">
         {% block action_content %}{% endblock %}
         {% block action_process %}
-            <a href="{% url 's5appadherant:action_process' action_id=action.id %}" class="pull-right">
-                <i class="fa fa-times"></i>
-            </a>
+            <div class="col-md-1">
+                <a href="{% url 's5appadherant:action_process' action_id=action.id %}" class="pull-right">
+                    <i class="fa fa-times"></i>
+                </a>
+            </div>
         {% endblock %}
-    </span>
+    </div>
 {% endblock %}

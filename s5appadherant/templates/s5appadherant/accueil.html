@@ -3,7 +3,7 @@
 {% load tags_adherant %}
 {% load activity_tags %}
 {% block content_adherant %}
-    <div class="panel panel-default">
+    <div class="panel panel-default notification-panel">
         {% activity_stream 'self_excluded_unprocessed' request.user %}
         <div class="panel-heading">Activité <span class="badge">{{ stream.count }}</span></div>
         <ul class="list-group">

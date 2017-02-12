@@ -1,26 +1,27 @@
 {% extends 'actstream/action_layout.html' %}
 
 {% block action_content %}
-    <a href="{% url 's5appadherant:profil_detail' adherant_id=action.actor.id %}">{{ action.actor.first_name }} {{ action.actor.last_name }}</a>
-    a fait une demande pour cultiver un de vos jardin (<a href="{% url 's5appadherant:jardin_detail' jardin_id=action.action_object.jardin.id %}">{{ action.action_object.jardin }}</a>).
-    <small><a href="{% url 's5appadherant:cultivateur_decide' cultivateur_id=action.action_object.id %}">De quoi s'agit-il ?</a></small>
-
-    <form action="{% url 's5appadherant:cultivateur_decide' cultivateur_id=action.action_object.id %}"
-          method="POST"
-          role="form"
-          enctype="multipart/form-data"
-          class="pull-right">
-        {% csrf_token %}
-        <div class="form-group">
+    <div class="col-md-10">
+        <a href="{% url 's5appadherant:profil_detail' adherant_id=action.actor.id %}">{{ action.actor.first_name }} {{ action.actor.last_name }}</a>
+        a fait une demande pour cultiver un de vos jardin (<a href="{% url 's5appadherant:jardin_detail' jardin_id=action.action_object.jardin.id %}">{{ action.action_object.jardin }}</a>).
+        <small><a href="{% url 's5appadherant:cultivateur_decide' cultivateur_id=action.action_object.id %}">De quoi s'agit-il ?</a></small>
+    </div>
+{% endblock %}
+{% block action_process %}
+    <div class="col-md-2">
+        <form action="{% url 's5appadherant:cultivateur_decide' cultivateur_id=action.action_object.id %}"
+              method="POST"
+              role="form"
+              enctype="multipart/form-data">
+            {% csrf_token %}
             <button type="submit" class="btn btn-xs btn-success" name="cultivateur_accept">
                 Accepter
             </button>
             <button type="submit" class="btn btn-xs btn-danger" name="cultivateur_deny">
                 Refuser
             </button>
-        </div>
-    </form>
+        </form>
+    </div>
 {% endblock %}
-{% block action_process %}{% endblock %}
 
 
