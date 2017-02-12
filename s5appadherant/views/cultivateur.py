@@ -14,7 +14,7 @@ from rules.contrib.views import PermissionRequiredMixin
 
 from s5appadherant.models import Jardin, Cultivateur
 from s5mailing.views.cultivateur import CultivateurRequestMessageView, CultivateurAcceptMessageView, \
-    CultivateurDenyMessageView
+    CultivateurDenyMessageView, CultivateurDeleteMessageView
 from s5appadherant import permissions
 
 
@@ -127,5 +127,7 @@ class CultivateurDeleteView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
         action.send(request.user, verb='delete', action_object=cultivateur)
         unfollow(cultivateur.adherant.user, jardin)
+
+        CultivateurDeleteMessageView(cultivateur, request).send()
 
         return redirect('s5appadherant:jardin_detail', jardin_id=jardin.id)
