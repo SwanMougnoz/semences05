@@ -33,6 +33,7 @@ urlpatterns = [
     url(r'^jardins/(?P<jardin_id>[0-9]+)/cultivateur/request/$', cultivateur.CultivateurRequestView.as_view(), name='cultivateur_request'),
     url(r'^jardins/(?P<jardin_id>[0-9]+)/cultivateur/confirmation/$', cultivateur.CultivateurConfirmationView.as_view(), name='cultivateur_confirmation'),
     url(r'^jardins/(?P<cultivateur_id>[0-9]+)/cultivateur/decide/$', cultivateur.CultivateurDecideView.as_view(), name='cultivateur_decide'),
+    url(r'^jardins/(?P<jardin_id>[0-9]+)/cultivateurs/(?P<cultivateur_id>[0-9]+)/delete/$', cultivateur.CultivateurDeleteView.as_view(), name='cultivateur_delete'),
 
     url(r'action/(?P<action_id>[0-9]+)/process/$', action.ProcessActionView.as_view(), name='action_process')
 ]

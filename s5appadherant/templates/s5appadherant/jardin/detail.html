@@ -119,64 +119,64 @@
         <div class="col-md-12">
             <h3>Variétés récoltées</h3>
         </div>
-        {% if cultivateurs_acceptes|length > 0 %}
-            <div class="col-md-12">
-                <div id="cultivateurs-list" class="row">
-                    <div class="col-md-12">
-                        {% with cultivateurs_acceptes|length|add:1 as count %}
-                            <h3>
-                                {{ count }} personne{{ count|pluralize }} cultive{{ count|pluralize:"nt" }} ce jardin
-                            </h3>
-                        {% endwith %}
-                    </div>
-                    <div class="col-md-6">
-                        <ul class="list-group">
+        <div class="col-md-12">
+            <div id="cultivateurs-list" class="row">
+                <div class="col-md-12">
+                    {% with cultivateurs_acceptes|length|add:1 as count %}
+                        <h3>
+                            {{ count }} personne{{ count|pluralize }} cultive{{ count|pluralize:"nt" }} ce jardin
+                        </h3>
+                    {% endwith %}
+                </div>
+                <div class="col-md-6">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <a href="{% url 's5appadherant:profil_detail' adherant_id=jardin.proprietaire.id %}">
+                                {{ jardin.proprietaire }}
+                            </a>
+                            <span class="badge">Propriétaire</span>
+                        </li>
+                        {% for cultivateur in cultivateurs_acceptes %}
                             <li class="list-group-item">
-                                <a href="{% url 's5appadherant:profil_detail' adherant_id=jardin.proprietaire.id %}">
-                                    {{ jardin.proprietaire }}
+                                <a href="{% url 's5appadherant:profil_detail' adherant_id=cultivateur.adherant.id %}">
+                                    {{ cultivateur.adherant }}
                                 </a>
-                                <span class="badge">Propriétaire</span>
+                                {% if request.user == jardin.proprietaire.user %}
+                                    <span class="badge badge-link badge-danger badge-alpha">
+                                        <a href="{% url 's5appadherant:cultivateur_delete' jardin_id=jardin.id cultivateur_id=cultivateur.id %}">
+                                            <i class="fa fa-ban"></i>
+                                            Supprimer
+                                        </a>
+                                    </span>
+                                {% endif %}
                             </li>
-                            {% for cultivateur in cultivateurs_acceptes %}
-                                <li class="list-group-item">
-                                    <a href="{% url 's5appadherant:profil_detail' adherant_id=cultivateur.id %}">
-                                        {{ cultivateur.user.first_name }} {{ cultivateur.user.last_name }}
-                                    </a>
-                                    {% if request.user == jardin.proprietaire.user %}
-                                        <span class="badge badge-link badge-danger badge-alpha">
-                                            <a href="#">
-                                                <i class="fa fa-ban"></i>
-                                                Supprimer
-                                            </a>
-                                        </span>
-                                    {% endif %}
-                                </li>
-                            {% endfor %}
-                        </ul>
-                        {% has_perm 's5appadherant.request_cultivateur' request.user jardin as can_request_cultivateur %}
-                        {% if can_request_cultivateur %}
-                            <p class="alert alert-info">
-                                Vous participez à la culture de ce jardin ? Vous pouvez faire une demande d'ajout en
-                                tant que cultivateur :
-                                <a href="{% url 's5appadherant:cultivateur_request' jardin_id=jardin.id %}"
-                                   class="btn btn-xs btn-default pull-right">
-                                    <i class="fa fa-plus-circle"></i>
-                                    Faire une demande
-                                </a>
-                            </p>
-                        {% elif request.user.adherant in cultivateurs_pending and request.user.adherant not in cultivateurs_acceptes %}
-                            <p class="alert alert-warning">
-                                Vous avez déjà envoyé une demande participation à ce jardin.
-                                Si la demande n'aboutie pas, n'hésitez pas à prendre contact avec le proprietaire. Ses
-                                coordonnées sont présents sur sa
-                                <a href="{% url 's5appadherant:profil_detail' adherant_id=jardin.proprietaire.id %}">
-                                    pagede profil
-                                </a>
-                            </p>
-                        {% endif %}
-                    </div>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="col-md-12">
+                    {% has_perm 's5appadherant.request_cultivateur' request.user jardin as can_request_cultivateur %}
+                    {% if can_request_cultivateur %}
+                        <p class="alert alert-info">
+                            Vous participez à la culture de ce jardin ? Vous pouvez faire une demande d'ajout en
+                            tant que cultivateur :
+                            <a href="{% url 's5appadherant:cultivateur_request' jardin_id=jardin.id %}"
+                               class="btn btn-xs btn-default pull-right">
+                                <i class="fa fa-plus-circle"></i>
+                                Faire une demande
+                            </a>
+                        </p>
+                    {% elif cultivateur_request_pending %}
+                        <p class="alert alert-warning">
+                            Vous avez déjà envoyé une demande participation à ce jardin.
+                            Si la demande n'aboutie pas, n'hésitez pas à prendre contact avec le proprietaire. Ses
+                            coordonnées sont présents sur sa
+                            <a href="{% url 's5appadherant:profil_detail' adherant_id=jardin.proprietaire.id %}">
+                                page de profil
+                            </a>
+                        </p>
+                    {% endif %}
                 </div>
             </div>
-        {% endif %}
+        </div>
     </div>
 {% endblock %}

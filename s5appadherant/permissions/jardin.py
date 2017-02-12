@@ -22,3 +22,4 @@ rules.add_perm('s5appadherant.change_jardin',
 rules.add_perm('s5appadherant.request_cultivateur',
                ~is_jardin_proprietaire & ~in_jardin_cultivateur_pending & ~in_jardin_cultivateur_accepted)
 
+rules.add_perm('s5appadherant.own_jardin', is_jardin_proprietaire)

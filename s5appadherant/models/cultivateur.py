@@ -2,7 +2,6 @@ from django.db import models
 
 from s5appadherant.managers.cultivateur import CultivateurManager
 from s5appadherant.models import Jardin, Adherant
-from s5appadherant.signals import cultivateur
 
 
 class Cultivateur(models.Model):
