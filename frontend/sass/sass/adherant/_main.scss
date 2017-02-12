@@ -3,6 +3,10 @@
 @import "table";
 @import "variete";
 
+& {
+  padding-bottom: 150px;
+}
+
 .menu-adherant {
   a:hover {
     background-color: green;
