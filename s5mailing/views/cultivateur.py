@@ -57,3 +57,12 @@ class CultivateurDeleteMessageView(CultivateurMessageView):
 
     def get_recipients(self):
         return self.cultivateur.adherant.user.email,
+
+
+class CultivateurQuitMessageView(CultivateurMessageView):
+    subject_template_name = 's5mailing/subject/cultivateur_quit.txt'
+    body_template_name = 's5mailing/txt/cultivateur_quit.txt'
+    html_body_template_name = 's5mailing/html/cultivateur_quit.html'
+
+    def get_recipients(self):
+        return self.cultivateur.jardin.proprietaire.user.email,

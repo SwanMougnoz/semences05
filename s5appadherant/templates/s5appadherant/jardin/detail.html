@@ -136,16 +136,26 @@
                             </a>
                             <span class="badge">Propriétaire</span>
                         </li>
+                        {% has_perm 's5appadherant.manage_cultivateurs' request.user jardin as can_manage_cultivateurs %}
                         {% for cultivateur in cultivateurs_acceptes %}
                             <li class="list-group-item">
                                 <a href="{% url 's5appadherant:profil_detail' adherant_id=cultivateur.adherant.id %}">
                                     {{ cultivateur.adherant }}
                                 </a>
-                                {% if request.user == jardin.proprietaire.user %}
+                                {% if cultivateur.adherant == request.user.adherant %}
+                                    <span class="badge badge-link badge-danger badge-alpha">
+                                        <a href="#" data-toggle="modal"
+                                           data-target="#quit-cultivateur-modal-{{ cultivateur.id }}">
+                                            <i class="fa fa-ban"></i>
+                                            Quitter le groupe
+                                        </a>
+                                    </span>
+                                    {% include 's5appadherant/jardin/partials/modal.quit_cultivateur.html' %}
+                                {% elif can_manage_cultivateurs %}
                                     <span class="badge badge-link badge-danger badge-alpha">
                                         <a href="#" data-toggle="modal" data-target="#delete-cultivateur-modal-{{ cultivateur.id }}">
                                             <i class="fa fa-ban"></i>
-                                            Supprimer
+                                            Retirer de la liste
                                         </a>
                                     </span>
                                     {% include 's5appadherant/jardin/partials/modal.delete_cultivateur.html' %}

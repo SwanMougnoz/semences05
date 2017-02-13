@@ -14,7 +14,7 @@ from rules.contrib.views import PermissionRequiredMixin
 
 from s5appadherant.models import Jardin, Cultivateur
 from s5mailing.views.cultivateur import CultivateurRequestMessageView, CultivateurAcceptMessageView, \
-    CultivateurDenyMessageView, CultivateurDeleteMessageView
+    CultivateurDenyMessageView, CultivateurDeleteMessageView, CultivateurQuitMessageView
 from s5appadherant import permissions
 
 
@@ -109,8 +109,30 @@ class CultivateurDecideView(LoginRequiredMixin, PermissionRequiredMixin, Templat
         return redirect('s5appadherant:accueil')
 
 
+class CultivateurQuitView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        jardin = get_object_or_404(Jardin, pk=self.kwargs.get('jardin_id'))
+        cultivateur = get_object_or_404(Cultivateur, pk=self.kwargs.get('cultivateur_id'))
+
+        if cultivateur.jardin != jardin:
+            return HttpResponseForbidden()
+
+        if cultivateur.adherant.user != request.user:
+            return HttpResponseForbidden()
+
+        cultivateur.accepte = False
+        cultivateur.save()
+
+        action.send(request.user, verb='quit', action_object=cultivateur)
+        unfollow(cultivateur.adherant.user, jardin)
+
+        CultivateurQuitMessageView(cultivateur, request).send()
+
+        return redirect('s5appadherant:jardin_detail', jardin_id=jardin.id)
+
+
 class CultivateurDeleteView(LoginRequiredMixin, PermissionRequiredMixin, View):
-    permission_required = 's5appadherant.own_jardin'
+    permission_required = 's5appadherant.manage_cultivateurs'
 
     def get_permission_object(self):
         return get_object_or_404(Jardin, pk=self.kwargs.get('jardin_id'))
