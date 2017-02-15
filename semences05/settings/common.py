@@ -51,7 +51,8 @@ PREREQ_APPS = [
     'django_dynamic_fixture',
     'actstream',
     'mailviews',
-    'maintenance_mode'
+    'maintenance_mode',
+    'debug_toolbar'
 ]
 
 PROJECT_APPS = [
@@ -64,6 +65,7 @@ PROJECT_APPS = [
 INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS
 
 MIDDLEWARE_CLASSES = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -198,3 +200,5 @@ ACTSTREAM_SETTINGS = {
     'USE_PREFETCH': True,
     'GFK_FETCH_DEPTH': 5,
 }
+
+INTERNAL_IPS = ['127.0.0.1']

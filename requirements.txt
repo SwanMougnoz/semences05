@@ -16,3 +16,4 @@ sqlparse==0.2.2
 django-activity-stream==0.6.3
 git+git://github.com/disqus/django-mailviews.git@e3f4adbea04a134e485624077c0194d48f1b646f
 django-maintenance-mode==0.4.5
+django-debug-toolbar==1.6

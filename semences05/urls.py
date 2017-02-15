@@ -1,3 +1,4 @@
+import debug_toolbar
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf.urls import url, include
 from django.contrib import admin
@@ -10,6 +11,7 @@ urlpatterns = [
     url(r'^adherant/', include('s5appadherant.urls')),
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
     url(r'^activity/', include('actstream.urls')),
+    url(r'^__debug__/', include(debug_toolbar.urls))
 ]
 
 urlpatterns += staticfiles_urlpatterns()
