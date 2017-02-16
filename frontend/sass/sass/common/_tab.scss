@@ -1,0 +1,106 @@
+ul.tabs-nav > li > a {
+  font-weight: 400;
+  font-size: 13px;
+}
+
+.panel .tabs {
+  margin-left: -15px;
+  margin-right: -15px;
+}
+
+.panel .tabs ul.tabs-bottom {
+  margin-bottom: -15px;
+}
+
+.panel .tabs .tab-content {
+  padding: 15px;
+}
+
+.panel .tabs.left-tabs {
+  margin: 0px;
+}
+
+.panel .tabs.left-tabs .tabs-nav {
+  float: left;
+  border-bottom: 0px;
+}
+
+.panel .tabs.left-tabs .tabs-nav > li {
+  margin-top: 5px;
+}
+
+.panel .tabs.left-tabs .tabs-nav > li > a {
+  border-bottom: 0px;
+  background-color: #f5f5f5;
+  text-align: center;
+}
+
+.panel .tabs.left-tabs .tabs-nav > li.active a, .panel .tabs.left-tabs .tabs-nav > li a:hover, .panel .tabs.left-tabs .tabs-nav > li a:focus {
+  background-color: $brand-primary;
+  color: #fff;
+}
+
+.panel .tabs.left-tabs .tab-content {
+  overflow: hidden;
+  padding: 0px 15px;
+}
+
+.panel .tabs.right-tabs {
+  margin: 0px;
+}
+
+.panel .tabs.right-tabs .tabs-nav {
+  float: right;
+  border-bottom: 0px;
+}
+
+.panel .tabs.right-tabs .tabs-nav > li {
+  margin-top: 5px;
+}
+
+.panel .tabs.right-tabs .tabs-nav > li > a {
+  border-bottom: 0px;
+  background-color: #f5f5f5;
+  text-align: center;
+}
+
+.panel .tabs.right-tabs .tabs-nav > li.active a, .panel .tabs.right-tabs .tabs-nav > li a:hover, .panel .tabs.right-tabs .tabs-nav > li a:focus {
+  background-color: $brand-primary;
+  color: #fff;
+}
+
+.panel .tabs.right-tabs .tab-content {
+  overflow: hidden;
+  padding: 0px 15px;
+}
+
+.tabs-nav {
+  margin: 0;
+  padding: 0px;
+  border-bottom: 2px solid #ebebeb;
+}
+
+.tabs-nav li {
+  margin-bottom: -2px;
+  padding: 0px;
+}
+
+.tabs-nav li a {
+  display: block;
+  padding: 6px 15px;
+  color: #4d4d4d;
+  border-bottom: 2px solid transparent;
+}
+
+.tabs-nav li.active a, .tabs-nav li a:hover, .tabs-nav li a:focus {
+  color: $brand-primary;
+  border-bottom: 2px solid $brand-primary;
+}
+
+.panel .panel-list-body {
+  .tabs .tab-content {
+    padding-bottom: 0;
+  }
+}
+
+

@@ -175,3 +175,19 @@
   padding: 10px 15px;
   background: #fff;
 }
+
+.panel .panel-list-body {
+  padding-bottom: 0;
+
+    .list-group .list-group-item {
+      margin: 0 -15px;
+      border: 0;
+      border-bottom: 1px solid #ebebeb;
+      border-radius: 0;
+
+      &:last-child {
+        border-bottom: 0;
+      }
+    }
+
+}
