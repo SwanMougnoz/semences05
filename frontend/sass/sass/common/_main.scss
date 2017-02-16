@@ -1,9 +1,11 @@
 @import "widgets";
 @import "transition";
 @import "btn";
+@import "dropdown";
 
 a, a:hover {
   text-decoration: none;
+  cursor: pointer;
 }
 
 .login-topbar {
