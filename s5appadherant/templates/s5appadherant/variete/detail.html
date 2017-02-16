@@ -22,17 +22,23 @@
             {% endif %}
         </div>
         <div class="col-md-8 variete-detail">
-            <p class="legend">Ajoutée le : {{ variete.date_ajout }}</p>
-            <p><strong>Description :</strong></p>
-            <div>
-                {% autoescape off %}
-                    {{ variete.description }}
-                {% endautoescape %}
+            <div class="panel">
+                <div class="panel-heading">
+                    Ajoutée le : {{ variete.date_ajout }}
+                </div>
+                <div class="panel-body">
+
+                    <div>
+                        {% autoescape off %}
+                            {{ variete.description }}
+                        {% endautoescape %}
+                    </div>
+                    <a class="btn btn-sm btn-primary btn-border pull-right" href="{% url 's5appadherant:variete_edit' pk=variete.id %}">
+                        <i class="fa fa-pencil"></i>
+                        &nbsp;Modifier cette variété
+                    </a>
+                </div>
             </div>
-            <a class="btn btn-primary pull-right" href="{% url 's5appadherant:variete_edit' pk=variete.id %}">
-                <i class="fa fa-pencil"></i>
-                &nbsp;Modifier cette variété
-            </a>
         </div>
     </div>
 {% endblock %}

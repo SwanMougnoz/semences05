@@ -18,13 +18,11 @@
 {% block content_adherant %}
     <div class="panel">
         <div class="panel-heading">
-            <DIV>Parcourir les jardins</DIV>
-            <div class="pull-right">
-                <a class="btn btn-xs btn-success" href="{% url 's5appadherant:jardin_new' %}">
-                    <i class="fa fa-plus"></i>
-                    &nbsp;Ajouter un jardin
-                </a>
-            </div>
+            <a class="btn btn-xs btn-success pull-right" href="{% url 's5appadherant:jardin_new' %}">
+                <i class="fa fa-plus"></i>
+                &nbsp;Ajouter un jardin
+            </a>
+            <h3 class="panel-title">Parcourir les jardins</h3>
         </div>
         <div class="panel-body panel-list-body">
             <div class="tabs">
@@ -42,35 +40,36 @@
                     </li>
                 </ul>
                 <div class="tab-content">
-                    <ul class="list-group jardin-list">
+                    <div class="list-group jardin-list">
                         {% for jardin in jardins %}
-                            <li class="list-group-item">
+                            <a href="{% url 's5appadherant:jardin_detail' jardin_id=jardin.id %}" class="list-group-item">
                                 <div class="row">
-                                    <div class="col-md-10">
-                                        <div class="jardin-list-title">
-                                            <strong>{{ jardin.appelation }}</strong>
-                                            <small>
-                                                <i class="fa fa-map-marker"></i>
-                                                {{ jardin.adresse.commune }}
-                                            </small>
+                                    <div class="col-md-8">
+                                        <strong>{{ jardin.appelation }}</strong>
+                                        <small>
+                                            <i class="fa fa-map-marker"></i>
+                                            {{ jardin.adresse.commune }}
+                                        </small>
+                                        <div>
+                                            <small>{{ jardin.short_description|default:"" }}</small>
                                         </div>
-                                        <small>{{ jardin.short_description|default:"" }}</small>
                                     </div>
-                                    <div class="col-md-2">
-                                        <a class="btn btn-sm btn-primary pull-right"
-                                           href="{% url 's5appadherant:jardin_detail' jardin_id=jardin.id %}">
+                                    <div class="col-md-4">
+                                        <button class="btn btn-sm btn-primary pull-right">
                                             Voir ce jardin
-                                        </a>
+                                        </button>
                                     </div>
                                 </div>
-                            </li>
+                            </a>
                         {% endfor %}
-                    </ul>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row text-center">
-        {% pagination jardins %}
+        <div class="panel-footer">
+            <div class="text-center">
+                {% pagination jardins %}
+            </div>
+        </div>
     </div>
 {% endblock %}

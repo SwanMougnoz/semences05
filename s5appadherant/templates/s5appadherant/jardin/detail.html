@@ -37,58 +37,62 @@
             </div>
         </div>
         <div class="col-md-8 jardin-detail">
-            {% has_perm 's5appadherant.change_jardin' request.user jardin as can_change_jardin %}
-            {% if can_change_jardin %}
-                <a href="{% url 's5appadherant:jardin_edit' jardin_id=jardin.id %}" class="btn btn-primary pull-right">
-                    <i class="fa fa-pencil"></i>
-                    &nbsp;Éditer les informations
-                </a>
-            {% endif %}
-            <table>
-                <tr>
-                    <td>Cultivé par:</td>
-                    <td>
-                        <a href="{% url 's5appadherant:profil_detail' adherant_id=jardin.proprietaire.id %}">{{ jardin.proprietaire }}</a>
-                        {% if cultivateurs_acceptes|length > 0 %}
-                            et <a href="#cultivateurs-list">{{ cultivateurs_acceptes|length }} autre{{ cultivateurs_acceptes|length|pluralize }} personne{{ cultivateurs_acceptes|length|pluralize }}</a>
-                        {% endif %}
-                    </td>
-                </tr>
-                <tr>
-                    <td>Commune :</td>
-                    <td>{{ jardin.adresse.commune }}</td>
-                </tr>
-                 <tr>
-                    <td>Altitude :</td>
-                    <td>{{ jardin.adresse.altitude }} m</td>
-                </tr>
-                <tr>
-                    <td>Exposition :</td>
-                    <td>{{ jardin.exposition }}</td>
-                </tr>
-                <tr>
-                    <td>Type de sol :</td>
-                    <td>{{ jardin.type_sol }}</td>
-                </tr>
-                <tr>
-                    <td>Superficie :</td>
-                    <td>{{ jardin.superficie }} m²</td>
-                </tr>
-                <tr>
-                    <td>Irrigation :</td>
-                    <td>{{ jardin.irrigation }}</td>
-                </tr>
-                <tr>
-                    <td>Mise en culture :</td>
-                    <td>{{ jardin.mise_en_culture }}</td>
-                </tr>
-            </table>
+            <div class="panel">
+                <div class="panel-body">
+                    {% has_perm 's5appadherant.change_jardin' request.user jardin as can_change_jardin %}
+                    {% if can_change_jardin %}
+                        <a href="{% url 's5appadherant:jardin_edit' jardin_id=jardin.id %}" class="btn btn-xs btn-border btn-primary pull-right">
+                            <i class="fa fa-pencil"></i>
+                            &nbsp;Éditer les informations
+                        </a>
+                    {% endif %}
+                    <table>
+                        <tr>
+                            <td>Cultivé par:</td>
+                            <td>
+                                <a href="{% url 's5appadherant:profil_detail' adherant_id=jardin.proprietaire.id %}">{{ jardin.proprietaire }}</a>
+                                {% if cultivateurs_acceptes|length > 0 %}
+                                    et<a href="#cultivateurs-list">{{ cultivateurs_acceptes|length }}
+                                    autre{{ cultivateurs_acceptes|length|pluralize }}
+                                    personne{{ cultivateurs_acceptes|length|pluralize }}</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Commune :</td>
+                            <td>{{ jardin.adresse.commune }}</td>
+                        </tr>
+                        <tr>
+                            <td>Altitude :</td>
+                            <td>{{ jardin.adresse.altitude }} m</td>
+                        </tr>
+                        <tr>
+                            <td>Exposition :</td>
+                            <td>{{ jardin.exposition }}</td>
+                        </tr>
+                        <tr>
+                            <td>Type de sol :</td>
+                            <td>{{ jardin.type_sol }}</td>
+                        </tr>
+                        <tr>
+                            <td>Superficie :</td>
+                            <td>{{ jardin.superficie }} m²</td>
+                        </tr>
+                        <tr>
+                            <td>Irrigation :</td>
+                            <td>{{ jardin.irrigation }}</td>
+                        </tr>
+                        <tr>
+                            <td>Mise en culture :</td>
+                            <td>{{ jardin.mise_en_culture }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         </div>
         <div class="col-md-12">
-            <div class="panel panel-default panel-description-jardin">
-                <div class="panel-heading">
-                    <strong>Description :</strong>
-                </div>
+            <div class="panel panel-indigo">
+                <div class="panel-heading">Description</div>
                 <div class="panel-body">
                     <div class="col-md-12">
                         {% autoescape off %}
@@ -99,22 +103,38 @@
             </div>
         </div>
         <div class="col-md-12">
-            <div class="row">
-                <div class="col-md-12">
-                    <h3>Variétés cultivées</h3>
+            <div class="panel">
+                <div class="panel-heading">Variétés cultivées</div>
+                <div class="panel-body">
                     {% render_table culture_table %}
+                    {% has_perm 's5appadherant.change_jardin' request.user jardin as can_change_jardin %}
+                    {% if can_change_jardin %}
+                        <div class="col-md-12">
+                            <a href="{% url 's5appadherant:culture_new' jardin_id=jardin.id %}"
+                               class="btn btn-primary pull-right">
+                                <i class="fa fa-plus"></i>
+                                &nbsp;Ajouter une variété cultivée
+                            </a>
+                        </div>
+                    {% endif %}
                 </div>
-                {% has_perm 's5appadherant.change_jardin' request.user jardin as can_change_jardin %}
-                {% if can_change_jardin %}
-                    <div class="col-md-12">
-                        <a href="{% url 's5appadherant:culture_new' jardin_id=jardin.id %}"
-                           class="btn btn-primary pull-right">
-                            <i class="fa fa-plus"></i>
-                            &nbsp;Ajouter une variété cultivée
-                        </a>
-                    </div>
-                {% endif %}
             </div>
+{#            <div class="row">#}
+{#                <div class="col-md-12">#}
+{#                    <h3>Variétés cultivées</h3>#}
+{#                    {% render_table culture_table %}#}
+{#                </div>#}
+{#                {% has_perm 's5appadherant.change_jardin' request.user jardin as can_change_jardin %}#}
+{#                {% if can_change_jardin %}#}
+{#                    <div class="col-md-12">#}
+{#                        <a href="{% url 's5appadherant:culture_new' jardin_id=jardin.id %}"#}
+{#                           class="btn btn-primary pull-right">#}
+{#                            <i class="fa fa-plus"></i>#}
+{#                            &nbsp;Ajouter une variété cultivée#}
+{#                        </a>#}
+{#                    </div>#}
+{#                {% endif %}#}
+{#            </div>#}
         </div>
         <div class="col-md-12">
             <h3>Variétés récoltées</h3>
