@@ -13,16 +13,19 @@
     {{ block.super }}
 {% endblock %}
 
+{% block page_header_title %}
+    Parcourir les jardins
+{% endblock %}
+
 {% load tags %}
 {% load static %}
 {% block content_adherant %}
     <div class="panel">
-        <div class="panel-heading">
+        <div class="panel-heading clearfix">
             <a class="btn btn-xs btn-success pull-right" href="{% url 's5appadherant:jardin_new' %}">
                 <i class="fa fa-plus"></i>
                 &nbsp;Ajouter un jardin
             </a>
-            <h3 class="panel-title">Parcourir les jardins</h3>
         </div>
         <div class="panel-body panel-list-body">
             <div class="tabs">

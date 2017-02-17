@@ -1,5 +1,8 @@
 {% extends 's5appadherant/layout_adherant.html' %}
 
+{# No page header #}
+{% block page_header %}{% endblock %}
+
 {% load tags_adherant %}
 {% load activity_tags %}
 {% block content_adherant %}
@@ -18,14 +21,4 @@
             {% endfor %}
         </ul>
     </div>
-    <a class="btn btn-danger btn-rounded">
-        <i class="fa fa-times"></i>
-        &nbsp;Button</a>
-    <a class="btn btn-danger">Button</a>
-    <a class="btn btn-xs btn-border btn-rounded btn-danger">Button</a>
-    <a class="btn btn-sm btn-border btn-rounded btn-danger">Button</a>
-    <a class="btn btn-border btn-rounded btn-danger">Button</a>
-    <a class="btn btn-lg btn-border btn-rounded btn-danger">Button</a>
-    <a class="btn btn-rounded btn-warning">Button</a>
-    <a class="btn btn-border btn-success">Button</a>
 {% endblock %}

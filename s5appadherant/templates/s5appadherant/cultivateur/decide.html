@@ -9,10 +9,13 @@
     {{ block.super }}
 {% endblock %}
 
+{% block page_header_title %}
+    {{ cultivateur.adherant }} a indiqué cultiver un de vos jardin
+{% endblock %}
+
 {% block content_adherant %}
     <div class="row">
         <div class="col-md-12">
-            <h2>{{ cultivateur.adherant.user.first_name }} {{ cultivateur.adherant.user.last_name }} a indiqué cultiver un de vos jardin</h2>
             <p>
                 Le jardin en question est <a href="{% url 's5appadherant:jardin_detail' jardin_id=cultivateur.jardin.id %}">{{ cultivateur.jardin.appelation }}</a>.
                 Vous pouvez confirmer cette demande et donner alors l'accès à ce jardin à <a href="{% url 's5appadherant:profil_detail' adherant_id=cultivateur.adherant.id %}">{{ cultivateur.adherant.user.first_name }} {{ cultivateur.adherant.user.last_name }}</a>.

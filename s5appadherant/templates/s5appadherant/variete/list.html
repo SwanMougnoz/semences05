@@ -7,16 +7,19 @@
     {{ block.super }}
 {% endblock %}
 
+{% block page_header_title %}
+    Les variétés
+{% endblock %}
+
 {% load tags %}
 {% load static %}
 {% block content_adherant %}
     <div class="panel">
-        <div class="panel-heading">
+        <div class="panel-heading clearfix">
             <a class="btn btn-xs btn-success pull-right" href="{% url 's5appadherant:variete_new' %}">
                 <i class="fa fa-plus"></i>
                 &nbsp;Ajouter une variété
             </a>
-            <h3 class="panel-title">Les variétés</h3>
         </div>
         <div class="list-group variete-list">
             {% for variete in varietes %}

@@ -9,6 +9,10 @@
     {{ block.super }}
 {% endblock %}
 
+{% block page_header_title %}
+    Ajouter une variété cultivée
+{% endblock %}
+
 {% load static %}
 {% block js %}
     <script type="text/javascript" src="{% static 's5appadherant/js/culture-add.js' %}"></script>
@@ -36,10 +40,7 @@
 
     <div class="row">
         <div class="col-md-7 ckeditor-fill-width">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Ajouter une variété cultivée</h3>
-                </div>
+            <div class="panel">
                 <div class="panel-body">
                     <form action="{% url 's5appadherant:culture_new' jardin_id=jardin.id %}"
                           method="POST"

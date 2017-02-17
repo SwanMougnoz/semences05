@@ -13,13 +13,12 @@
     {{ block.super }}
 {% endblock %}
 
+{% block page_header_title %}
+    {{ adherant }}
+{% endblock %}
+
 {% load table_tags %}
 {% block content_adherant %}
-    <div class="row">
-        <div class="col-md-12">
-            <h2>{{ adherant }}</h2>
-        </div>
-    </div>
     <div class="row">
         <div class="col-md-8">
             <table>

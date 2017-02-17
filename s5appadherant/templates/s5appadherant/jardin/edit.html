@@ -13,6 +13,14 @@
     {{ block.super }}
 {% endblock %}
 
+{% block page_header_title %}
+    {% if jardin %}
+        Édition d'un jardin : {{ jardin.appelation }}
+    {% else %}
+        Ajouter un jardin
+    {% endif %}
+{% endblock %}
+
 {% load static %}
 {% block row_js %}
     {{ block.super }}
@@ -22,15 +30,6 @@
 
 {% load bootstrap %}
 {% block content_adherant %}
-    <div class="row">
-        <div class="col-md-12">
-            {% if jardin %}
-                <h2>Édition d'un jardin : <i>{{ jardin.appelation }}</i></h2>
-            {% else %}
-                <h2>Ajouter un jardin</h2>
-            {% endif %}
-        </div>
-    </div>
     <div class="row">
         {% if jardin %}
             <form action="{% url 's5appadherant:jardin_edit' jardin_id=jardin.id %}"

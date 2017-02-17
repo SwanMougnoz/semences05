@@ -8,13 +8,12 @@
     {{ block.super }}
 {% endblock %}
 
+{% block page_header_title %}
+    Éditer mon profil
+{% endblock %}
+
 {% load bootstrap %}
 {% block content_adherant %}
-    <div class="row">
-        <div class="col-md-12">
-            <h2>Éditer mon profil</h2>
-        </div>
-    </div>
     <div class="row">
         <form action="{% url 's5appadherant:profil_edit'%}"
               method="POST"
