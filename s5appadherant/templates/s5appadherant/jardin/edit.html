@@ -13,6 +13,14 @@
     {{ block.super }}
 {% endblock %}
 
+{% block page_header_title %}
+    {% if jardin %}
+        Édition d'un jardin : {{ jardin.appelation }}
+    {% else %}
+        Ajouter un jardin
+    {% endif %}
+{% endblock %}
+
 {% load static %}
 {% block row_js %}
     {{ block.super }}
@@ -22,15 +30,6 @@
 
 {% load bootstrap %}
 {% block content_adherant %}
-    <div class="row">
-        <div class="col-md-12">
-            {% if jardin %}
-                <h2>Édition d'un jardin : <i>{{ jardin.appelation }}</i></h2>
-            {% else %}
-                <h2>Ajouter un jardin</h2>
-            {% endif %}
-        </div>
-    </div>
     <div class="row">
         {% if jardin %}
             <form action="{% url 's5appadherant:jardin_edit' jardin_id=jardin.id %}"
@@ -43,49 +42,62 @@
             {% csrf_token %}
             <div class="col-md-12">{{ form.non_field_errors }}</div>
             <div class="col-md-6">
-                <div class="well">
-                    <h3>Informations</h3>
-                    {{ jardin_form.appelation|bootstrap }}
-                    {{ jardin_form.exposition|bootstrap }}
-                    {{ jardin_form.type_sol|bootstrap }}
-                    {{ jardin_form.irrigation|bootstrap }}
-                    {{ jardin_form.mise_en_culture|bootstrap }}
-                    {{ jardin_form.superficie|bootstrap }}
+                <div class="panel panel-indigo">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Informations</h3>
+                    </div>
+                    <div class="panel-body">
+                        {{ jardin_form.appelation|bootstrap }}
+                        {{ jardin_form.exposition|bootstrap }}
+                        {{ jardin_form.type_sol|bootstrap }}
+                        {{ jardin_form.irrigation|bootstrap }}
+                        {{ jardin_form.mise_en_culture|bootstrap }}
+                        {{ jardin_form.superficie|bootstrap }}
+                    </div>
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="well">
-                    <h3>Localisation</h3>
-                    {{ adresse_form.adresse|bootstrap }}
-                    {{ adresse_form.commune|bootstrap }}
-                    {{ adresse_form.latitude|bootstrap }}
-                    {{ adresse_form.longitude|bootstrap }}
-                    {{ adresse_form.altitude|bootstrap }}
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Localisation</h3>
+                    </div>
+                    <div class="panel-body">
+                        {{ adresse_form.adresse|bootstrap }}
+                        {{ adresse_form.commune|bootstrap }}
+                        {{ adresse_form.latitude|bootstrap }}
+                        {{ adresse_form.longitude|bootstrap }}
+                        {{ adresse_form.altitude|bootstrap }}
+                    </div>
                 </div>
             </div>
             <div class="col-md-12">
-                <div class="well ckeditor-fill-width">
-                    <h3>Description</h3>
-
-                    {% if form.description.errors %}
-                        <div class="alert alert-danger">
-                            {{ jardin_form.description.errors }}
-                        </div>
-                    {% endif %}
-                    {{ jardin_form.description|bootstrap }}
-                    {{ jardin_form.short_description|bootstrap }}
+                <div class="panel panel-teal ckeditor-fill-width">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Description</h3>
+                    </div>
+                    <div class="panel-body">
+                        {% if form.description.errors %}
+                            <div class="alert alert-danger">
+                                {{ jardin_form.description.errors }}
+                            </div>
+                        {% endif %}
+                        {{ jardin_form.description|bootstrap }}
+                        {{ jardin_form.short_description|bootstrap }}
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary pull-right">
-                    <i class="fa fa-check"></i>
-                    &nbsp;Envoyer
-                </button>
-                {% if jardin %}
-                    <a class="pull-right" href="{% url 's5appadherant:jardin_detail' jardin_id=jardin.id %}">Retour au jardin</a>
-                {% else %}
-                    <a class="pull-right" href="{% url 's5appadherant:jardin_adherant' adherant_id=request.user.adherant.id %}">Retour à la liste</a>
-                {% endif %}
+            <div class="col-md-12">
+                <div class="pull-right">
+                    {% if jardin %}
+                        <a class="btn btn-default btn-border" href="{% url 's5appadherant:jardin_detail' jardin_id=jardin.id %}">Retour au jardin</a>
+                    {% else %}
+                        <a class="btn btn-default btn-border" href="{% url 's5appadherant:jardin_adherant' adherant_id=request.user.adherant.id %}">Retour à la liste</a>
+                    {% endif %}
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa fa-check"></i>
+                        &nbsp;Envoyer
+                    </button>
+                </div>
             </div>
         </form>
     </div>

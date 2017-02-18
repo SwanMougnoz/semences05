@@ -3,18 +3,11 @@
 @import "login";
 @import "table";
 @import "variete";
+@import "breadcrumbs";
 
 & {
   padding-bottom: 150px;
-}
-
-.menu-adherant {
-  a:hover {
-    background-color: green;
-    &.active {
-      background-color: lighten(green, 10%);
-    }
-  }
+  background-color: #f5f5f5;
 }
 
 header {

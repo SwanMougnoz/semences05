@@ -1,8 +1,10 @@
 .jardin-list {
-    .jardin-list-title small {
-      margin-left: 7px;
-      color: #7d7d7d;
-    }
+  strong {
+    margin-right: 4px;
+  }
+  small {
+    color: #7d7d7d;
+  }
 }
 
 #jardin-detail-map {

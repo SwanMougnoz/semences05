@@ -9,6 +9,10 @@
     {{ block.super }}
 {% endblock %}
 
+{% block page_header_title %}
+    Ajouter une variété cultivée
+{% endblock %}
+
 {% load static %}
 {% block js %}
     <script type="text/javascript" src="{% static 's5appadherant/js/culture-add.js' %}"></script>
@@ -33,53 +37,57 @@
 {% load bootstrap %}
 {% load widget_tweaks %}
 {% block content_adherant %}
-    <div class="row">
-        <div class="col-md-12">
-            <h2>Ajouter une variété cultivée</h2>
-        </div>
-    </div>
+
     <div class="row">
         <div class="col-md-7 ckeditor-fill-width">
-            <form action="{% url 's5appadherant:culture_new' jardin_id=jardin.id %}"
-                  method="POST"
-                  role="form"
-                  enctype="multipart/form-data"
-                  class="new-culture-form">
-                {% csrf_token %}
-                {% if form.non_field_errors %}
-                    <div class="alert alert-danger alert-dismissable">
-                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                        {{ form.non_field_errors }}
-                    </div>
-                {% endif %}
-                {{ form.date_debut|bootstrap }}
-                {{ form.type_conservation|bootstrap }}
-                <strong>{{ form.variete.label }}</strong>
-                <div class="form-group">
-                    <div class="input-group">
-                        {{ form.variete|add_class:"form-control" }}
-                        <span class="input-group-btn">
+            <div class="panel">
+                <div class="panel-body">
+                    <form action="{% url 's5appadherant:culture_new' jardin_id=jardin.id %}"
+                          method="POST"
+                          role="form"
+                          enctype="multipart/form-data"
+                          class="new-culture-form">
+                        {% csrf_token %}
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger alert-dismissable">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
+                        {{ form.date_debut|bootstrap }}
+                        {{ form.type_conservation|bootstrap }}
+                        <strong>{{ form.variete.label }}</strong>
+                        <div class="form-group">
+                            <div class="input-group">
+                                {{ form.variete|add_class:"form-control" }}
+                                <span class="input-group-btn">
                             <button id="add-variete-btn" type="button" class="btn btn-default">
                                 <i class="fa fa-pencil-square-o"></i>
                                 &nbsp;Nouvelle variété
                             </button>
                         </span>
-                    </div>
+                            </div>
+                        </div>
+                        <div id="add-variete-fields" class="well hidden">
+                            {{ form.variete_nom|bootstrap }}
+                            {{ form.variete_description|bootstrap }}
+                            {{ form.variete_photo|bootstrap }}
+                        </div>
+                        {{ form.mode_selection }}
+                        <div class="form-group">
+                            <div class="pull-right">
+                                <a class="btn btn-sm btn-border btn-default" href="{% url 's5appadherant:jardin_detail' jardin_id=jardin.id %}">
+                                    Retour au jardin
+                                </a>
+                                <button type="submit" class="btn btn-sm btn-success">
+                                    <i class="fa fa-check"></i>
+                                    &nbsp;Ajouter
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <div id="add-variete-fields" class="well hidden">
-                    {{ form.variete_nom|bootstrap }}
-                    {{ form.variete_description|bootstrap }}
-                    {{ form.variete_photo|bootstrap }}
                 </div>
-                {{ form.mode_selection }}
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary pull-right">
-                        <i class="fa fa-check"></i>
-                        &nbsp;Ajouter
-                    </button>
-                    <a class="pull-right" href="{% url 's5appadherant:jardin_detail' jardin_id=jardin.id %}">Retour au jardin</a>
-                </div>
-            </form>
-        </div>
+            </div>
     </div>
 {% endblock %}

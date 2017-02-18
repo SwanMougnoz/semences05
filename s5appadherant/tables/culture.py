@@ -44,7 +44,7 @@ class CultureTable(Table):
         zero_records = "Aucune variété n'est cultivée dans ce jardin"
         ajax = True
         model = Culture
-        attrs = {'class': 's5-table table-bordered table-hover table-striped'}
+        attrs = {'class': 's5-table table-hover table-striped'}
 
 
 # TODO: trouver un moyen d'hériter CultureTable
@@ -93,4 +93,4 @@ class CultureTableCultivateur(Table):
         zero_records = "Aucune variété n'est cultivée dans ce jardin"
         ajax = True
         model = Culture
-        attrs = {'class': 's5-table table-bordered table-hover table-striped'}
+        attrs = {'class': 's5-table table-hover table-striped'}

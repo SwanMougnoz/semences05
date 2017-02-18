@@ -7,51 +7,50 @@
     {{ block.super }}
 {% endblock %}
 
+{% block page_header_title %}
+    Les variétés
+{% endblock %}
+
 {% load tags %}
 {% load static %}
 {% block content_adherant %}
-    <div class="row">
-        <div class="col-md-10">
-            <h2>Liste des variétés</h2>
-
-        </div>
-        <div class="col-md-2">
-            <a class="btn btn-success pull-right" href="{% url 's5appadherant:variete_new' %}">
+    <div class="panel">
+        <div class="panel-heading clearfix">
+            <a class="btn btn-xs btn-success pull-right" href="{% url 's5appadherant:variete_new' %}">
                 <i class="fa fa-plus"></i>
                 &nbsp;Ajouter une variété
             </a>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <ul class="list-group variete-list">
-                {% for variete in varietes %}
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col-md-2">
-                                {% if variete.photo %}
-                                    <img src="{{ variete.photo.url }}" alt="{{ variete.nom }}">
-                                {% else %}
-                                    <img src="{% static 's5appadherant/images/no_image.png' %}" alt="">
-                                {% endif %}
-                            </div>
-                            <div class="col-md-8">
-                                <p><strong>{{ variete.nom }}</strong></p>
-                                <p>{{ variete.short_description|default:"" }}</p>
-                            </div>
-                            <div class="col-md-2">
-                                <a class="btn btn-primary pull-right" href="{% url 's5appadherant:variete_detail' variete_id=variete.id %}">
-                                    <i class="fa fa-leaf"></i>
-                                    &nbsp;Fiche variété
-                                </a>
+        <div class="list-group variete-list">
+            {% for variete in varietes %}
+                <a href="{% url 's5appadherant:variete_detail' variete_id=variete.id %}" class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-2">
+                            {% if variete.photo %}
+                                <img src="{{ variete.photo.url }}" alt="{{ variete.nom }}">
+                            {% else %}
+                                <img src="{% static 's5appadherant/images/no_image.png' %}" alt="">
+                            {% endif %}
+                        </div>
+                        <div class="col-md-8">
+                            <strong>{{ variete.nom }}</strong>
+                            <div>
+                                <small>{{ variete.short_description|default:"" }}</small>
                             </div>
                         </div>
-                    </li>
-                {% endfor %}
-            </ul>
+                        <div class="col-md-2">
+                            <button class="btn btn-sm btn-primary pull-right">
+                                Fiche variété
+                            </button>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
         </div>
-    </div>
-    <div class="row text-center">
-        {% pagination varietes %}
+        <div class="panel-bottom">
+            <div class="text-center">
+                {% pagination varietes %}
+            </div>
+        </div>
     </div>
 {% endblock %}

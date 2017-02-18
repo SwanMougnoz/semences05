@@ -13,56 +13,66 @@
     {{ block.super }}
 {% endblock %}
 
+{% block page_header_title %}
+    Parcourir les jardins
+{% endblock %}
+
 {% load tags %}
 {% load static %}
 {% block content_adherant %}
-    <div class="row">
-        <div class="col-md-12">
-            <a class="btn btn-sm btn-success pull-right" href="{% url 's5appadherant:jardin_new' %}">
+    <div class="panel">
+        <div class="panel-heading clearfix">
+            <a class="btn btn-xs btn-success pull-right" href="{% url 's5appadherant:jardin_new' %}">
                 <i class="fa fa-plus"></i>
                 &nbsp;Ajouter un jardin
             </a>
-            <ul class="nav nav-tabs">
-                <li {% if list == 'adherant' %}class="active"{% endif %}>
-                    <a href="{% url 's5appadherant:jardin_adherant' adherant_id=request.user.adherant.id %}">Mes jardins</a>
-                </li>
-                <li {% if list == 'cultivateur' %}class="active"{% endif %}>
-                    <a href="{% url 's5appadherant:jardin_cultivateur' adherant_id=request.user.adherant.id %}">Jardins auxquels je participe</a>
-                </li>
-                <li {% if list == 'all' %}class="active"{% endif %}>
-                    <a href="{% url 's5appadherant:jardin_all' %}">Tous les jardins</a>
-                </li>
-            </ul>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <ul class="list-group jardin-list">
-                {% for jardin in jardins %}
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col-md-10">
-                                <div class="jardin-list-title">
-                                    <strong>{{ jardin.appelation }}</strong>
-                                    <small>
-                                        <i class="fa fa-map-marker"></i>
-                                        {{ jardin.adresse.commune }}
-                                    </small>
-                                </div>
-                                <small>{{ jardin.short_description|default:"" }}</small>
-                            </div>
-                            <div class="col-md-2">
-                                <a class="btn btn-primary pull-right" href="{% url 's5appadherant:jardin_detail' jardin_id=jardin.id %}">
-                                    Voir ce jardin
-                                </a>
-                            </div>
-                        </div>
+        <div class="panel-body panel-list-body">
+            <div class="tabs">
+                <ul class="list-inline tabs-nav">
+                    <li {% if list == 'adherant' %}class="active"{% endif %}>
+                        <a href="{% url 's5appadherant:jardin_adherant' adherant_id=request.user.adherant.id %}">Mes
+                            jardins</a>
                     </li>
-                {% endfor %}
-            </ul>
+                    <li {% if list == 'cultivateur' %}class="active"{% endif %}>
+                        <a href="{% url 's5appadherant:jardin_cultivateur' adherant_id=request.user.adherant.id %}">Jardins
+                            auxquels je participe</a>
+                    </li>
+                    <li {% if list == 'all' %}class="active"{% endif %}>
+                        <a href="{% url 's5appadherant:jardin_all' %}">Tous les jardins</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="list-group jardin-list">
+                        {% for jardin in jardins %}
+                            <a href="{% url 's5appadherant:jardin_detail' jardin_id=jardin.id %}" class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <strong>{{ jardin.appelation }}</strong>
+                                        <small>
+                                            <i class="fa fa-map-marker"></i>
+                                            {{ jardin.adresse.commune }}
+                                        </small>
+                                        <div>
+                                            <small>{{ jardin.short_description|default:"" }}</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button class="btn btn-sm btn-primary pull-right">
+                                            Voir ce jardin
+                                        </button>
+                                    </div>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="row text-center">
-        {% pagination jardins %}
+        <div class="panel-footer">
+            <div class="text-center">
+                {% pagination jardins %}
+            </div>
+        </div>
     </div>
 {% endblock %}

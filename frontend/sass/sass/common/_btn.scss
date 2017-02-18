@@ -1,0 +1,309 @@
+.buttons a {
+  margin: 3px;
+}
+
+.btn {
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  font-size: 13px;
+  padding: 7px 14px;
+  font-weight: 400;
+}
+
+.btn.btn-sm {
+  padding: 6px 10px;
+}
+
+.btn.btn-lg {
+  padding: 10px 30px;
+  font-size: 16px;
+}
+
+.btn.btn-xs {
+  padding: 4px 8px;
+  font-size: 11px;
+}
+
+.btn.btn-rounded {
+  border-radius: 100px;
+  -webkit-border-radius: 100px;
+  overflow: hidden;
+}
+
+.btn.btn-icon {
+  position: relative;
+  overflow: hidden;
+  padding-left: 50px;
+}
+
+.btn.btn-icon i {
+  position: absolute;
+  height: 100%;
+  line-height: 100%;
+  width: 40px;
+  line-height: 34px;
+  text-align: center;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.btn-default {
+  background-color: $btn-default-bg;
+  border-color: $btn-default-border;
+}
+
+.btn-default:hover {
+  background-color: $btn-default-border;
+  border-color: $btn-default-border;
+  opacity: 0.9;
+}
+
+.btn-default:focus {
+  border-color: $btn-default-border;
+  background: #fff;
+}
+
+.btn-primary {
+  background-color: $brand-primary;
+  border-color: $brand-primary;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  color: #fff;
+  opacity: 0.9;
+  background-color: $brand-primary;
+  border-color: $brand-primary;
+}
+
+.btn-primary:focus {
+  color: #fff;
+  background-color: $brand-primary;
+  border-color: $brand-primary;
+}
+
+.btn-info {
+  background-color: $brand-info;
+  border-color: $brand-info;
+  color: #fff;
+}
+
+.btn-info:hover {
+  color: #fff;
+  opacity: 0.9;
+  background-color: $brand-info;
+  border-color: $brand-info;
+}
+
+.btn-info:focus {
+  color: #fff;
+  background-color: $brand-info;
+  border-color: $brand-info;
+}
+
+.btn-success {
+  background-color: $brand-success;
+  border-color: $brand-success;
+  color: #fff;
+}
+
+.btn-success:hover {
+  color: #fff;
+  opacity: 0.9;
+  border-color: $brand-success;
+}
+
+.btn-success:focus {
+  color: #fff;
+  border-color: $brand-success;
+}
+
+.btn-warning {
+  background-color: $brand-warning;
+  border-color: $brand-warning;
+  color: #fff;
+}
+
+.btn-warning:hover {
+  color: #fff;
+  opacity: 0.9;
+  background-color: $brand-warning;
+  border-color: $brand-warning;
+}
+
+.btn-warning:focus {
+  color: #fff;
+  background-color: $brand-warning;
+  border-color: $brand-warning;
+}
+
+.btn-danger {
+  background-color: $brand-danger;
+  border-color: $brand-danger;
+  color: #fff;
+}
+
+.btn-danger:hover {
+  color: #fff;
+  opacity: 0.9;
+  background-color: $brand-danger;
+  border-color: $brand-danger;
+}
+
+.btn-danger:focus {
+  color: #fff;
+  background-color: $brand-danger;
+  border-color: $brand-danger;
+}
+
+.btn-teal {
+  background-color: $brand-teal;
+  border-color: $brand-teal;
+  color: #fff;
+}
+
+.btn-teal:hover {
+  color: #fff;
+  opacity: 0.9;
+  border-color: $brand-teal;
+}
+
+.btn-teal:focus {
+  color: #fff;
+  border-color: $brand-teal;
+}
+
+.btn-indigo {
+  background-color: $brand-indigo;
+  border-color: $brand-indigo;
+  color: #fff;
+}
+
+.btn-indigo:hover {
+  color: #fff;
+  opacity: 0.9;
+}
+
+.btn-indigo:focus {
+  color: #fff;
+}
+
+/**border buttons**/
+.btn.btn-border:hover {
+  opacity: 1 !important;
+}
+
+.btn.btn-border {
+  background-color: transparent;
+}
+
+.btn.btn-border.btn-default {
+  border: 1px solid $btn-default-border;
+}
+
+.btn.btn-border.btn-default:hover {
+  background-color: $btn-default-border;
+}
+
+.btn.btn-border.btn-default:focus {
+  background-color: transparent;
+}
+
+.btn.btn-border.btn-primary {
+  color: $brand-primary;
+  border: 1px solid $brand-primary;
+}
+
+.btn.btn-border.btn-primary:focus {
+  background-color: transparent;
+}
+
+.btn.btn-border.btn-primary:hover {
+  background-color: $brand-primary;
+  color: #fff;
+}
+
+.btn.btn-border.btn-success {
+  color: $brand-success;
+  border: 1px solid $brand-success;
+}
+
+.btn.btn-border.btn-success:focus {
+  background-color: transparent;
+}
+
+.btn.btn-border.btn-success:hover {
+  background-color: $brand-success;
+  color: #fff;
+}
+
+.btn.btn-border.btn-info {
+  color: $brand-info;
+  border: 1px solid $brand-info;
+}
+
+.btn.btn-border.btn-info:focus {
+  background-color: transparent;
+}
+
+.btn.btn-border.btn-info:hover {
+  background-color: $brand-info;
+  color: #fff;
+}
+
+.btn.btn-border.btn-warning {
+  color: $brand-warning;
+  border: 1px solid $brand-warning;
+}
+
+.btn.btn-border.btn-warning:focus {
+  background-color: transparent;
+}
+
+.btn.btn-border.btn-warning:hover {
+  background-color: $brand-warning;
+  color: #fff;
+}
+
+.btn.btn-border.btn-danger {
+  color: $brand-danger;
+  border: 1px solid $brand-danger;
+}
+
+.btn.btn-border.btn-danger:focus {
+  background-color: transparent;
+}
+
+.btn.btn-border.btn-danger:hover {
+  background-color: $brand-danger;
+  color: #fff;
+}
+
+.btn.btn-border.btn-indigo {
+  color: $brand-indigo;
+  border: 1px solid $brand-indigo;
+}
+
+.btn.btn-border.btn-indigo:focus {
+  background-color: transparent;
+}
+
+.btn.btn-border.btn-indigo:hover {
+  background-color: $brand-indigo;
+  color: #fff;
+}
+
+.btn.btn-border.btn-teal {
+  color: $brand-teal;
+  border: 1px solid $brand-teal;
+}
+
+.btn.btn-border.btn-teal:focus {
+  background-color: transparent;
+}
+
+.btn.btn-border.btn-teal:hover {
+  background-color: $brand-teal;
+  color: #fff;
+}

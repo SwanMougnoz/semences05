@@ -8,11 +8,16 @@
             {% menu_adherant request menu_actif %}
         </div>
         <div class="col-md-10">
-            <div class="breadcrumbs">
-                {% block breadcrumbs %}
-                    {% render_breadcrumbs "django_bootstrap_breadcrumbs/bootstrap3.html" %}
-                {% endblock %}
-            </div>
+            {% block page_header %}
+                <div class="page-header">
+                    <div class="breadcrumbs">
+                        {% block breadcrumbs %}
+                            {% render_breadcrumbs "django_bootstrap_breadcrumbs/bootstrap3.html" %}
+                        {% endblock %}
+                    </div>
+                    <h3>{% block page_header_title %}{% endblock %}</h3>
+                </div>
+            {% endblock %}
             <div class="content-adherant">
                 {% block content_adherant %}{% endblock %}
             </div>

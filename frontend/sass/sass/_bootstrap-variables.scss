@@ -15,11 +15,18 @@ $gray:                   lighten($gray-base, 33.5%) !default; // #555
 $gray-light:             lighten($gray-base, 46.7%) !default; // #777
 $gray-lighter:           lighten($gray-base, 93.5%) !default; // #eee
 
-$brand-primary:         darken(#428bca, 6.5%) !default; // #337ab7
-$brand-success:         #5cb85c !default;
+$brand-primary: #376e1c !default; // #337ab7
+$brand-success: #8a4c00 !default;
 $brand-info:            #5bc0de !default;
 $brand-warning:         #f0ad4e !default;
-$brand-danger:          #d9534f !default;
+$brand-danger: #df4b2c !default;
+
+// FROM FLOAT ADMIN
+//$brand-primary: #23b7e5 !default; // #337ab7
+//$brand-success: #4CAF50 !default;
+//$brand-info: #56afd7 !default;
+//$brand-warning: #FF7043 !default;
+//$brand-danger: #F44336 !default;
 
 
 //== Scaffolding
