@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView, TemplateView
 from rules.contrib.views import PermissionRequiredMixin
 
-from forms.adresse import AdresseFullForm
+from s5appadherant.forms.adresse import AdresseFullForm
 from s5appadherant.forms.jardin import JardinForm
 from s5appadherant.models import Jardin, Adherant
 from s5appadherant.tables.culture import CultureTableCultivateur, CultureTable
