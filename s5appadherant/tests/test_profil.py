@@ -79,7 +79,6 @@ class ProfilEditTest(TestCase, AssertHTMLMixin):
         response.render()
 
         expected_inputs = [
-            'user-username',
             'user-email',
             'user-first_name',
             'user-last_name',
@@ -106,7 +105,6 @@ class ProfilEditTest(TestCase, AssertHTMLMixin):
 
         url = reverse('s5appadherant:profil_edit')
         post_data = {
-            'user-username': 'newname',
             'user-email': 'new@email.com',
             'user-first_name': 'Toto',
             'user-last_name': 'Titi',
@@ -126,7 +124,6 @@ class ProfilEditTest(TestCase, AssertHTMLMixin):
         adherant = Adherant.objects.get(pk=self.adherant.id)
 
         self.assertEqual(count, post_add_count)
-        self.assertEqual('newname', adherant.user.username)
         self.assertEqual('new@email.com', adherant.user.email)
         self.assertEqual('Toto', adherant.user.first_name)
         self.assertEqual('Titi', adherant.user.last_name)

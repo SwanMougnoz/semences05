@@ -23,7 +23,7 @@ class LoginViewTest(TestCase):
     def test_post_login_ok(self):
         # Test avec un formulaire valide
         response = self.client.post(reverse('s5appadherant:login'), data={
-            'username': 'john',
+            'email': 'lennon@thebeatles.com',
             'password': 'johnpassword'
         })
         self.assertEqual(response.status_code, 302)
@@ -33,7 +33,7 @@ class LoginViewTest(TestCase):
     def test_post_login_failed(self):
         # Test avec un formulaire invalide
         response = self.client.post(reverse('s5appadherant:login'), data={
-            'username': 'john',
+            'email': 'fake@email.com',
             'password': 'wrongpassword'
         })
         self.assertEqual(response.status_code, 200)
@@ -53,7 +53,7 @@ class LogoutViewTest(TestCase):
 
     def test_get(self):
         self.client.post(reverse('s5appadherant:login'), data={
-            'username': 'john',
+            'email': 'lennon@thebeatles.com',
             'password': 'johnpassword'
         })
         self.assertTrue(self.isLoggedInAs(self.user))
