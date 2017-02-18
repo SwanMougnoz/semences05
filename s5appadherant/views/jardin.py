@@ -60,13 +60,16 @@ class JardinDetailView(LoginRequiredMixin, TemplateView):
             culture_table = CultureTable(jardin=jardin)
 
         qs = jardin.cultivateur_set.all()
-        cultivateurs_pending = [cultivateur.adherant for cultivateur in qs.filter(pending=True)]
-        cultivateurs_acceptes = [cultivateur.adherant for cultivateur in qs.filter(accepte=True)]
+
+        cultivateur_request_pending = request.user.adherant in \
+            [cultivateur.adherant for cultivateur in qs.filter(pending=True)]
+
+        cultivateurs_acceptes = qs.filter(accepte=True)
 
         return self.render_to_response({
             'jardin': jardin,
             'culture_table': culture_table,
-            'cultivateurs_pending': cultivateurs_pending,
+            'cultivateur_request_pending': cultivateur_request_pending,
             'cultivateurs_acceptes': cultivateurs_acceptes,
             'menu_actif': 'jardin',
             'titre_page': u'Jardin - %s' % jardin.appelation

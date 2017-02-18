@@ -1,0 +1,7 @@
+{% extends 's5mailing/txt/base.txt' %}
+
+{% block body %}
+{{ cultivateur.adherant }} a quitté le groupe des cultivateurs dans le jardin "{{ cultivateur.jardin }}"
+
+Il/Elle n'a donc plus accès à ce jardin avec les droits de modification.
+{% endblock %}

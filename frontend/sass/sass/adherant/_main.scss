@@ -1,7 +1,12 @@
+@import "accueil";
 @import "jardin";
 @import "login";
 @import "table";
 @import "variete";
+
+& {
+  padding-bottom: 150px;
+}
 
 .menu-adherant {
   a:hover {

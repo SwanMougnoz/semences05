@@ -125,8 +125,7 @@ class JardinDetailTest(TestCase, AssertHTMLMixin):
         self.assertContains(response, self.jardin.mise_en_culture)
         self.assertContains(response, self.jardin.description)
 
-    def _do_test_jardin_with_edit_permission(self, user):
-        response = self.get(user)
+    def _do_test_jardin_with_edit_permission(self, response):
         self._assert_jardin_detail(response)
 
         # Le document doit contenir une table des variétés cultivé
@@ -154,12 +153,41 @@ class JardinDetailTest(TestCase, AssertHTMLMixin):
         self.assertNotHTML(response, 'a[href="%s"]' % cultivateur_request_url)
 
     def test_get_proprietaire(self):
-        self._do_test_jardin_with_edit_permission(self.proprietaire.user)
+        response = self.get(self.proprietaire.user)
+        self._do_test_jardin_with_edit_permission(response)
+
+    def test_get_proprietaire_with_cultivateurs(self):
+        cultivateur_accepte = G(Cultivateur, jardin=self.jardin, adherant=G(Adherant), accepte=True, pending=False)
+        cultivateur_pending = G(Cultivateur, jardin=self.jardin, adherant=G(Adherant), accepte=False, pending=True)
+        cultivateur_refused = G(Cultivateur, jardin=self.jardin, adherant=G(Adherant), accepte=False, pending=False)
+
+        response = self.get(self.proprietaire.user)
+        response.render()
+
+        with self.assertHTML(response, "#cultivateurs-list ul li") as elems:
+            self.assertEqual(2, len(elems))
+
+        delete_accepte_url = reverse('s5appadherant:cultivateur_delete', kwargs={
+            'jardin_id': self.jardin.id,
+            'cultivateur_id': cultivateur_accepte.id
+        })
+        with self.assertHTML(response, 'a[href="%s"]' % delete_accepte_url) as elems:
+            self.assertEqual(1, len(elems))
 
     def test_get_cultivateur(self):
         adherant = G(Adherant)
-        G(Cultivateur, jardin=self.jardin, adherant=adherant, accepte=True, pending=False)
-        self._do_test_jardin_with_edit_permission(adherant.user)
+        cultivateur = G(Cultivateur, jardin=self.jardin, adherant=adherant, accepte=True, pending=False)
+
+        response = self.get(adherant.user)
+
+        self._do_test_jardin_with_edit_permission(response)
+
+        cultivateur_quit_url = reverse('s5appadherant:cultivateur_quit', kwargs={
+            'jardin_id': self.jardin.id,
+            'cultivateur_id': cultivateur.id
+        })
+        with self.assertHTML(response, 'a[href="%s"]' % cultivateur_quit_url):
+            pass
 
     def test_get_adherant(self):
         response = self.get(G(Adherant).user)

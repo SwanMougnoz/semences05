@@ -1,0 +1,27 @@
+.badge-danger {
+  background-color: $btn-danger-bg;
+  &.badge-alpha {
+    color: $btn-danger-bg;
+    &:hover {
+      background-color: #fff;
+      color: darken($btn-danger-bg, 20%);
+    }
+  }
+}
+
+.badge-alpha {
+  background-color: transparent;
+  color: inherit;
+}
+
+.badge-link {
+  a {
+    color: #fff;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  &.badge-alpha a {
+    color: inherit;
+  }
+}

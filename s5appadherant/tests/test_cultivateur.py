@@ -7,7 +7,8 @@ from django_dynamic_fixture import G, N
 from with_asserts.mixin import AssertHTMLMixin
 
 from s5appadherant.models import Adherant, User, Jardin, Cultivateur
-from s5appadherant.views.cultivateur import CultivateurRequestView, CultivateurDecideView
+from s5appadherant.views.cultivateur import CultivateurRequestView, CultivateurDecideView, CultivateurDeleteView, \
+    CultivateurQuitView
 from s5appadherant import permissions
 
 
@@ -31,49 +32,6 @@ class CultivateurModelTest(TestCase):
 
         self.assertFalse(self.cultivateur.accepte)
         self.assertFalse(self.cultivateur.pending)
-
-
-class CultivateurSignalsTest(TestCase):
-
-    def setUp(self):
-        self.proprietaire = G(Adherant)
-        self.adherant = G(Adherant)
-        self.jardin = G(Jardin, proprietaire=self.proprietaire)
-
-        self.cultivateur = N(Cultivateur, jardin=self.jardin, adherant=self.adherant)
-
-    def test_save_action_created(self):
-        self.cultivateur.save()
-
-        Action.objects.get_by_terms(verb='request', action_object=self.cultivateur)
-        self.assertTrue(Follow.objects.is_following(self.proprietaire.user, self.cultivateur))
-        self.assertTrue(Follow.objects.is_following(self.adherant.user, self.cultivateur))
-
-    def test_save_action_updated_accept(self):
-        self.cultivateur.save()
-        self.cultivateur.accept()
-
-        Action.objects.get_by_terms(verb="accept", action_object=self.cultivateur)
-        request = Action.objects.get_by_terms(verb='request', action_object=self.cultivateur)
-        self.assertIn(request, self.proprietaire.processed_actions.all())
-        self.assertTrue(Follow.objects.is_following(self.adherant.user, self.jardin))
-
-    def test_save_action_updated_deny(self):
-        self.cultivateur.save()
-        self.cultivateur.deny()
-
-        Action.objects.get_by_terms(verb="deny", action_object=self.cultivateur)
-        request = Action.objects.get_by_terms(verb='request', action_object=self.cultivateur)
-        self.assertIn(request, self.proprietaire.processed_actions.all())
-        self.assertFalse(Follow.objects.is_following(self.adherant.user, self.jardin))
-
-    def test_save_action_updated_missing_request(self):
-        self.cultivateur.save()
-        request = Action.objects.get_by_terms(verb='request', action_object=self.cultivateur)
-        request.delete()
-
-        self.cultivateur.accept()
-        self.assertTrue(Follow.objects.is_following(self.adherant.user, self.jardin))
 
 
 # todo: mocker MailerService
@@ -247,6 +205,154 @@ class CultivateurDecideTest(TestCase, AssertHTMLMixin):
         self.assertTrue(self.adherant.user.has_perm('s5appadherant.request_cultivateur', self.jardin))
 
         self.assertFalse(Follow.objects.is_following(self.adherant.user, self.jardin))
+
+
+class CultivateurDeleteTest(TestCase):
+    def setUp(self):
+        self.factory = RequestFactory()
+
+        self.proprietaire = G(Adherant)
+        self.adherant = G(Adherant)
+        self.jardin = G(Jardin, proprietaire=self.proprietaire)
+
+    def get(self, cultivateur, user):
+        params = {'jardin_id': self.jardin.id, 'cultivateur_id': cultivateur.id}
+        request = self.factory.get(reverse('s5appadherant:cultivateur_delete', kwargs=params))
+        request.user = user
+
+        return CultivateurDeleteView.as_view()(request, **params)
+
+    def test_get(self):
+        cultivateur = G(Cultivateur, jardin=self.jardin, adherant=self.adherant, accepte=True, pending=False)
+        response = self.get(cultivateur, self.proprietaire.user)
+
+        cultivateur_loaded = Cultivateur.objects.get(pk=cultivateur.id)
+
+        self.assertEqual(302, response.status_code)
+        self.assertFalse(cultivateur_loaded.accepte)
+        self.assertFalse(Follow.objects.is_following(cultivateur.adherant.user, self.jardin))
+        self.assertFalse(cultivateur.adherant.user.has_perm('s5appadherant:change_jardin', self.jardin))
+
+    def test_get_cultivateur(self):
+        cultivateur = G(Cultivateur, jardin=self.jardin, adherant=self.adherant, accepte=True)
+        response = self.get(cultivateur, self.adherant.user)
+
+        self.assertEqual(302, response.status_code)
+
+        cultivateur_loaded = Cultivateur.objects.get(pk=cultivateur.id)
+        self.assertEqual(cultivateur, cultivateur_loaded)
+
+    def test_get_guest(self):
+        cultivateur = G(Cultivateur, jardin=self.jardin, adherant=self.adherant, accepte=True)
+        adherant = G(Adherant)
+        response = self.get(cultivateur, adherant.user)
+
+        self.assertEqual(302, response.status_code)
+
+        cultivateur_loaded = Cultivateur.objects.get(pk=cultivateur.id)
+        self.assertEqual(cultivateur, cultivateur_loaded)
+
+    def test_get_jardin_cultivateur_doesnt_match(self):
+        jardin = G(Jardin)
+        cultivateur = G(Cultivateur, jardin=jardin, adherant=self.adherant, accepte=True)
+        response = self.get(cultivateur, self.proprietaire.user)
+
+        cultivateur_loaded = Cultivateur.objects.get(pk=cultivateur.id)
+
+        self.assertEqual(403, response.status_code)
+        self.assertEqual(cultivateur, cultivateur_loaded)
+
+    def test_get_refused(self):
+        cultivateur = G(Cultivateur, jardin=self.jardin, adherant=self.adherant, accepte=False, pending=False)
+        response = self.get(cultivateur, self.proprietaire.user)
+
+        cultivateur_loaded = Cultivateur.objects.get(pk=cultivateur.id)
+
+        self.assertEqual(403, response.status_code)
+        self.assertEqual(cultivateur, cultivateur_loaded)
+
+    def test_get_pending(self):
+        cultivateur = G(Cultivateur, jardin=self.jardin, adherant=self.adherant, accepte=False, pending=True)
+        response = self.get(cultivateur, self.proprietaire.user)
+
+        cultivateur_loaded = Cultivateur.objects.get(pk=cultivateur.id)
+
+        self.assertEqual(403, response.status_code)
+        self.assertEqual(cultivateur, cultivateur_loaded)
+
+
+class CultivateurQuitTest(TestCase):
+    def setUp(self):
+        self.factory = RequestFactory()
+
+        self.proprietaire = G(Adherant)
+        self.adherant = G(Adherant)
+        self.jardin = G(Jardin, proprietaire=self.proprietaire)
+
+    def get(self, cultivateur, user):
+        params = {'jardin_id': self.jardin.id, 'cultivateur_id': cultivateur.id}
+        request = self.factory.get(reverse('s5appadherant:cultivateur_quit', kwargs=params))
+        request.user = user
+
+        return CultivateurQuitView.as_view()(request, **params)
+
+    def test_get(self):
+        cultivateur = G(Cultivateur, jardin=self.jardin, adherant=self.adherant, accepte=True, pending=False)
+        response = self.get(cultivateur, self.adherant.user)
+
+        cultivateur_loaded = Cultivateur.objects.get(pk=cultivateur.id)
+
+        self.assertEqual(302, response.status_code)
+        self.assertFalse(cultivateur_loaded.accepte)
+        self.assertFalse(Follow.objects.is_following(cultivateur.adherant.user, self.jardin))
+        self.assertFalse(cultivateur.adherant.user.has_perm('s5appadherant:change_jardin', self.jardin))
+
+    def test_get_proprietaire(self):
+        cultivateur = G(Cultivateur, jardin=self.jardin, adherant=self.adherant, accepte=True, pending=False)
+        response = self.get(cultivateur, self.proprietaire.user)
+
+        cultivateur_loaded = Cultivateur.objects.get(pk=cultivateur.id)
+
+        self.assertEqual(403, response.status_code)
+        self.assertEqual(cultivateur, cultivateur_loaded)
+
+    def test_get_guest(self):
+        adherant = G(Adherant)
+        cultivateur = G(Cultivateur, jardin=self.jardin, adherant=self.adherant, accepte=True, pending=False)
+        response = self.get(cultivateur, adherant.user)
+
+        cultivateur_loaded = Cultivateur.objects.get(pk=cultivateur.id)
+
+        self.assertEqual(403, response.status_code)
+        self.assertEqual(cultivateur, cultivateur_loaded)
+
+    def test_get_jardin_cultivateur_doesnt_match(self):
+        jardin = G(Jardin)
+        cultivateur = G(Cultivateur, jardin=jardin, adherant=self.adherant, accepte=True, pending=False)
+        response = self.get(cultivateur, self.adherant.user)
+
+        cultivateur_loaded = Cultivateur.objects.get(pk=cultivateur.id)
+
+        self.assertEqual(403, response.status_code)
+        self.assertEqual(cultivateur, cultivateur_loaded)
+
+    def test_get_refused(self):
+        cultivateur = G(Cultivateur, jardin=self.jardin, adherant=self.adherant, accepte=False, pending=False)
+        response = self.get(cultivateur, self.adherant.user)
+
+        cultivateur_loaded = Cultivateur.objects.get(pk=cultivateur.id)
+
+        self.assertEqual(403, response.status_code)
+        self.assertEqual(cultivateur, cultivateur_loaded)
+
+    def test_get_pending(self):
+        cultivateur = G(Cultivateur, jardin=self.jardin, adherant=self.adherant, accepte=False, pending=True)
+        response = self.get(cultivateur, self.adherant.user)
+
+        cultivateur_loaded = Cultivateur.objects.get(pk=cultivateur.id)
+
+        self.assertEqual(403, response.status_code)
+        self.assertEqual(cultivateur, cultivateur_loaded)
 
 
 class CultivateurManagerTest(TestCase):

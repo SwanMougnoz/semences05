@@ -1,0 +1,25 @@
+<div id="delete-cultivateur-modal-{{ cultivateur.id }}" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                <p><strong>Êtes-vous sûr de vouloir retirer {{ cultivateur.adherant }} de la liste des cultivateurs ?</strong></p>
+                <p>
+                    Cette utilisateur n'aura plus accès à ce jardin avec les droits de modification. Il pourra cependant
+                    effectuer une nouvelle demande s'il le souhaite.
+                </p>
+                <p>
+                    Un email de notification sera envoyé à l'utilisateur.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                <a href="{% url 's5appadherant:cultivateur_delete' jardin_id=cultivateur.jardin.id cultivateur_id=cultivateur.id %}" class="btn btn-danger btn-ok">Retirer de la liste</a>
+            </div>
+        </div>
+    </div>
+</div>

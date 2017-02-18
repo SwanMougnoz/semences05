@@ -1,0 +1,9 @@
+{% extends 'actstream/action_layout.html' %}
+
+{% block action_content %}
+    <div class="col-md-11">
+        <a href="{% url 's5appadherant:profil_detail' adherant_id=action.actor.id %}">{{ action.actor.adherant }}</a>
+        a quitté le groupe des cultivateur pour un de vos jardin
+        (<a href="{% url 's5appadherant:jardin_detail' jardin_id=action.action_object.jardin.id %}">{{ action.action_object.jardin }}</a>).
+    </div>
+{% endblock %}

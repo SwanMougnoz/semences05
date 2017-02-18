@@ -1,0 +1,15 @@
+{% extends 's5mailing/html/base.html' %}
+
+{% block body %}
+    <h3>{{ cultivateur.jardin.proprietaire }} vous a retiré de la liste des cultivateurs dans son jardin</h3>
+    <p>
+        Votre demande concernait le jardin
+        <a href="{{ urlprefix }}{% url 's5appadherant:jardin_detail' jardin_id=cultivateur.jardin.id %}">{{ cultivateur.jardin }}</a>.
+    </p>
+    <p>Vous pouvez toujours consulter ce jardin mais vous n'y avez plus accès avec les droits de modification.</p>
+    <p>
+        Si cette décision vous surprend, vous pouvez toujours <a href="{{ urlprefix }}{% url 's5appadherant:cultivateur_request' jardin_id=cultivateur.jardin.id %}">réitérer votre demande</a>
+        et/ou prendre contact avec le proprietaire sur sa page de
+        <a href="{{ urlprefix }}{% url 's5appadherant:profil_detail' adherant_id=cultivateur.jardin.proprietaire.id %}">profil</a>.
+    </p>
+{% endblock %}

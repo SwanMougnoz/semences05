@@ -1,14 +1,21 @@
 # -*- coding: utf-8 -*-
+import logging
+from actstream import action
+from actstream.actions import follow, unfollow
+from actstream.models import Action
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
+from django.http import HttpResponseForbidden
 from django.shortcuts import redirect, get_object_or_404
 from django.views.generic import TemplateView
+from django.views.generic import View
 from rules.contrib.views import PermissionRequiredMixin
 
 from s5appadherant.models import Jardin, Cultivateur
-from s5appadherant import permissions
 from s5mailing.views.cultivateur import CultivateurRequestMessageView, CultivateurAcceptMessageView, \
-    CultivateurDenyMessageView
+    CultivateurDenyMessageView, CultivateurDeleteMessageView, CultivateurQuitMessageView
+from s5appadherant import permissions
 
 
 class CultivateurConfirmationView(LoginRequiredMixin, TemplateView):
@@ -47,6 +54,11 @@ class CultivateurRequestView(LoginRequiredMixin, PermissionRequiredMixin, Templa
         cultivateur.jardin = jardin
         cultivateur.save()
 
+        # Création d'une action pour la demande d'ajout et suivi de celle-ci par les deux parties
+        action.send(request.user, verb="request", action_object=cultivateur)
+        follow(request.user, cultivateur, actor_only=False, send_action=False)
+        follow(jardin.proprietaire.user, cultivateur, actor_only=False, send_action=False)
+
         CultivateurRequestMessageView(cultivateur, request).send()
 
         return redirect(reverse('s5appadherant:cultivateur_confirmation', kwargs={
@@ -75,10 +87,75 @@ class CultivateurDecideView(LoginRequiredMixin, PermissionRequiredMixin, Templat
 
         if 'cultivateur_accept' in request.POST:
             cultivateur.accept()
+
+            # Création d'une action pour l'acceptation et ajout de l'adherant dans les followers du jardin
+            action.send(request.user, verb="accept", action_object=cultivateur)
+            follow(cultivateur.adherant.user, cultivateur.jardin, actor_only=False, send_action=False)
+
             CultivateurAcceptMessageView(cultivateur, request).send()
 
         elif 'cultivateur_deny' in request.POST:
             cultivateur.deny()
+            action.send(request.user, verb="deny", action_object=cultivateur)
             CultivateurDenyMessageView(cultivateur, request).send()
 
+        try:
+            request_action = Action.objects.get_by_terms('request', cultivateur)
+            request.user.adherant.processed_actions.add(request_action)
+            request.user.adherant.save()
+        except ObjectDoesNotExist:
+            logging.warning("CultivateurDecide : Action request manquante (Cultivateur id : %d)" % cultivateur.id)
+
         return redirect('s5appadherant:accueil')
+
+
+class CultivateurQuitView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        jardin = get_object_or_404(Jardin, pk=self.kwargs.get('jardin_id'))
+        cultivateur = get_object_or_404(Cultivateur, pk=self.kwargs.get('cultivateur_id'))
+
+        if cultivateur.jardin != jardin:
+            return HttpResponseForbidden()
+
+        if cultivateur.adherant.user != request.user:
+            return HttpResponseForbidden()
+
+        if cultivateur.pending or not cultivateur.accepte:
+            return HttpResponseForbidden()
+
+        cultivateur.accepte = False
+        cultivateur.save()
+
+        action.send(request.user, verb='quit', action_object=cultivateur)
+        unfollow(cultivateur.adherant.user, jardin)
+
+        CultivateurQuitMessageView(cultivateur, request).send()
+
+        return redirect('s5appadherant:jardin_detail', jardin_id=jardin.id)
+
+
+class CultivateurDeleteView(LoginRequiredMixin, PermissionRequiredMixin, View):
+    permission_required = 's5appadherant.manage_cultivateurs'
+
+    def get_permission_object(self):
+        return get_object_or_404(Jardin, pk=self.kwargs.get('jardin_id'))
+
+    def get(self, request, *args, **kwargs):
+        jardin = get_object_or_404(Jardin, pk=kwargs.get('jardin_id'))
+        cultivateur = get_object_or_404(Cultivateur, pk=kwargs.get('cultivateur_id'))
+
+        if cultivateur.jardin != jardin:
+            return HttpResponseForbidden()
+
+        if cultivateur.pending or not cultivateur.accepte:
+            return HttpResponseForbidden()
+
+        cultivateur.accepte = False
+        cultivateur.save()
+
+        action.send(request.user, verb='delete', action_object=cultivateur)
+        unfollow(cultivateur.adherant.user, jardin)
+
+        CultivateurDeleteMessageView(cultivateur, request).send()
+
+        return redirect('s5appadherant:jardin_detail', jardin_id=jardin.id)
