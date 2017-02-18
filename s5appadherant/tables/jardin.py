@@ -50,4 +50,4 @@ class ProfilJardinTable(Table):
         zero_records = "Aucun jardin cultivé"
         ajax = True
         model = Jardin
-        attrs = {'class': 's5-table table-bordered table-hover table-striped'}
+        attrs = {'class': 's5-table table-hover table-striped'}
