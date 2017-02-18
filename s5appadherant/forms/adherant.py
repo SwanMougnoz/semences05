@@ -14,7 +14,8 @@ class UserForm(forms.ModelForm):
                    'last_login',
                    'user_permissions',
                    'groups',
-                   'password']
+                   'password',
+                   'username']
 
 
 class AdherantForm(forms.ModelForm):
