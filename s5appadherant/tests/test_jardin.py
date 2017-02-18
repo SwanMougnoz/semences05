@@ -8,7 +8,7 @@ from django.test import TestCase
 from with_asserts.mixin import AssertHTMLMixin
 from django_dynamic_fixture import G
 
-from forms.adresse import AdresseFullForm
+from s5appadherant.forms.adresse import AdresseFullForm
 from s5appadherant.forms.jardin import JardinForm
 from s5appadherant.models import Adherant, Jardin, User, Cultivateur
 from s5appadherant.views.jardin import JardinListView, JardinDetailView, JardinAddView, JardinEditView, \
@@ -38,7 +38,7 @@ class JardinListTest(TestCase, AssertHTMLMixin):
 
         # Tous les jardins et uniquement les jardins de l'adherant doivent être sur la page
         # et contenir un lien vers leur détail
-        with self.assertHTML(response, '.jardin-list li') as (elems):
+        with self.assertHTML(response, '.jardin-list .list-group-item') as (elems):
             self.assertEqual(jardin_count, len(elems))
 
         for jardin in jardins:
