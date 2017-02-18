@@ -8,6 +8,7 @@ from django.test import TestCase
 from with_asserts.mixin import AssertHTMLMixin
 from django_dynamic_fixture import G
 
+from forms.adresse import AdresseFullForm
 from s5appadherant.forms.jardin import JardinForm
 from s5appadherant.models import Adherant, Jardin, User, Cultivateur
 from s5appadherant.views.jardin import JardinListView, JardinDetailView, JardinAddView, JardinEditView, \
@@ -134,7 +135,7 @@ class JardinDetailTest(TestCase, AssertHTMLMixin):
 
         # Le document doit contenir un lien vers la page d'édition de ce jardin
         edit_url = reverse('s5appadherant:jardin_edit', kwargs={
-            'pk': self.jardin.id
+            'jardin_id': self.jardin.id
         })
         with self.assertHTML(response, 'a[href="%s"]' % edit_url):
             pass
@@ -199,7 +200,7 @@ class JardinDetailTest(TestCase, AssertHTMLMixin):
 
         # Le document ne doit pas contenir un lien vers la page d'édition de ce jardin
         edit_url = reverse('s5appadherant:jardin_edit', kwargs={
-            'pk': self.jardin.id
+            'jardin_id': self.jardin.id
         })
         self.assertNotHTML(response, 'a[href="%s"]' % edit_url)
 
@@ -260,7 +261,8 @@ class JardinAddTest(TestCase, AssertHTMLMixin):
         response = JardinAddView.as_view()(request)
 
         self.assertEqual(200, response.status_code)
-        self.assertIsInstance(response.context_data['form'], JardinForm)
+        self.assertIsInstance(response.context_data['jardin_form'], JardinForm)
+        self.assertIsInstance(response.context_data['adresse_form'], AdresseFullForm)
 
         response.render()
 
@@ -343,7 +345,7 @@ class JardinEditTest(TestCase, AssertHTMLMixin):
         self.jardin = G(Jardin, proprietaire=self.adherant)
 
     def test_get(self):
-        params = {'pk': self.jardin.id}
+        params = {'jardin_id': self.jardin.id}
         url = reverse('s5appadherant:jardin_edit', kwargs=params)
 
         request = self.factory.get(url)
@@ -352,7 +354,8 @@ class JardinEditTest(TestCase, AssertHTMLMixin):
         response = JardinEditView.as_view()(request, **params)
 
         self.assertEqual(200, response.status_code)
-        self.assertIsInstance(response.context_data['form'], JardinForm)
+        self.assertIsInstance(response.context_data['jardin_form'], JardinForm)
+        self.assertIsInstance(response.context_data['adresse_form'], AdresseFullForm)
 
         response.render()
 
@@ -385,7 +388,7 @@ class JardinEditTest(TestCase, AssertHTMLMixin):
 
     def test_post(self):
 
-        params = {'pk': self.jardin.id}
+        params = {'jardin_id': self.jardin.id}
         post_data = {
             'appelation': 'Nouveau jardin',
             'description': 'Bla bla bla',

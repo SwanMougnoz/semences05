@@ -33,7 +33,7 @@
     </div>
     <div class="row">
         {% if jardin %}
-            <form action="{% url 's5appadherant:jardin_edit' pk=jardin.id %}"
+            <form action="{% url 's5appadherant:jardin_edit' jardin_id=jardin.id %}"
         {% else %}
             <form action="{% url 's5appadherant:jardin_new' %}"
         {% endif %}
@@ -45,22 +45,22 @@
             <div class="col-md-6">
                 <div class="well">
                     <h3>Informations</h3>
-                    {{ form.appelation|bootstrap }}
-                    {{ form.exposition|bootstrap }}
-                    {{ form.type_sol|bootstrap }}
-                    {{ form.irrigation|bootstrap }}
-                    {{ form.mise_en_culture|bootstrap }}
-                    {{ form.superficie|bootstrap }}
+                    {{ jardin_form.appelation|bootstrap }}
+                    {{ jardin_form.exposition|bootstrap }}
+                    {{ jardin_form.type_sol|bootstrap }}
+                    {{ jardin_form.irrigation|bootstrap }}
+                    {{ jardin_form.mise_en_culture|bootstrap }}
+                    {{ jardin_form.superficie|bootstrap }}
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="well">
                     <h3>Localisation</h3>
-                    {{ form.adresse|bootstrap }}
-                    {{ form.commune|bootstrap }}
-                    {{ form.latitude|bootstrap }}
-                    {{ form.longitude|bootstrap }}
-                    {{ form.altitude|bootstrap }}
+                    {{ adresse_form.adresse|bootstrap }}
+                    {{ adresse_form.commune|bootstrap }}
+                    {{ adresse_form.latitude|bootstrap }}
+                    {{ adresse_form.longitude|bootstrap }}
+                    {{ adresse_form.altitude|bootstrap }}
                 </div>
             </div>
             <div class="col-md-12">
@@ -69,11 +69,11 @@
 
                     {% if form.description.errors %}
                         <div class="alert alert-danger">
-                            {{ form.description.errors }}
+                            {{ jardin_form.description.errors }}
                         </div>
                     {% endif %}
-                    {{ form.description|bootstrap }}
-                    {{ form.short_description|bootstrap }}
+                    {{ jardin_form.description|bootstrap }}
+                    {{ jardin_form.short_description|bootstrap }}
                 </div>
             </div>
             <div class="form-group">

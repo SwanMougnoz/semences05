@@ -14,7 +14,7 @@ class Jardin(models.Model):
     mise_en_culture = models.IntegerField()
     description = RichTextField()
     short_description = models.CharField(max_length=255, null=True, blank=True, verbose_name='Résumé')
-    superficie = models.FloatField()
+    superficie = models.FloatField(verbose_name='Superficie (en m²)')
 
     def __unicode__(self):
         return self.appelation

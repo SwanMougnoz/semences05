@@ -1,14 +1,10 @@
 # -*- coding: utf-8 -*-
-from actstream.actions import follow
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404
-from django.views.generic import CreateView
+from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView, TemplateView
-from django.views.generic import UpdateView
 from rules.contrib.views import PermissionRequiredMixin
 
+from forms.adresse import AdresseFullForm
 from s5appadherant.forms.jardin import JardinForm
 from s5appadherant.models import Jardin, Adherant
 from s5appadherant.tables.culture import CultureTableCultivateur, CultureTable
@@ -76,49 +72,68 @@ class JardinDetailView(LoginRequiredMixin, TemplateView):
         })
 
 
-class JardinAddView(LoginRequiredMixin, CreateView):
+class JardinAddView(LoginRequiredMixin, TemplateView):
     template_name = 's5appadherant/jardin/edit.html'
-    form_class = JardinForm
-    model = Jardin
 
-    def get_success_url(self):
-        return reverse('s5appadherant:jardin_adherant', kwargs={
-            'adherant_id': self.request.user.adherant.id
-        })
+    def get(self, request, *args, **kwargs):
+        jardin_form = kwargs.get('jardin_form', JardinForm())
+        adresse_form = kwargs.get('adresse_form', AdresseFullForm())
 
-    def get_context_data(self, **kwargs):
-        context = super(JardinAddView, self).get_context_data(**kwargs)
-        context.update({
+        return self.render_to_response({
+            'jardin_form': jardin_form,
+            'adresse_form': adresse_form,
             'menu_actif': 'jardin',
             'titre_page': u"Ajout d'un jardin"
         })
-        return context
 
-    def form_valid(self, form):
-        jardin = form.save(commit=False)
-        jardin.proprietaire = self.request.user.adherant
-        jardin.save()
+    def post(self, request):
+        jardin_form = JardinForm(request.POST)
+        adresse_form = AdresseFullForm(request.POST)
 
-        follow(self.request.user, jardin, actor_only=False, send_action=False)
+        if jardin_form.is_valid() and adresse_form.is_valid():
+            adresse = adresse_form.save()
+            jardin = jardin_form.save(commit=False)
+            jardin.adresse = adresse
+            jardin.proprietaire = request.user.adherant
+            jardin.save()
 
-        return HttpResponseRedirect(self.get_success_url())
+            return redirect('s5appadherant:jardin_detail', jardin_id=jardin.id)
+
+        return self.get(request, jardin_form=jardin_form, adresse_form=adresse_form)
 
 
-class JardinEditView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+class JardinEditView(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
     template_name = 's5appadherant/jardin/edit.html'
     permission_required = 's5appadherant.change_jardin'
-    form_class = JardinForm
-    model = Jardin
 
-    def get_success_url(self):
-        return reverse('s5appadherant:jardin_detail', kwargs={
-            'jardin_id': self.kwargs.get('pk')
-        })
+    def get_permission_object(self):
+        return get_object_or_404(Jardin, pk=self.kwargs.get('jardin_id'))
 
-    def get_context_data(self, **kwargs):
-        context = super(JardinEditView, self).get_context_data(**kwargs)
-        context.update({
+    def get(self, request, *args, **kwargs):
+        jardin = get_object_or_404(Jardin, pk=kwargs.get('jardin_id'))
+
+        jardin_form = kwargs.get('jardin_form', JardinForm(instance=jardin))
+        adresse_form = kwargs.get('adresse_form', AdresseFullForm(instance=jardin.adresse))
+
+        return self.render_to_response({
+            'jardin': jardin,
+            'jardin_form': jardin_form,
+            'adresse_form': adresse_form,
             'menu_actif': 'jardin',
-            'titre_page': u"Édition d'un jardin : %s" % context.get('jardin').appelation
+            'titre_page': u"Ajout d'un jardin"
         })
-        return context
+
+    def post(self, request, **kwargs):
+        jardin = get_object_or_404(Jardin, pk=kwargs.get('jardin_id'))
+
+        jardin_form = JardinForm(request.POST, instance=jardin)
+        adresse_form = AdresseFullForm(request.POST, instance=jardin.adresse)
+
+        if jardin_form.is_valid() and adresse_form.is_valid():
+            adresse_form.save()
+            jardin_form.save()
+
+            return redirect('s5appadherant:jardin_detail', jardin_id=jardin.id)
+
+        return self.get(request, jardin_id=jardin.id, jardin_form=jardin_form,
+                        adresse_form=adresse_form)
