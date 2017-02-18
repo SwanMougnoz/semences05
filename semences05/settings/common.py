@@ -137,7 +137,7 @@ LOGIN_URL = 's5appadherant:login'
 
 AUTHENTICATION_BACKENDS = (
     'rules.permissions.ObjectPermissionBackend',
-    'django.contrib.auth.backends.ModelBackend'
+    'semences05.backends.UserModelEmailBackend'
 )
 
 

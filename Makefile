@@ -27,6 +27,7 @@ server:
 
 db:
 	$(SCRIPT) makemigrations
+	$(SCRIPT) makemigrations semences05
 	$(SCRIPT) makemigrations s5vitrine
 	$(SCRIPT) makemigrations s5appadherant
 	$(SCRIPT) migrate
