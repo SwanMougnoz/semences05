@@ -120,6 +120,9 @@ class CultivateurQuitView(LoginRequiredMixin, View):
         if cultivateur.adherant.user != request.user:
             return HttpResponseForbidden()
 
+        if cultivateur.pending or not cultivateur.accepte:
+            return HttpResponseForbidden()
+
         cultivateur.accepte = False
         cultivateur.save()
 
@@ -138,10 +141,13 @@ class CultivateurDeleteView(LoginRequiredMixin, PermissionRequiredMixin, View):
         return get_object_or_404(Jardin, pk=self.kwargs.get('jardin_id'))
 
     def get(self, request, *args, **kwargs):
-        jardin = get_object_or_404(Jardin, pk=self.kwargs.get('jardin_id'))
-        cultivateur = get_object_or_404(Cultivateur, pk=self.kwargs.get('cultivateur_id'))
+        jardin = get_object_or_404(Jardin, pk=kwargs.get('jardin_id'))
+        cultivateur = get_object_or_404(Cultivateur, pk=kwargs.get('cultivateur_id'))
 
         if cultivateur.jardin != jardin:
+            return HttpResponseForbidden()
+
+        if cultivateur.pending or not cultivateur.accepte:
             return HttpResponseForbidden()
 
         cultivateur.accepte = False

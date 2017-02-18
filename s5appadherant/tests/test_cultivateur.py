@@ -7,7 +7,8 @@ from django_dynamic_fixture import G, N
 from with_asserts.mixin import AssertHTMLMixin
 
 from s5appadherant.models import Adherant, User, Jardin, Cultivateur
-from s5appadherant.views.cultivateur import CultivateurRequestView, CultivateurDecideView, CultivateurDeleteView
+from s5appadherant.views.cultivateur import CultivateurRequestView, CultivateurDecideView, CultivateurDeleteView, \
+    CultivateurQuitView
 from s5appadherant import permissions
 
 
@@ -222,7 +223,7 @@ class CultivateurDeleteTest(TestCase):
         return CultivateurDeleteView.as_view()(request, **params)
 
     def test_get(self):
-        cultivateur = G(Cultivateur, jardin=self.jardin, adherant=self.adherant, accepte=True)
+        cultivateur = G(Cultivateur, jardin=self.jardin, adherant=self.adherant, accepte=True, pending=False)
         response = self.get(cultivateur, self.proprietaire.user)
 
         cultivateur_loaded = Cultivateur.objects.get(pk=cultivateur.id)
@@ -239,21 +240,119 @@ class CultivateurDeleteTest(TestCase):
         self.assertEqual(302, response.status_code)
 
         cultivateur_loaded = Cultivateur.objects.get(pk=cultivateur.id)
+        self.assertEqual(cultivateur, cultivateur_loaded)
 
     def test_get_guest(self):
-        pass
+        cultivateur = G(Cultivateur, jardin=self.jardin, adherant=self.adherant, accepte=True)
+        adherant = G(Adherant)
+        response = self.get(cultivateur, adherant.user)
 
-    def test_get_inexistant(self):
-        pass
+        self.assertEqual(302, response.status_code)
+
+        cultivateur_loaded = Cultivateur.objects.get(pk=cultivateur.id)
+        self.assertEqual(cultivateur, cultivateur_loaded)
 
     def test_get_jardin_cultivateur_doesnt_match(self):
-        pass
+        jardin = G(Jardin)
+        cultivateur = G(Cultivateur, jardin=jardin, adherant=self.adherant, accepte=True)
+        response = self.get(cultivateur, self.proprietaire.user)
+
+        cultivateur_loaded = Cultivateur.objects.get(pk=cultivateur.id)
+
+        self.assertEqual(403, response.status_code)
+        self.assertEqual(cultivateur, cultivateur_loaded)
 
     def test_get_refused(self):
-        pass
+        cultivateur = G(Cultivateur, jardin=self.jardin, adherant=self.adherant, accepte=False, pending=False)
+        response = self.get(cultivateur, self.proprietaire.user)
+
+        cultivateur_loaded = Cultivateur.objects.get(pk=cultivateur.id)
+
+        self.assertEqual(403, response.status_code)
+        self.assertEqual(cultivateur, cultivateur_loaded)
 
     def test_get_pending(self):
-        pass
+        cultivateur = G(Cultivateur, jardin=self.jardin, adherant=self.adherant, accepte=False, pending=True)
+        response = self.get(cultivateur, self.proprietaire.user)
+
+        cultivateur_loaded = Cultivateur.objects.get(pk=cultivateur.id)
+
+        self.assertEqual(403, response.status_code)
+        self.assertEqual(cultivateur, cultivateur_loaded)
+
+
+class CultivateurQuitTest(TestCase):
+    def setUp(self):
+        self.factory = RequestFactory()
+
+        self.proprietaire = G(Adherant)
+        self.adherant = G(Adherant)
+        self.jardin = G(Jardin, proprietaire=self.proprietaire)
+
+    def get(self, cultivateur, user):
+        params = {'jardin_id': self.jardin.id, 'cultivateur_id': cultivateur.id}
+        request = self.factory.get(reverse('s5appadherant:cultivateur_quit', kwargs=params))
+        request.user = user
+
+        return CultivateurQuitView.as_view()(request, **params)
+
+    def test_get(self):
+        cultivateur = G(Cultivateur, jardin=self.jardin, adherant=self.adherant, accepte=True, pending=False)
+        response = self.get(cultivateur, self.adherant.user)
+
+        cultivateur_loaded = Cultivateur.objects.get(pk=cultivateur.id)
+
+        self.assertEqual(302, response.status_code)
+        self.assertFalse(cultivateur_loaded.accepte)
+        self.assertFalse(Follow.objects.is_following(cultivateur.adherant.user, self.jardin))
+        self.assertFalse(cultivateur.adherant.user.has_perm('s5appadherant:change_jardin', self.jardin))
+
+    def test_get_proprietaire(self):
+        cultivateur = G(Cultivateur, jardin=self.jardin, adherant=self.adherant, accepte=True, pending=False)
+        response = self.get(cultivateur, self.proprietaire.user)
+
+        cultivateur_loaded = Cultivateur.objects.get(pk=cultivateur.id)
+
+        self.assertEqual(403, response.status_code)
+        self.assertEqual(cultivateur, cultivateur_loaded)
+
+    def test_get_guest(self):
+        adherant = G(Adherant)
+        cultivateur = G(Cultivateur, jardin=self.jardin, adherant=self.adherant, accepte=True, pending=False)
+        response = self.get(cultivateur, adherant.user)
+
+        cultivateur_loaded = Cultivateur.objects.get(pk=cultivateur.id)
+
+        self.assertEqual(403, response.status_code)
+        self.assertEqual(cultivateur, cultivateur_loaded)
+
+    def test_get_jardin_cultivateur_doesnt_match(self):
+        jardin = G(Jardin)
+        cultivateur = G(Cultivateur, jardin=jardin, adherant=self.adherant, accepte=True, pending=False)
+        response = self.get(cultivateur, self.adherant.user)
+
+        cultivateur_loaded = Cultivateur.objects.get(pk=cultivateur.id)
+
+        self.assertEqual(403, response.status_code)
+        self.assertEqual(cultivateur, cultivateur_loaded)
+
+    def test_get_refused(self):
+        cultivateur = G(Cultivateur, jardin=self.jardin, adherant=self.adherant, accepte=False, pending=False)
+        response = self.get(cultivateur, self.adherant.user)
+
+        cultivateur_loaded = Cultivateur.objects.get(pk=cultivateur.id)
+
+        self.assertEqual(403, response.status_code)
+        self.assertEqual(cultivateur, cultivateur_loaded)
+
+    def test_get_pending(self):
+        cultivateur = G(Cultivateur, jardin=self.jardin, adherant=self.adherant, accepte=False, pending=True)
+        response = self.get(cultivateur, self.adherant.user)
+
+        cultivateur_loaded = Cultivateur.objects.get(pk=cultivateur.id)
+
+        self.assertEqual(403, response.status_code)
+        self.assertEqual(cultivateur, cultivateur_loaded)
 
 
 class CultivateurManagerTest(TestCase):
