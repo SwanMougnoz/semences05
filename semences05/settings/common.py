@@ -53,7 +53,8 @@ PREREQ_APPS = [
     'mailviews',
     'maintenance_mode',
     'debug_toolbar',
-    'rest_framework'
+    'rest_framework',
+    'django_js_reverse'
 ]
 
 PROJECT_APPS = [
@@ -202,3 +203,4 @@ ACTSTREAM_SETTINGS = {
     'GFK_FETCH_DEPTH': 5,
 }
 
+JS_REVERSE_INCLUDE_ONLY_NAMESPACES = ['s5api']

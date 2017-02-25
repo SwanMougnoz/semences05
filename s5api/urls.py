@@ -7,6 +7,7 @@ map_patterns = [
     url(r'^jardins/(?P<pk>[0-9]+)/$', MapJardinDetailView.as_view(), name='map_jardin_detail')
 ]
 
+app_name = 's5api'
 urlpatterns = [
     url(r'^map/', include(map_patterns))
 ]

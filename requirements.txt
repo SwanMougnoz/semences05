@@ -18,3 +18,4 @@ git+git://github.com/disqus/django-mailviews.git@e3f4adbea04a134e485624077c0194d
 django-maintenance-mode==0.4.5
 django-debug-toolbar==1.6
 djangorestframework==3.5.4
+django-js-reverse==0.7.3
