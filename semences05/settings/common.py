@@ -52,7 +52,8 @@ PREREQ_APPS = [
     'actstream',
     'mailviews',
     'maintenance_mode',
-    'debug_toolbar'
+    'debug_toolbar',
+    'rest_framework'
 ]
 
 PROJECT_APPS = [
