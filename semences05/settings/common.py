@@ -178,7 +178,8 @@ BOWER_INSTALLED_APPS = (
     'bootstrap-sass',
     'leaflet',
     'font-awesome',
-    'datetimepicker'
+    'datetimepicker',
+    'handlebars'
 )
 
 MEDIA_ROOT = os.path.join(PROJECT_DIR, 'var/media')
@@ -203,4 +204,4 @@ ACTSTREAM_SETTINGS = {
     'GFK_FETCH_DEPTH': 5,
 }
 
-JS_REVERSE_INCLUDE_ONLY_NAMESPACES = ['s5api']
+JS_REVERSE_INCLUDE_ONLY_NAMESPACES = ['s5api', 's5vitrine']
