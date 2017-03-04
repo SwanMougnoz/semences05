@@ -45,13 +45,11 @@ class MapJardinListSerializer(serializers.ModelSerializer):
 
 
 class MapJardinDetailSerializer(serializers.ModelSerializer):
-    varietes_cultivees = MapCultureSerializer(source='culture_set', many=True, read_only=True)
 
     class Meta:
         model = Jardin
         fields = [
             'id',
             'appelation',
-            'short_description',
-            'varietes_cultivees'
+            'short_description'
         ]

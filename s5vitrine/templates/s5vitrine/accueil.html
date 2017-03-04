@@ -9,6 +9,7 @@
 {% block js %}
     <script type="text/javascript" src="{% static 'handlebars/handlebars.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'leaflet/dist/leaflet.js' %}"></script>
+    <script type="text/javascript" src="{% static 's5appadherant/js/jquery.ajax-pagination.js' %}"></script>
     <script type="text/javascript" src="{% static 's5appadherant/js/handlebars.helpers.js' %}"></script>
     <script type="text/javascript" src="{% static 's5appadherant/js/s5map.js' %}"></script>
     <script type="text/javascript" src="{% static 's5vitrine/js/map.js' %}"></script>
@@ -49,15 +50,21 @@ en association collégiale administrée par un conseil d'administration.
                         <div class="map-jardin-resume">
                             <small>{{ jardin.short_description }}</small>
                         </div>
-                        <div class="popup-varietes">
-                            <div>{{ jardin.varietes_cultivees.length }} Variétés cultivées</div>
-                            <ul>
-                                {{#each jardin.varietes_cultivees }}
-                                <li>{{namedlink 's5vitrine:variete_detail' id nom }}</li>
-                                {{/each}}
-                            </ul>
+                        <div class="popup-varietes" data-pagination>
+                            <div><span data-pagination-count></span> Variétés cultivées</div>
+                            <ul data-pagination-content></ul>
+                            <button type="button" class="btn btn-xs btn-default" data-pagination-prev>
+                                <i class="fa fa-caret-left"></i>
+                            </button>
+                            <button type="button" class="btn btn-xs btn-default" data-pagination-next>
+                                <i class="fa fa-caret-right"></i>
+                            </button>
                         </div>
                     </div>
+                </script>
+
+                <script id="culture-item" type="text/x-handlebars-template">
+                    <li>{{namedlink 's5vitrine:variete_detail' data.id data.nom }}</li>
                 </script>
             {% endverbatim %}
         </div>

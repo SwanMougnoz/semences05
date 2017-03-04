@@ -3,6 +3,7 @@ $.fn.s5map = function(options) {
         jardins: [],
         popupTemplate: "#popup-template",
         detailUrl: "s5api:map_jardin_detail",
+        cultureUrl: "s5api:map_culture_list",
         provider: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
         loadingText: "Loading..."
     }, options);
@@ -15,6 +16,7 @@ $.fn.s5map = function(options) {
             marker.bindPopup(config.loadingText);
             marker.on('click', function(e) {
                 var popup = e.target.getPopup();
+
                 $.ajax({
                     method: 'GET',
                     url: Urls[config.detailUrl](jardin.id),
@@ -24,8 +26,14 @@ $.fn.s5map = function(options) {
                             jardin: data
                         }));
                         popup.update();
+
+                        $(popup._contentNode).find('[data-pagination]').ajaxPagination(
+                            Urls[config.cultureUrl](jardin.id),
+                            {itemTemplate: "#culture-item"}
+                        );
                     }
-                });
+                })
+
             });
         };
 

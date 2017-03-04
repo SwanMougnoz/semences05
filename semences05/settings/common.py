@@ -193,6 +193,13 @@ DEFAULT_FROM_EMAIL = 'noreply@grainedesmontagnes.org'
 SERVER_EMAIL = 'admin@grainedesmontagnes.org'
 CONTACT_EMAIL = 'contact@grainedesmontagnes.org'
 
+# API
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 5
+}
+
 # Misc
 
 DDF_DEFAULT_DATA_FIXTURE = 'random'
