@@ -9,6 +9,8 @@
 {% block js %}
     <script type="text/javascript" src="{% static 'handlebars/handlebars.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'leaflet/dist/leaflet.js' %}"></script>
+    <script type="text/javascript" src="{% static 's5appadherant/js/handlebars.helpers.js' %}"></script>
+    <script type="text/javascript" src="{% static 's5appadherant/js/s5map.js' %}"></script>
     <script type="text/javascript" src="{% static 's5vitrine/js/map.js' %}"></script>
 {% endblock %}
 
@@ -49,7 +51,7 @@ en association collégiale administrée par un conseil d'administration.
                             <div>{{ jardin.varietes_cultivees.length }} Variétés cultivées</div>
                             <ul>
                                 {{#each jardin.varietes_cultivees }}
-                                <li>{{s5link 's5vitrine:variete_detail' id nom }}</li>
+                                <li>{{namedlink 's5vitrine:variete_detail' id nom }}</li>
                                 {{/each}}
                             </ul>
                         </div>
