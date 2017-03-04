@@ -44,8 +44,8 @@
             {% verbatim %}
             <script id="popup-template" type="text/x-handlebars-template">
                 <div class="row">
-                    <h5>{{ jardin.appelation }}</h5>
-                    <div>
+                    <h5>{{ jardin.appelation }} <small>({{namedlink 's5appadherant:jardin_detail' jardin.id "plus d'infos" }})</small></h5>
+                    <div class="map-jardin-resume">
                         <small>{{ jardin.short_description }}</small>
                     </div>
                     <div class="popup-varietes">

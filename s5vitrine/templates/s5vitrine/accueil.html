@@ -46,7 +46,9 @@ en association collégiale administrée par un conseil d'administration.
                 <script id="popup-template" type="text/x-handlebars-template">
                     <div class="row">
                         <h5>{{ jardin.appelation }}</h5>
-                        <div><small>{{ jardin.short_description }}</small></div>
+                        <div class="map-jardin-resume">
+                            <small>{{ jardin.short_description }}</small>
+                        </div>
                         <div class="popup-varietes">
                             <div>{{ jardin.varietes_cultivees.length }} Variétés cultivées</div>
                             <ul>

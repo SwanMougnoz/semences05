@@ -204,4 +204,4 @@ ACTSTREAM_SETTINGS = {
     'GFK_FETCH_DEPTH': 5,
 }
 
-JS_REVERSE_INCLUDE_ONLY_NAMESPACES = ['s5api', 's5vitrine']
+JS_REVERSE_INCLUDE_ONLY_NAMESPACES = ['s5api', 's5vitrine', 's5appadherant']
