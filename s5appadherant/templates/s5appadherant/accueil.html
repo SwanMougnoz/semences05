@@ -46,17 +46,19 @@
                 <script id="popup-template" type="text/x-handlebars-template">
                     <div class="row">
                         <h5>{{ jardin.appelation }} <small>({{namedlink 's5appadherant:jardin_detail' jardin.id "plus d'infos" }})</small></h5>
+                        {{#if jardin.short_description}}
                         <div class="map-jardin-resume">
-                            <small>{{ jardin.short_description }}</small>
+                            {{ jardin.short_description }}
                         </div>
+                        {{/if}}
                         <div class="popup-varietes" data-pagination>
-                            <div><span data-pagination-count></span> Variétés cultivées</div>
+                            <strong><span data-pagination-count></span> variété(s) cultivée(s)</strong>
                             <ul data-pagination-content></ul>
-                            <button type="button" class="btn btn-xs btn-default" data-pagination-prev>
-                                <i class="fa fa-caret-left"></i>
+                            <button type="button" class="btn btn-xs btn-default btn-rounded" data-pagination-prev>
+                                <i class="fa fa-long-arrow-left"></i>
                             </button>
-                            <button type="button" class="btn btn-xs btn-default" data-pagination-next>
-                                <i class="fa fa-caret-right"></i>
+                            <button type="button" class="btn btn-xs btn-default btn-rounded" data-pagination-next>
+                                <i class="fa fa-long-arrow-right"></i>
                             </button>
                         </div>
                     </div>
