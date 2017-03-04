@@ -3,5 +3,9 @@
 }
 
 #adherant-map {
-  height: 450px;
+  height: 350px;
+  transition: all 0.3s;
+  &.extended {
+    height: 500px;
+  }
 }

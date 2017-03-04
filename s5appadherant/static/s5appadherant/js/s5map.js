@@ -32,8 +32,7 @@ $.fn.s5map = function(options) {
                             {itemTemplate: "#culture-item"}
                         );
                     }
-                })
-
+                });
             });
         };
 
