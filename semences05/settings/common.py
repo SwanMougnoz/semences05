@@ -179,7 +179,8 @@ BOWER_INSTALLED_APPS = (
     'leaflet',
     'font-awesome',
     'datetimepicker',
-    'handlebars'
+    'handlebars',
+    'leaflet.markercluster'
 )
 
 MEDIA_ROOT = os.path.join(PROJECT_DIR, 'var/media')

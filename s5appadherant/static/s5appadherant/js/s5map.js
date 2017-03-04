@@ -10,7 +10,7 @@ $.fn.s5map = function(options) {
 
     return $(this).each(function() {
         var self = this;
-        var map, markers = [];
+        var map, markers;
 
         var bindPopup = function(marker, jardin) {
             marker.bindPopup(config.loadingText);
@@ -42,25 +42,26 @@ $.fn.s5map = function(options) {
                 jardin.adresse.longitude
             ];
 
-            var marker = L.marker(coords).addTo(map);
+            var marker = L.marker(coords);
             bindPopup(marker, jardin);
-            markers.push(marker);
+            markers.addLayer(marker);
         };
 
         var instanciate = function() {
+            markers = L.markerClusterGroup();
             map = L.map(self);
             L.tileLayer(config.provider).addTo(map);
         };
 
         var populate = function() {
-            $(config.jardins).each(function(i, jardin) {
-                addMarker(jardin)
+            $(config.jardins).each(function() {
+                addMarker(this)
             });
+            map.addLayer(markers);
         };
 
         var fit = function() {
-            var group = new L.featureGroup(markers);
-            map.fitBounds(group.getBounds());
+            map.fitBounds(markers.getBounds());
         };
 
         var init = function() {

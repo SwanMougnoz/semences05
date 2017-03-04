@@ -7,11 +7,14 @@
 {% block stylesheet %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'leaflet/dist/leaflet.css' %}">
+    <link rel="stylesheet" href="{% static 'leaflet.markercluster/dist/MarkerCluster.css' %}">
+    <link rel="stylesheet" href="{% static 'leaflet.markercluster/dist/MarkerCluster.Default.css' %}">
 {% endblock %}
 
 {% block js %}
     <script type="text/javascript" src="{% static 'handlebars/handlebars.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'leaflet/dist/leaflet.js' %}"></script>
+    <script type="text/javascript" src="{% static 'leaflet.markercluster/dist/leaflet.markercluster.js' %}"></script>
     <script type="text/javascript" src="{% static 's5appadherant/js/handlebars.helpers.js' %}"></script>
     <script type="text/javascript" src="{% static 's5appadherant/js/jquery.ajax-pagination.js' %}"></script>
     <script type="text/javascript" src="{% static 's5appadherant/js/s5map.js' %}"></script>
