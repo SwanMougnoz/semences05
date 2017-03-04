@@ -1,12 +1,10 @@
-Handlebars.registerHelper('namedlink', function (name, args, content) {
+Handlebars.registerHelper('namedUrl', function (name, args) {
     if (!$.isArray(args)) {
         args = [args]
     }
     var url = Urls[name].apply(this, args);
 
-    return new Handlebars.SafeString(
-        '<a href="' + url + '">' + content + '</a>'
-    );
+    return new Handlebars.SafeString(url);
 });
 
 var renderTemplate = function(selector, context) {

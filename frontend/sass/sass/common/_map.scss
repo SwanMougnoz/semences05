@@ -1,5 +1,5 @@
 div.leaflet-popup {
-  min-width: 150px;
+  min-width: 250px;
   a.leaflet-popup-close-button {
     top: 6px;
   }
@@ -8,12 +8,14 @@ div.leaflet-popup {
     .leaflet-popup-content {
       margin-top: 0;
     }
-    h5 {
-      margin-top: 0;
-      margin-bottom: 0;
+    .popup-heading {
       padding: 10px;
       border-bottom: 1px solid #e0e0e0;
       padding-right: 20px;
+      h5 {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
     }
     .popup-varietes {
       padding-top: 5px;

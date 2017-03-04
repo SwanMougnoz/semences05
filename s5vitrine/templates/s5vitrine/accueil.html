@@ -49,7 +49,9 @@ en association collégiale administrée par un conseil d'administration.
             {% verbatim %}
                 <script id="popup-template" type="text/x-handlebars-template">
                     <div class="row">
-                        <h5>{{ jardin.appelation }}</h5>
+                        <div class="popup-heading">
+                            <h5>{{ jardin.appelation }}</h5>
+                        </div>
                         {{#if jardin.short_description}}
                             <div class="map-jardin-resume">
                                 {{ jardin.short_description }}
@@ -69,7 +71,9 @@ en association collégiale administrée par un conseil d'administration.
                 </script>
 
                 <script id="culture-item" type="text/x-handlebars-template">
-                    <li>{{namedlink 's5vitrine:variete_detail' data.id data.nom }}</li>
+                    <li>
+                        <a href="{{namedUrl 's5vitrine:variete_detail' data.id }}">{{ data.nom }}</a>
+                    </li>
                 </script>
             {% endverbatim %}
         </div>

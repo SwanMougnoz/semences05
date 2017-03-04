@@ -49,7 +49,20 @@
             {% verbatim %}
                 <script id="popup-template" type="text/x-handlebars-template">
                     <div class="row">
-                        <h5>{{ jardin.appelation }} <small>({{namedlink 's5appadherant:jardin_detail' jardin.id "plus d'infos" }})</small></h5>
+                        <div class="popup-heading">
+                            <h5>
+                                {{ jardin.appelation }}
+                                <small>
+                                    <a href="{{namedUrl 's5appadherant:jardin_detail' jardin.id }}">(plus d'infos)</a>
+                                </small>
+                            </h5>
+                            <div class="map-proprietaire">
+                                <a href="{{namedUrl 's5appadherant:profil_detail' jardin.proprietaire.id }}">
+                                    <i class="fa fa-user"></i>
+                                    {{ jardin.proprietaire.user.first_name }} {{ jardin.proprietaire.user.last_name }}
+                                </a>
+                            </div>
+                        </div>
                         {{#if jardin.short_description}}
                         <div class="map-jardin-resume">
                             {{ jardin.short_description }}
@@ -69,7 +82,9 @@
                 </script>
 
                 <script id="culture-item" type="text/x-handlebars-template">
-                    <li>{{namedlink 's5vitrine:variete_detail' data.id data.nom }}</li>
+                    <li>
+                        <a href="{{namedUrl 's5appadherant:variete_detail' data.id }}">{{ data.nom }}</a>
+                    </li>
                 </script>
             {% endverbatim %}
         </div>

@@ -1,7 +1,8 @@
 from rest_framework import generics
 from rest_framework import mixins
 
-from s5api.serializers import MapJardinListSerializer, MapJardinDetailSerializer, MapCultureSerializer
+from s5api.serializers import MapJardinListSerializer, MapJardinDetailSerializer, MapCultureSerializer, \
+    MapJardinDetailAdherantSerializer
 from s5appadherant.models import Jardin, Culture
 
 
@@ -16,7 +17,12 @@ class MapJardinListView(mixins.ListModelMixin, generics.GenericAPIView):
 
 class MapJardinDetailView(mixins.RetrieveModelMixin, generics.GenericAPIView):
     queryset = Jardin.objects.all()
-    serializer_class = MapJardinDetailSerializer
+
+    def get_serializer_class(self):
+        if self.request.user.is_authenticated():
+            return MapJardinDetailAdherantSerializer
+        else:
+            return MapJardinDetailSerializer
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
