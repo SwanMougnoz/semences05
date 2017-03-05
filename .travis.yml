@@ -15,6 +15,7 @@ before_install:
   - export DJANGO_SETTINGS_MODULE=semences05.settings.unittest
   - export PYTHONPATH=$HOME/builds/SwanMougnoz/semences05
   - export PIP_USE_MIRRORS=true
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS test;'
 
 install:
   - pip install -r requirements.txt
@@ -30,8 +31,5 @@ install:
   - python manage.py collectstatic_js_reverse
   - python manage.py compress
   - python manage.py collectstatic --noinput
-
-before_script:
-  - mysql -e 'CREATE DATABASE IF NOT EXISTS test;'
 
 script: python manage.py test
