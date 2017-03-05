@@ -27,6 +27,7 @@ install:
   - gem install compass
   - python manage.py bower install
   - cd frontend/sass/ && compass compile && cd ../..
+  - python manage.py collectstatic_js_reverse
   - python manage.py compress
   - python manage.py collectstatic --noinput
 

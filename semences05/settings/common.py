@@ -187,7 +187,7 @@ BOWER_INSTALLED_APPS = (
 MEDIA_ROOT = os.path.join(PROJECT_DIR, 'var/media')
 MEDIA_URL = '/media/'
 
-COMPRESS_ROOT = os.path.join(PROJECT_DIR, 'var/assets')
+COMPRESS_ROOT = ASSET_DIR
 
 # Emails
 
