@@ -5,7 +5,8 @@ $.fn.s5map = function(options) {
         detailUrl: "s5api:map_jardin_detail",
         cultureUrl: "s5api:map_culture_list",
         provider: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
-        loadingText: "Loading..."
+        loadingText: "Loading...",
+        jardinIcon: '/static/s5appadherant/images/jardin-icon.png'
     }, options);
 
     return $(this).each(function() {
@@ -13,7 +14,9 @@ $.fn.s5map = function(options) {
         var map, markers;
 
         var bindPopup = function(marker, jardin) {
-            marker.bindPopup(config.loadingText);
+            marker.bindPopup(config.loadingText, {
+                keepInView: true
+            });
             marker.on('click', function(e) {
                 var popup = e.target.getPopup();
 
@@ -42,7 +45,14 @@ $.fn.s5map = function(options) {
                 jardin.adresse.longitude
             ];
 
-            var marker = L.marker(coords);
+            var marker = L.marker(coords, {
+                icon: L.icon({
+                    iconUrl: config.jardinIcon,
+                    iconSize: [38, 38],
+                    popupAnchor: [0, -10]
+                })
+            });
+
             bindPopup(marker, jardin);
             markers.addLayer(marker);
         };
