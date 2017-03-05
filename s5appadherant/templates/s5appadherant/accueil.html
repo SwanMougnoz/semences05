@@ -3,6 +3,27 @@
 {# No page header #}
 {% block page_header %}{% endblock %}
 
+{% load static %}
+{% block stylesheet %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'leaflet/dist/leaflet.css' %}">
+    <link rel="stylesheet" href="{% static 'leaflet.markercluster/dist/MarkerCluster.css' %}">
+    <link rel="stylesheet" href="{% static 'leaflet.markercluster/dist/MarkerCluster.Default.css' %}">
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="{% static 'handlebars/handlebars.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'leaflet/dist/leaflet.js' %}"></script>
+    <script type="text/javascript" src="{% static 'leaflet.markercluster/dist/leaflet.markercluster.js' %}"></script>
+    <script type="text/javascript" src="{% static 's5appadherant/js/handlebars.helpers.js' %}"></script>
+    <script type="text/javascript" src="{% static 's5appadherant/js/jquery.ajax-pagination.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 's5appadherant/js/map/handler.jardin.js' %}"></script>
+    <script type="text/javascript" src="{% static 's5appadherant/js/map/handler.adherant.js' %}"></script>
+    <script type="text/javascript" src="{% static 's5appadherant/js/map/map.js' %}"></script>
+    <script type="text/javascript" src="{% static 's5appadherant/js/map.js' %}"></script>
+{% endblock %}
+
 {% load tags_adherant %}
 {% load activity_tags %}
 {% block content_adherant %}
@@ -20,5 +41,83 @@
                 </li>
             {% endfor %}
         </ul>
+    </div>
+    <div class="panel">
+        <div class="panel-heading">
+            <a id="map-extend" class="pull-right">Agrandir</a>
+            <h3 class="panel-title">Carte des jardins</h3>
+        </div>
+        <div class="panel-body">
+            <div id="adherant-map"></div>
+            {% verbatim %}
+                <script id="popup-template" type="text/x-handlebars-template">
+                    <div class="row">
+                        <div class="popup-heading">
+                            <h5>
+                                {{ jardin.appelation }}
+                                <small>
+                                    <a href="{{namedUrl 's5appadherant:jardin_detail' jardin.id }}">(plus d'infos)</a>
+                                </small>
+                            </h5>
+                            <div class="map-proprietaire">
+                                <a href="{{namedUrl 's5appadherant:profil_detail' jardin.proprietaire.id }}">
+                                    <i class="fa fa-user"></i>
+                                    {{ jardin.proprietaire.user.first_name }} {{ jardin.proprietaire.user.last_name }}
+                                </a>
+                            </div>
+                        </div>
+                        {{#if jardin.short_description}}
+                        <div class="map-jardin-resume">
+                            {{ jardin.short_description }}
+                        </div>
+                        {{/if}}
+                        <div class="popup-varietes" data-pagination>
+                            <strong><span data-pagination-count></span> variété(s) cultivée(s)</strong>
+                            <ul data-pagination-content></ul>
+                            <button type="button" class="btn btn-xs btn-default btn-rounded" data-pagination-prev>
+                                <i class="fa fa-long-arrow-left"></i>
+                            </button>
+                            <button type="button" class="btn btn-xs btn-default btn-rounded" data-pagination-next>
+                                <i class="fa fa-long-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </script>
+
+                <script id="culture-item" type="text/x-handlebars-template">
+                    <li>
+                        <a href="{{namedUrl 's5appadherant:variete_detail' data.id }}">{{ data.nom }}</a>
+                    </li>
+                </script>
+
+                <script id="popup-adherant" type="text/x-handlebars-template">
+                    <div class="row">
+                        <div class="popup-heading">
+                            <h5>
+                                {{ adherant.user.first_name }} {{ adherant.user.last_name }}
+                                <small>
+                                    <a href="{{namedUrl 's5appadherant:profil_detail' adherant.id }}">(profil)</a>
+                                </small>
+                                {{#if adherant.est_professionnel }}
+                                    <div class="is-pro">Professionnel de l'agriculture</div>
+                                {{/if }}
+                            </h5>
+                        </div>
+                        <div>
+                            <div class="popup-info">
+                                <div class="popup-info-title">Adresse :</div>
+                                <div>{{ adherant.adresse.adresse }}</div>
+                                <div>{{ adherant.adresse.commune }}</div>
+                            </div>
+                            <div class="popup-info">
+                                <div class="popup-info-title">Coordonnées :</div>
+                                <div>Email : {{ adherant.user.email }}</div>
+                                <div>Téléphone : {{ adherant.telephone }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </script>
+            {% endverbatim %}
+        </div>
     </div>
 {% endblock %}

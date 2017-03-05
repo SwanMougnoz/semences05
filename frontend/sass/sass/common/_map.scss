@@ -1,0 +1,49 @@
+div.leaflet-popup {
+  min-width: 250px;
+  a.leaflet-popup-close-button {
+    top: 6px;
+  }
+  div.leaflet-popup-content-wrapper {
+    border-radius: 3px;
+    .leaflet-popup-content {
+      margin-top: 0;
+    }
+    .popup-heading {
+      padding: 10px;
+      border-bottom: 1px solid #e0e0e0;
+      padding-right: 20px;
+      h5 {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+    }
+    .popup-varietes {
+      padding-top: 5px;
+      ul {
+        list-style-type: none;
+        padding-left: 0;
+        margin-top: 5px;
+      }
+      button[data-pagination-next] {
+        margin-left: 65px;
+      }
+    }
+    .map-jardin-resume {
+      padding: 5px 0;
+      font-size: 12px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .is-pro {
+      font-style: italic;
+      margin: 5px 0 0 0;
+      font-size: 11px;
+    }
+    .popup-info {
+      .popup-info-title {
+        font-weight: bold;
+        margin-bottom: 3px;
+      }
+      margin-bottom: 5px;
+    }
+  }
+}

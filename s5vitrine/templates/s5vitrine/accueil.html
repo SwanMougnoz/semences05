@@ -4,10 +4,19 @@
 {% block stylesheet %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'leaflet/dist/leaflet.css' %}">
+    <link rel="stylesheet" href="{% static 'leaflet.markercluster/dist/MarkerCluster.css' %}">
+    <link rel="stylesheet" href="{% static 'leaflet.markercluster/dist/MarkerCluster.Default.css' %}">
 {% endblock %}
 
 {% block js %}
+    <script type="text/javascript" src="{% static 'handlebars/handlebars.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'leaflet/dist/leaflet.js' %}"></script>
+    <script type="text/javascript" src="{% static 'leaflet.markercluster/dist/leaflet.markercluster.js' %}"></script>
+    <script type="text/javascript" src="{% static 's5appadherant/js/jquery.ajax-pagination.js' %}"></script>
+    <script type="text/javascript" src="{% static 's5appadherant/js/handlebars.helpers.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 's5appadherant/js/map/handler.jardin.js' %}"></script>
+    <script type="text/javascript" src="{% static 's5appadherant/js/map/map.js' %}"></script>
     <script type="text/javascript" src="{% static 's5vitrine/js/map.js' %}"></script>
 {% endblock %}
 
@@ -39,6 +48,36 @@ en association collégiale administrée par un conseil d'administration.
         <div class="col-md-1"></div>
         <div class="col-md-10">
             <div id="vitrine-map"></div>
+            {% verbatim %}
+                <script id="popup-template" type="text/x-handlebars-template">
+                    <div class="row">
+                        <div class="popup-heading">
+                            <h5>{{ jardin.appelation }}</h5>
+                        </div>
+                        {{#if jardin.short_description}}
+                            <div class="map-jardin-resume">
+                                {{ jardin.short_description }}
+                            </div>
+                        {{/if}}
+                        <div class="popup-varietes" data-pagination>
+                            <strong><span data-pagination-count></span> variété(s) cultivée(s)</strong>
+                            <ul data-pagination-content></ul>
+                            <button type="button" class="btn btn-xs btn-default btn-rounded" data-pagination-prev>
+                                <i class="fa fa-long-arrow-left"></i>
+                            </button>
+                            <button type="button" class="btn btn-xs btn-default btn-rounded" data-pagination-next>
+                                <i class="fa fa-long-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </script>
+
+                <script id="culture-item" type="text/x-handlebars-template">
+                    <li>
+                        <a href="{{namedUrl 's5vitrine:variete_detail' data.id }}">{{ data.nom }}</a>
+                    </li>
+                </script>
+            {% endverbatim %}
         </div>
         <div class="col-md-1"></div>
     </div>

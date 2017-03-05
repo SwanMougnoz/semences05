@@ -1,3 +1,15 @@
 .notification-panel {
   margin-top: 12px;
 }
+
+#adherant-map {
+  height: 350px;
+  transition: all 0.3s;
+  &.extended {
+    height: 500px;
+  }
+  .map-proprietaire {
+    margin-top: 5px;
+    font-size: 11px;
+  }
+}

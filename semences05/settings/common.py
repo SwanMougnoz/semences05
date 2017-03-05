@@ -19,6 +19,7 @@ APP_DIR = os.path.join(PROJECT_DIR, 'semences05')
 VITRINE_DIR = os.path.join(PROJECT_DIR, 's5vitrine')
 APPADHERANT_DIR = os.path.join(PROJECT_DIR, 's5appadherant')
 MAILING_DIR = os.path.join(PROJECT_DIR, 's5mailing')
+ASSET_DIR = os.path.join(PROJECT_DIR, 'var/assets')
 
 
 # Quick-start development settings - unsuitable for production
@@ -52,7 +53,9 @@ PREREQ_APPS = [
     'actstream',
     'mailviews',
     'maintenance_mode',
-    'debug_toolbar'
+    'debug_toolbar',
+    'rest_framework',
+    'django_js_reverse'
 ]
 
 PROJECT_APPS = [
@@ -160,7 +163,7 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(PROJECT_DIR, 'frontend/sass/stylesheets'),
-    os.path.join(PROJECT_DIR, 'var/assets')
+    ASSET_DIR
 ]
 
 STATICFILES_FINDERS = [
@@ -176,7 +179,9 @@ BOWER_INSTALLED_APPS = (
     'bootstrap-sass',
     'leaflet',
     'font-awesome',
-    'datetimepicker'
+    'datetimepicker',
+    'handlebars',
+    'leaflet.markercluster'
 )
 
 MEDIA_ROOT = os.path.join(PROJECT_DIR, 'var/media')
@@ -190,6 +195,17 @@ DEFAULT_FROM_EMAIL = 'noreply@grainedesmontagnes.org'
 SERVER_EMAIL = 'admin@grainedesmontagnes.org'
 CONTACT_EMAIL = 'contact@grainedesmontagnes.org'
 
+# API
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 5,
+}
+
 # Misc
 
 DDF_DEFAULT_DATA_FIXTURE = 'random'
@@ -201,3 +217,5 @@ ACTSTREAM_SETTINGS = {
     'GFK_FETCH_DEPTH': 5,
 }
 
+JS_REVERSE_OUTPUT_PATH = os.path.join(ASSET_DIR, 'django_js_reverse')
+JS_REVERSE_INCLUDE_ONLY_NAMESPACES = ['s5api', 's5vitrine', 's5appadherant']
