@@ -15,7 +15,19 @@ class UserNameSerializer(serializers.ModelSerializer):
         model = User
         fields = [
             'first_name',
-            'last_name'
+            'last_name',
+            'email'
+        ]
+
+
+class AdherantSerializer(serializers.ModelSerializer):
+    user = UserNameSerializer(many=False)
+    adresse = AdresseSerializer(many=False)
+
+    class Meta:
+        model = Adherant
+        exclude = [
+            'processed_actions'
         ]
 
 

@@ -1,9 +1,10 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from rest_framework import generics
 from rest_framework import mixins
 
 from s5api.serializers import MapJardinListSerializer, MapJardinDetailSerializer, MapCultureSerializer, \
-    MapJardinDetailAdherantSerializer
-from s5appadherant.models import Jardin, Culture
+    MapJardinDetailAdherantSerializer, AdherantSerializer
+from s5appadherant.models import Jardin, Culture, Adherant
 
 
 class MapJardinListView(mixins.ListModelMixin, generics.GenericAPIView):
@@ -36,3 +37,20 @@ class MapCultureListView(mixins.ListModelMixin, generics.GenericAPIView):
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
+
+
+class AdherantListView(LoginRequiredMixin, mixins.ListModelMixin, generics.GenericAPIView):
+    serializer_class = AdherantSerializer
+    queryset = Adherant.objects.all()
+    pagination_class = None
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+
+class AdherantDetailView(LoginRequiredMixin, mixins.RetrieveModelMixin, generics.GenericAPIView):
+    serializer_class = AdherantSerializer
+    queryset = Adherant.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)

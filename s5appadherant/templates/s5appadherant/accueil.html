@@ -17,7 +17,10 @@
     <script type="text/javascript" src="{% static 'leaflet.markercluster/dist/leaflet.markercluster.js' %}"></script>
     <script type="text/javascript" src="{% static 's5appadherant/js/handlebars.helpers.js' %}"></script>
     <script type="text/javascript" src="{% static 's5appadherant/js/jquery.ajax-pagination.js' %}"></script>
-    <script type="text/javascript" src="{% static 's5appadherant/js/s5map.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 's5appadherant/js/map/handler.jardin.js' %}"></script>
+    <script type="text/javascript" src="{% static 's5appadherant/js/map/handler.adherant.js' %}"></script>
+    <script type="text/javascript" src="{% static 's5appadherant/js/map/map.js' %}"></script>
     <script type="text/javascript" src="{% static 's5appadherant/js/map.js' %}"></script>
 {% endblock %}
 
@@ -85,6 +88,34 @@
                     <li>
                         <a href="{{namedUrl 's5appadherant:variete_detail' data.id }}">{{ data.nom }}</a>
                     </li>
+                </script>
+
+                <script id="popup-adherant" type="text/x-handlebars-template">
+                    <div class="row">
+                        <div class="popup-heading">
+                            <h5>
+                                {{ adherant.user.first_name }} {{ adherant.user.last_name }}
+                                <small>
+                                    <a href="{{namedUrl 's5appadherant:profil_detail' adherant.id }}">(profil)</a>
+                                </small>
+                                {{#if adherant.est_professionnel }}
+                                    <div class="is-pro">Professionnel de l'agriculture</div>
+                                {{/if }}
+                            </h5>
+                        </div>
+                        <div>
+                            <div class="popup-info">
+                                <div class="popup-info-title">Adresse :</div>
+                                <div>{{ adherant.adresse.adresse }}</div>
+                                <div>{{ adherant.adresse.commune }}</div>
+                            </div>
+                            <div class="popup-info">
+                                <div class="popup-info-title">Coordonnées :</div>
+                                <div>Email : {{ adherant.user.email }}</div>
+                                <div>Téléphone : {{ adherant.telephone }}</div>
+                            </div>
+                        </div>
+                    </div>
                 </script>
             {% endverbatim %}
         </div>

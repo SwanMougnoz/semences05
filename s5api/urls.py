@@ -10,5 +10,7 @@ map_patterns = [
 
 app_name = 's5api'
 urlpatterns = [
-    url(r'^map/', include(map_patterns))
+    url(r'^map/', include(map_patterns)),
+    url(r'^adherants/$', views.AdherantListView.as_view(), name='adherant_list'),
+    url(r'^adherants/(?P<pk>[0-9]+)/$', views.AdherantDetailView.as_view(), name='adherant_detail')
 ]
