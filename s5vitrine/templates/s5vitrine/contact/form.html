@@ -2,7 +2,12 @@
 
 {% load bootstrap %}
 {% block content %}
-    <p>{% lorem %}</p>
+    <p>
+        Pour plus d'information sur la Maison des Semences Paysannes ou simplement pour nous laisser un commentaire,
+        contactez-nous via le formulaire ci-dessous. Notre équipe de bénévoles mettra tout en œuvre pour vous répondre
+        dans les plus brefs délais.
+        Merci pour votre visite. À bientôt.
+    </p>
     <div class="col-md-3"></div>
     <div class="col-md-7">
         <form action="{% url 's5vitrine:contact' %}" method="POST" role="form">

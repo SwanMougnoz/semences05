@@ -6,8 +6,6 @@
 
 @import "common/main";
 
-// todo: trouver une façon pratique de générer 2 fichiers css plutot qu'utiliser un context
-// 31/01/2017 => 300ko !
 .context-adherant {
   @import "adherant/main";
 }
