@@ -19,6 +19,7 @@ APP_DIR = os.path.join(PROJECT_DIR, 'semences05')
 VITRINE_DIR = os.path.join(PROJECT_DIR, 's5vitrine')
 APPADHERANT_DIR = os.path.join(PROJECT_DIR, 's5appadherant')
 MAILING_DIR = os.path.join(PROJECT_DIR, 's5mailing')
+ASSET_DIR = os.path.join(PROJECT_DIR, 'var/assets')
 
 
 # Quick-start development settings - unsuitable for production
@@ -162,7 +163,7 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(PROJECT_DIR, 'frontend/sass/stylesheets'),
-    os.path.join(PROJECT_DIR, 'var/assets')
+    ASSET_DIR
 ]
 
 STATICFILES_FINDERS = [
@@ -216,4 +217,5 @@ ACTSTREAM_SETTINGS = {
     'GFK_FETCH_DEPTH': 5,
 }
 
+JS_REVERSE_OUTPUT_PATH = os.path.join(ASSET_DIR, 'django_js_reverse')
 JS_REVERSE_INCLUDE_ONLY_NAMESPACES = ['s5api', 's5vitrine', 's5appadherant']

@@ -19,7 +19,7 @@
         {% block head_js %}
             <script type="text/javascript" src="{% static 'jquery/dist/jquery.min.js' %}"></script>
             <script type="text/javascript" src="{% static 'bootstrap-sass/assets/javascripts/bootstrap.min.js' %}"></script>
-            <script src="{% url 'js_reverse' %}" type="text/javascript"></script>
+            <script src="{% static 'django_js_reverse/reverse.js' %}"></script>
         {% endblock %}
     {% endcompress %}
 </head>
