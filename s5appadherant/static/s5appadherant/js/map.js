@@ -4,10 +4,10 @@ $(document).ready(function() {
 
     $map.map({
         handlers: [
-            JardinHandler(mapStore, 'jardins'),
-            AdherantHandler(mapStore, 'adherants', {
+            JardinHandler(mapStore, 'jardins')
+            /*AdherantHandler(mapStore, 'adherants', {
                 'popupTemplate': '#popup-adherant'
-            })
+            })*/
         ]
     });
 
